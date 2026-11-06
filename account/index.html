@@ -5,24 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign in - Script Novel Studio</title>
     <style>
-      :root { color-scheme: dark; }
+      :root { color-scheme: dark;
+        --navy-950:#0a0f1e; --navy-900:#0d1526; --navy-850:#111c33;
+        --line:#2a3a63; --gold:#d4a857; --gold-hi:#f2d492;
+        --text:#f4f1e8; --muted:#a9b2c6;
+        --serif: Georgia, 'Times New Roman', serif;
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
       * { box-sizing: border-box; }
-      body { margin: 0; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px 20px; background: #0c0d10; color: #e8e6e1; font-family: Georgia, 'Times New Roman', serif; }
+      body { margin: 0; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px 20px;
+        background:
+          radial-gradient(900px 480px at 88% -8%, rgba(58,123,255,.13), transparent 60%),
+          radial-gradient(800px 520px at -10% 30%, rgba(212,168,87,.09), transparent 55%),
+          linear-gradient(180deg, var(--navy-900), var(--navy-950) 300px), var(--navy-950);
+        color: var(--text); font-family: var(--sans); }
       main { width: 100%; max-width: 460px; }
-      .logo { display: block; width: 250px; max-width: 80%; margin: 0 auto 8px; }
-      h1 { text-align: center; font-size: 1.5rem; font-weight: 600; margin: 10px 0 6px; }
-      .sub { text-align: center; color: #a7a49c; font-size: 0.95rem; margin: 0 0 26px; }
+      .logo { display: block; width: 300px; max-width: 86%; margin: 0 auto 8px; }
+      h1 { text-align: center; font-family: var(--serif); font-size: 1.6rem; font-weight: normal; margin: 12px 0 6px; }
+      .sub { text-align: center; color: var(--muted); font-size: 0.97rem; line-height: 1.55; margin: 0 0 26px; }
       #sign-in { display: flex; justify-content: center; }
-      .card { border: 1px solid #34363c; border-radius: 12px; background: #17181d; padding: 22px; margin-top: 18px; }
-      .card h2 { font-size: 1.05rem; margin: 0 0 8px; color: #f2d492; }
+      .card { border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(180deg, rgba(58,123,255,.05), rgba(255,255,255,.012)), var(--navy-850); padding: 24px; margin-top: 18px; box-shadow: 0 18px 44px rgba(0,0,0,.35); }
+      .card h2 { font-family: var(--serif); font-size: 1.15rem; font-weight: normal; margin: 0 0 8px; color: var(--gold-hi); }
       .card p { color: #c9c6bf; font-size: 0.92rem; line-height: 1.55; margin: 0 0 12px; }
-      .open-button { display: block; text-align: center; background: #d4a857; color: #171207; font-weight: 700; text-decoration: none; padding: 12px 16px; border-radius: 8px; margin: 6px 0 14px; }
+      .open-button { display: block; text-align: center; background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806; font-weight: 700; text-decoration: none; padding: 12px 16px; border-radius: 999px; margin: 6px 0 14px; box-shadow: 0 8px 22px rgba(212,168,87,.25); }
       textarea { width: 100%; min-height: 74px; border: 1px solid #3a3d45; border-radius: 8px; background: #101116; color: #e8e6e1; padding: 10px; font-size: 0.72rem; resize: vertical; }
       .copy-row { display: flex; gap: 8px; margin-top: 8px; }
-      .copy-row button { flex: 1; padding: 9px; border: 1px solid rgba(212,168,87,.55); border-radius: 7px; background: transparent; color: #d4a857; font-weight: 600; cursor: pointer; }
-      .fine { text-align: center; color: #8b887f; font-size: 0.8rem; margin-top: 22px; }
-      .fine button { background: none; border: 0; color: #8b887f; text-decoration: underline; cursor: pointer; font: inherit; }
-      #status { text-align: center; color: #a7a49c; min-height: 1.4em; }
+      .copy-row button { flex: 1; padding: 9px; border: 1px solid rgba(212,168,87,.55); border-radius: 999px; background: transparent; color: var(--gold); font-weight: 600; cursor: pointer; }
+      .fine { text-align: center; color: #8b96ad; font-size: 0.82rem; line-height: 1.6; margin-top: 22px; }
+      .fine button { background: none; border: 0; color: #8b96ad; text-decoration: underline; cursor: pointer; font: inherit; padding: 0; }
+      .fine a { color: var(--gold); }
+      #status { text-align: center; color: var(--muted); min-height: 1.4em; }
     </style>
     <script
       async
@@ -33,7 +44,7 @@
   </head>
   <body>
     <main>
-      <img class="logo" src="../assets/logo-horizontal-premium-transparent.png" alt="Script Novel Studio" />
+      <img class="logo" src="../assets/logo-web.png" alt="Script Novel Studio" />
       <h1>Sign in to Script Novel Studio</h1>
       <p class="sub">Use the same account you subscribed with. Signing in connects your plan, credits, and computers.</p>
       <p id="status">Loading secure sign-in...</p>
@@ -45,7 +56,7 @@
         <textarea id="token" readonly aria-label="Sign-in code"></textarea>
         <div class="copy-row"><button type="button" id="copy-token">Copy sign-in code</button></div>
       </div>
-      <p class="fine">Wrong account? <button type="button" id="sign-out">Sign out</button> and sign in again. Help: support@scriptnovelpublishing.com</p>
+      <p class="fine">Wrong account? <button type="button" id="sign-out">Sign out</button> and sign in again.<br>Help: <a href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a></p>
     </main>
     <script>
       const status = document.getElementById('status');
