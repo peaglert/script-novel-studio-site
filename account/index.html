@@ -34,6 +34,14 @@
       .fine button { background: none; border: 0; color: #8b96ad; text-decoration: underline; cursor: pointer; font: inherit; padding: 0; }
       .fine a { color: var(--gold); }
       #status { text-align: center; color: var(--muted); min-height: 1.4em; }
+      .profile-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+      .profile-avatar { width: 64px; height: 64px; border-radius: 50%; border: 1px solid var(--line); background: var(--navy-900); overflow: hidden; flex: none; display: flex; align-items: center; justify-content: center; }
+      .profile-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .profile-initial { font-family: var(--serif); font-size: 1.5rem; color: var(--gold); }
+      .profile-name { font-size: 1.02rem; color: var(--text); margin: 0; }
+      .profile-email { color: var(--muted); font-size: 0.9rem; margin: 2px 0 0; }
+      .profile-controls input[type="file"] { width: 100%; color: var(--muted); font-size: 0.88rem; margin: 4px 0 10px; }
+      #profile-message { min-height: 1.4em; margin: 10px 0 0; }
     </style>
     <script
       async
@@ -55,6 +63,24 @@
         <a class="open-button" id="open-app" href="#">Open Script Novel Studio</a>
         <textarea id="token" readonly aria-label="Sign-in code"></textarea>
         <div class="copy-row"><button type="button" id="copy-token">Copy sign-in code</button></div>
+      </div>
+      <div class="card" id="profile" hidden>
+        <h2>Your profile</h2>
+        <div class="profile-row">
+          <div class="profile-avatar"><img id="profile-photo" alt="Your profile photo" hidden><span class="profile-initial" id="profile-initial">?</span></div>
+          <div>
+            <p class="profile-name" id="profile-name"></p>
+            <p class="profile-email" id="profile-email"></p>
+          </div>
+        </div>
+        <div class="profile-controls">
+          <input type="file" id="profile-file" accept="image/*" aria-label="Choose a profile photo">
+          <div class="copy-row">
+            <button type="button" id="profile-upload">Upload photo</button>
+            <button type="button" id="profile-remove">Remove photo</button>
+          </div>
+          <p id="profile-message" aria-live="polite"></p>
+        </div>
       </div>
       <p class="fine">Wrong account? <button type="button" id="sign-out">Sign out</button> and sign in again.<br>Help: <a href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a></p>
     </main>
@@ -84,11 +110,13 @@
           return;
         }
         if (window.Clerk.user) {
+          renderProfile();
           handOff();
         } else {
           status.textContent = '';
           window.Clerk.mountSignIn(document.getElementById('sign-in'));
           window.Clerk.addListener(({ session }) => { if (session) handOff(); });
+          window.Clerk.addListener(({ user }) => { if (user) renderProfile(); });
         }
       });
       document.getElementById('copy-token').addEventListener('click', async () => {
@@ -100,6 +128,51 @@
       document.getElementById('sign-out').addEventListener('click', async () => {
         if (window.Clerk) await window.Clerk.signOut();
         window.location.reload();
+      });
+      const profileMessage = document.getElementById('profile-message');
+      function renderProfile() {
+        const user = window.Clerk && window.Clerk.user;
+        const section = document.getElementById('profile');
+        if (!user) { section.hidden = true; return; }
+        const name = user.fullName || [user.firstName, user.lastName].filter(Boolean).join(' ') || user.username || '';
+        const email = user.primaryEmailAddress ? user.primaryEmailAddress.emailAddress : '';
+        document.getElementById('profile-name').textContent = name || email;
+        document.getElementById('profile-email').textContent = name ? email : '';
+        const photo = document.getElementById('profile-photo');
+        const initial = document.getElementById('profile-initial');
+        if (user.imageUrl) {
+          photo.src = user.imageUrl;
+          photo.hidden = false;
+          initial.hidden = true;
+        } else {
+          photo.hidden = true;
+          photo.removeAttribute('src');
+          initial.hidden = false;
+          initial.textContent = (name || email || '?').charAt(0).toUpperCase();
+        }
+        section.hidden = false;
+      }
+      document.getElementById('profile-upload').addEventListener('click', async () => {
+        const file = document.getElementById('profile-file').files[0];
+        if (!file) { profileMessage.textContent = 'Choose a photo first, then press Upload photo.'; return; }
+        try {
+          await window.Clerk.user.setProfileImage({ file });
+          await window.Clerk.user.reload();
+          renderProfile();
+          profileMessage.textContent = 'Your profile photo is updated.';
+        } catch (error) {
+          profileMessage.textContent = (error && error.errors && error.errors[0] && error.errors[0].message) || 'That photo could not be uploaded. Try a different image.';
+        }
+      });
+      document.getElementById('profile-remove').addEventListener('click', async () => {
+        try {
+          await window.Clerk.user.setProfileImage({ file: null });
+          await window.Clerk.user.reload();
+          renderProfile();
+          profileMessage.textContent = 'Your profile photo is removed.';
+        } catch (error) {
+          profileMessage.textContent = (error && error.errors && error.errors[0] && error.errors[0].message) || 'The photo could not be removed. Try again in a moment.';
+        }
       });
     </script>
   </body>
