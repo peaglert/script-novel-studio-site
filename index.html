@@ -27,7 +27,7 @@
   /* Header */
   header.site { display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 24px 0 10px; }
   .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
-  .brand img { height: 54px; width: auto; display: block; }
+  .brand img { height: 68px; width: auto; display: block; }
   .brand span { font-family: var(--serif); font-style: italic; font-size: 13.5px; letter-spacing: .08em; color: var(--gold);
     background: linear-gradient(180deg, #f6dc9a, #eec96f 45%, #d4a857 75%, #a87f2d);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
@@ -94,6 +94,35 @@
   .packs { text-align: center; color: var(--muted); max-width: 760px; margin-left: auto; margin-right: auto; }
   .packs strong { color: var(--text); font-weight: 600; }
 
+  /* Purchase controls */
+  .billing-toggle { display: flex; gap: 6px; justify-content: center; margin: 4px auto 30px; }
+  .billing-toggle button { font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; color: var(--muted);
+    background: var(--navy-850); border: 1px solid var(--line); border-radius: 999px; padding: 9px 22px; }
+  .billing-toggle button.is-active { color: #221806; border-color: transparent;
+    background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); }
+  .billing-toggle button span { font-weight: 400; font-size: 13.5px; }
+  button.buy { font: inherit; cursor: pointer; border: 0; width: 100%; margin-top: 18px; text-align: center; }
+  button.buy[disabled] { opacity: .65; cursor: wait; }
+  .lbuy { text-align: right; }
+  .lbuy .buy { width: auto; margin-top: 12px; }
+  .packs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 22px; }
+  .pack { text-align: center; padding: 20px 16px; }
+  .pack .pname { font-family: var(--serif); font-size: 19px; color: var(--text); }
+  .pack .psub { color: var(--muted-2); font-size: 13.5px; }
+  .pack .pprice { font-family: var(--serif); font-size: 28px; margin: 6px 0 0; color: var(--text); }
+  .pack .buy { margin-top: 14px; padding: 11px 18px; font-size: 15px; }
+  .checkout-status { text-align: center; color: var(--gold-hi); min-height: 1.5em; margin: 14px auto 0; max-width: 640px; font-size: 15.5px; }
+  .checkout-status:empty { margin: 0; min-height: 0; }
+  .checkout-status.error { color: #f0a3a3; }
+  .card .checkout-status, .pack .checkout-status { font-size: 14.5px; }
+  .signin-overlay { position: fixed; inset: 0; background: rgba(4,7,15,.8); z-index: 60;
+    display: flex; align-items: flex-start; justify-content: center; padding: 6vh 18px 30px; overflow-y: auto; }
+  .signin-overlay[hidden] { display: none; }
+  .signin-box { position: relative; width: 100%; max-width: 460px; }
+  .signin-note { text-align: center; color: var(--muted); margin: 0 0 14px; font-size: 15.5px; }
+  .signin-close { position: absolute; top: -16px; right: -8px; z-index: 2; width: 38px; height: 38px; border-radius: 999px;
+    border: 1px solid var(--line-gold); background: var(--navy-800); color: var(--gold-hi); font-size: 19px; cursor: pointer; line-height: 1; }
+
   /* Final CTA + footer */
   .final { text-align: center; margin-top: 84px; border: 1px solid var(--line-gold); border-radius: 18px; padding: 46px 30px;
     background: radial-gradient(600px 260px at 50% -30%, rgba(212,168,87,.16), transparent 65%), var(--navy-850); }
@@ -111,6 +140,7 @@
   footer.site a.mail { color: var(--gold); display: inline; }
 
   @media (max-width: 880px) {
+    .brand img { height: 56px; }
     .hero { padding-top: 36px; }
     .hero h1 { font-size: 35px; }
     .hero p.lede { font-size: 17.5px; }
@@ -124,6 +154,7 @@
     nav.site { justify-content: center; }
     .lifetime .lrow { flex-direction: column; text-align: center; }
     .lifetime { justify-content: center; text-align: center; }
+    .lbuy { text-align: center; }
   }
 </style>
 </head>
@@ -222,31 +253,39 @@
     <span class="tag" style="display:block; text-align:center;">Plans and credits</span>
     <h2>Pick your <span>creative power level</span></h2>
     <p class="sub">Every plan includes the full editor, all three formats, and the Write with AI menu. Plans differ in the AI credits they refill each month. Annual billing is two months free.</p>
+    <div class="billing-toggle" role="group" aria-label="Billing interval">
+      <button type="button" id="billing-month" class="is-active">Monthly</button>
+      <button type="button" id="billing-year">Annual <span>(two months free)</span></button>
+    </div>
     <div class="grid">
-      <div class="card">
+      <div class="card" data-monthly="29" data-annual="290">
         <h3>Starter</h3>
-        <div class="price">$29<small> /month</small></div>
+        <div class="price"><span class="amount">$29</span><small class="per"> /month</small></div>
         <div class="credits">750,000 credits monthly</div>
         <p>$290 billed annually. For writers building a steady habit with AI help close at hand.</p>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="subscription" data-item-id="starter">Choose Starter</button>
       </div>
-      <div class="card featured">
+      <div class="card featured" data-monthly="79" data-annual="790">
         <div class="tag">Most popular</div>
         <h3>Author</h3>
-        <div class="price">$79<small> /month</small></div>
+        <div class="price"><span class="amount">$79</span><small class="per"> /month</small></div>
         <div class="credits">2.5 million credits monthly</div>
         <p>$790 billed annually. Sized to carry a full book through the pipeline each month.</p>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="subscription" data-item-id="pro">Choose Author</button>
       </div>
-      <div class="card">
+      <div class="card" data-monthly="149" data-annual="1490">
         <h3>Studio</h3>
-        <div class="price">$149<small> /month</small></div>
+        <div class="price"><span class="amount">$149</span><small class="per"> /month</small></div>
         <div class="credits">5.5 million credits monthly</div>
         <p>$1,490 billed annually. For high-volume production and multiple projects at once.</p>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="subscription" data-item-id="studio">Choose Studio</button>
       </div>
-      <div class="card">
+      <div class="card" data-monthly="299" data-annual="2990">
         <h3>Creator</h3>
-        <div class="price">$299<small> /month</small></div>
+        <div class="price"><span class="amount">$299</span><small class="per"> /month</small></div>
         <div class="credits">12 million credits monthly</div>
         <p>$2,990 billed annually. Maximum creative runway for full-time writers.</p>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="subscription" data-item-id="unlimited">Choose Creator</button>
       </div>
     </div>
 
@@ -259,10 +298,42 @@
           <p style="color:var(--muted); margin:0; max-width:560px;">The studio and every future version of it, included for life, plus 2.5 million credits, enough for your first book. No monthly bill for the software, ever.</p>
         </div>
       </div>
-      <div class="price">$299<small> one-time</small></div>
+      <div class="lbuy">
+        <div class="price">$299<small> one-time</small></div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="lifetime" data-item-id="lifetime">Choose Lifetime</button>
+      </div>
     </div>
 
-    <p class="packs" style="margin-top:26px;">Need more AI in a heavy month? One-time credit packs: <strong>250k for $9</strong>, <strong>500k for $19</strong>, <strong>750k for $29</strong>, <strong>1.5M for $59</strong>, and the <strong>Book Credit, 2.5M for $99</strong>. Credits you buy are yours until you use them.</p>
+    <p class="packs" style="margin-top:30px;">Need more AI in a heavy month? Buy a one-time credit pack. Credits you buy are yours until you use them.</p>
+    <div class="packs-grid">
+      <div class="card pack">
+        <div class="pname">250k Credits</div>
+        <div class="pprice">$9</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="tokens-20k">Buy</button>
+      </div>
+      <div class="card pack">
+        <div class="pname">500k Credits</div>
+        <div class="pprice">$19</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="tokens-50k">Buy</button>
+      </div>
+      <div class="card pack">
+        <div class="pname">750k Credits</div>
+        <div class="pprice">$29</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="book-pack">Buy</button>
+      </div>
+      <div class="card pack">
+        <div class="pname">1.5M Credits</div>
+        <div class="pprice">$59</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="tokens-150k">Buy</button>
+      </div>
+      <div class="card pack">
+        <div class="pname">Book Credit</div>
+        <div class="psub">2.5 million credits</div>
+        <div class="pprice">$99</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="full-book-pack">Buy</button>
+      </div>
+    </div>
+    <p class="checkout-status" id="checkout-status" role="status" aria-live="polite"></p>
   </section>
 
   <div class="final">
@@ -300,5 +371,203 @@
     <div class="foot-base">Script Novel Studio is a product of Script Novel Publishing. Support: <a href="mailto:support@scriptnovelpublishing.com" style="color:var(--gold);">support@scriptnovelpublishing.com</a>.</div>
   </footer>
 </div>
+
+<div class="signin-overlay" id="signin-modal" hidden>
+  <div class="signin-box">
+    <button type="button" class="signin-close" id="signin-close" aria-label="Close sign-in">&times;</button>
+    <p class="signin-note">Sign in or create your free account to finish your purchase. Checkout opens right after, in this same tab.</p>
+    <div id="signin-mount"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Purchase wiring for the pricing section. Buttons carry the exact item
+  // ids the entitlement service expects (see core/billing-manager.js and
+  // service/server.js validatePurchase):
+  //   subscription: starter | pro | studio | unlimited, interval month|year
+  //   token-pack:   tokens-20k | tokens-50k | book-pack | tokens-150k | full-book-pack
+  //   lifetime:     itemId 'lifetime'
+  // The service answers 201 { id, url } and the browser goes to url
+  // (Stripe Checkout). Identity is the Clerk session token from the
+  // 'studio-app' template, the same pattern as the /account/ page.
+  var SERVICE_URL = 'https://sns-entitlement-service.onrender.com';
+  var SUPPORT_EMAIL = 'support@scriptnovelpublishing.com';
+  var CLERK_KEY = 'pk_test_dG9nZXRoZXItcm9iaW4tNTE3Mi5jbGVyay5hY2NvdW50cy5kZXYk';
+  var CLERK_SRC = 'https://together-robin-5172.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
+
+  var statusEl = document.getElementById('checkout-status');
+  var modal = document.getElementById('signin-modal');
+  var buyButtons = Array.prototype.slice.call(document.querySelectorAll('[data-purchase-type]'));
+  var pending = null;        // { button, payload } waiting on sign-in
+  var clerkPromise = null;   // Clerk load, started on first purchase click
+  var signInListener = false;
+
+  // Redirect seam: the browser goes to the Stripe URL the service returns.
+  // (A named seam so the flow can be exercised in tests without navigating.)
+  var checkout = {
+    navigate: function (url) { window.location.href = url; }
+  };
+  window.SNSCheckout = checkout;
+
+  buyButtons.forEach(function (button) {
+    button.setAttribute('data-label', button.textContent);
+    button.addEventListener('click', function () { startPurchase(button); });
+  });
+
+  // ---- Monthly / Annual toggle ----
+  var interval = 'month';
+  var monthBtn = document.getElementById('billing-month');
+  var yearBtn = document.getElementById('billing-year');
+  function setInterval(next) {
+    interval = next;
+    monthBtn.classList.toggle('is-active', next === 'month');
+    yearBtn.classList.toggle('is-active', next === 'year');
+    document.querySelectorAll('[data-monthly][data-annual]').forEach(function (card) {
+      var amount = card.querySelector('.amount');
+      var per = card.querySelector('.per');
+      if (amount) amount.textContent = '$' + Number(card.getAttribute(next === 'month' ? 'data-monthly' : 'data-annual')).toLocaleString('en-US');
+      if (per) per.textContent = next === 'month' ? ' /month' : ' /year';
+    });
+  }
+  monthBtn.addEventListener('click', function () { setInterval('month'); });
+  yearBtn.addEventListener('click', function () { setInterval('year'); });
+
+  // ---- Button + message helpers ----
+  function setBusy(button, busy, label) {
+    buyButtons.forEach(function (b) { b.disabled = busy; });
+    if (button) {
+      button.textContent = busy ? (label || 'Opening secure checkout...') : button.getAttribute('data-label');
+    }
+  }
+  function showMessage(button, text, isError) {
+    if (button && statusEl && button.parentNode) button.parentNode.insertBefore(statusEl, button.nextSibling);
+    statusEl.textContent = text;
+    statusEl.classList.toggle('error', Boolean(isError));
+  }
+  function clearMessage() {
+    statusEl.textContent = '';
+    statusEl.classList.remove('error');
+  }
+  function fail(button, message) {
+    setBusy(button, false);
+    showMessage(button, message, true);
+  }
+
+  // ---- Clerk (loaded lazily on the first purchase click) ----
+  function loadClerk() {
+    if (window.Clerk) return window.Clerk.load();
+    if (!clerkPromise) {
+      clerkPromise = new Promise(function (resolve, reject) {
+        var script = document.createElement('script');
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        script.setAttribute('data-clerk-publishable-key', CLERK_KEY);
+        script.src = CLERK_SRC;
+        script.onload = function () { resolve(); };
+        script.onerror = function () { reject(new Error('clerk-load')); };
+        document.head.appendChild(script);
+      }).then(function () { return window.Clerk.load(); });
+    }
+    return clerkPromise;
+  }
+  function sessionToken() {
+    if (!window.Clerk || !window.Clerk.session) return Promise.resolve(null);
+    return window.Clerk.session.getToken({ template: 'studio-app' }).catch(function () { return null; });
+  }
+
+  // ---- Checkout call ----
+  function postCheckout(payload, token) {
+    return fetch(SERVICE_URL + '/v1/checkout', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      return response.json().catch(function () { return null; }).then(function (data) {
+        if (!response.ok || !data || !data.url) {
+          throw new Error((data && data.error) || ('The checkout service returned an error (' + response.status + ').'));
+        }
+        return data.url;
+      });
+    });
+  }
+  function runCheckout(button, payload, token) {
+    postCheckout(payload, token).then(function (url) {
+      checkout.navigate(url);
+    }).catch(function (error) {
+      fail(button, 'Checkout could not be opened. ' + (error && error.message ? error.message + ' ' : '')
+        + 'Please try again, or email ' + SUPPORT_EMAIL + ' and we will help you complete your purchase.');
+    });
+  }
+
+  // ---- Sign-in modal (keeps the purchase; /account/ is untouched) ----
+  function openSignIn(button, payload) {
+    pending = { button: button, payload: payload };
+    if (!signInListener) {
+      signInListener = true;
+      window.Clerk.addListener(function (event) {
+        if (event && event.session && pending) {
+          var next = pending;
+          pending = null;
+          modal.hidden = true;
+          sessionToken().then(function (token) {
+            if (token) {
+              runCheckout(next.button, next.payload, token);
+            } else {
+              fail(next.button, 'Sign-in finished, but the session could not be read. Please click your choice again, or email ' + SUPPORT_EMAIL + '.');
+            }
+          });
+        }
+      });
+    }
+    try {
+      window.Clerk.mountSignIn(document.getElementById('signin-mount'));
+    } catch (error) {
+      pending = null;
+      fail(button, 'The sign-in form could not be opened. Please try again, or email ' + SUPPORT_EMAIL + '.');
+      return;
+    }
+    modal.hidden = false;
+  }
+  function cancelSignIn() {
+    if (!pending) { modal.hidden = true; return; }
+    var button = pending.button;
+    pending = null;
+    modal.hidden = true;
+    setBusy(button, false);
+    showMessage(button, 'Sign-in was canceled, so the purchase was not started.', false);
+  }
+  document.getElementById('signin-close').addEventListener('click', cancelSignIn);
+  modal.addEventListener('click', function (event) { if (event.target === modal) cancelSignIn(); });
+
+  // ---- Entry point ----
+  function startPurchase(button) {
+    var payload = {
+      purchaseType: button.getAttribute('data-purchase-type'),
+      itemId: button.getAttribute('data-item-id')
+    };
+    if (payload.purchaseType === 'subscription') payload.interval = interval;
+    clearMessage();
+    setBusy(button, true);
+    loadClerk().then(function () {
+      return sessionToken();
+    }).then(function (token) {
+      if (token) {
+        runCheckout(button, payload, token);
+      } else {
+        button.textContent = 'Waiting for sign-in...';
+        openSignIn(button, payload);
+      }
+    }).catch(function () {
+      fail(button, 'Secure sign-in could not load. Check your connection and try again, or email ' + SUPPORT_EMAIL + '.');
+    });
+  }
+})();
+</script>
 </body>
 </html>
