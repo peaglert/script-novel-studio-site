@@ -393,6 +393,10 @@
   // The service answers 201 { id, url } and the browser goes to url
   // (Stripe Checkout). Identity is the Clerk session token from the
   // 'studio-app' template, the same pattern as the /account/ page.
+  // A signed-in subscriber who already has a live subscription gets a
+  // plan change instead of a second checkout: the service answers 200
+  // with { changed, effective, ... } or { alreadyCurrent: true }, and
+  // those outcomes are reported in words below (see planChangeMessage).
   var SERVICE_URL = 'https://sns-entitlement-service.onrender.com';
   var SUPPORT_EMAIL = 'support@scriptnovelpublishing.com';
   var CLERK_KEY = 'pk_test_dG9nZXRoZXItcm9iaW4tNTE3Mi5jbGVyay5hY2NvdW50cy5kZXYk';
@@ -479,6 +483,37 @@
   }
 
   // ---- Checkout call ----
+  var PLAN_NAMES = { starter: 'Starter', pro: 'Author', studio: 'Studio', unlimited: 'Creator' };
+  function planName(id) { return PLAN_NAMES[id] || id; }
+  function formatCredits(amount) { return Number(amount || 0).toLocaleString('en-US'); }
+  // Words for the service's plan-change outcomes (no Stripe page opens
+  // for these — the change happens on the existing subscription).
+  function planChangeMessage(data) {
+    if (!data) {
+      return 'The purchase could not be completed. Please try again, or email ' + SUPPORT_EMAIL + '.';
+    }
+    if (data.alreadyCurrent) {
+      return "You're already on this plan."
+        + (data.canceledPendingChange ? ' Your scheduled change was canceled.' : '');
+    }
+    if (data.changed && data.effective === 'immediate' && data.intervalChanged) {
+      return "You're on the " + planName(data.plan) + ' plan now, billed '
+        + (data.interval === 'year' ? 'yearly' : 'monthly')
+        + '. We credited your unused time, and your new period starts with '
+        + formatCredits(data.topUpCredits) + ' credits.';
+    }
+    if (data.changed && data.effective === 'immediate') {
+      return "You're on the " + planName(data.plan) + ' plan now. We credited your unused time and added '
+        + formatCredits(data.topUpCredits) + ' credits.';
+    }
+    if (data.changed && data.effective === 'period_end') {
+      var when = data.effectiveDate
+        ? new Date(data.effectiveDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        : 'the end of your current period';
+      return "You'll move to " + planName(data.plan) + ' on ' + when + '. Nothing changes until then.';
+    }
+    return 'The purchase could not be completed. Please try again, or email ' + SUPPORT_EMAIL + '.';
+  }
   function postCheckout(payload, token) {
     return fetch(SERVICE_URL + '/v1/checkout', {
       method: 'POST',
@@ -489,16 +524,24 @@
       body: JSON.stringify(payload)
     }).then(function (response) {
       return response.json().catch(function () { return null; }).then(function (data) {
-        if (!response.ok || !data || !data.url) {
+        if (!response.ok) {
           throw new Error((data && data.error) || ('The checkout service returned an error (' + response.status + ').'));
         }
-        return data.url;
+        if (!data || (!data.url && !data.changed && !data.alreadyCurrent)) {
+          throw new Error('The checkout service returned an unexpected answer.');
+        }
+        return data;
       });
     });
   }
   function runCheckout(button, payload, token) {
-    postCheckout(payload, token).then(function (url) {
-      checkout.navigate(url);
+    postCheckout(payload, token).then(function (data) {
+      if (data.url) {
+        checkout.navigate(data.url);
+        return;
+      }
+      setBusy(button, false);
+      showMessage(button, planChangeMessage(data), false);
     }).catch(function (error) {
       fail(button, 'Checkout could not be opened. ' + (error && error.message ? error.message + ' ' : '')
         + 'Please try again, or email ' + SUPPORT_EMAIL + ' and we will help you complete your purchase.');
