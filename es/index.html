@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Novel Studio — Escribe novelas, script novels y guiones</title>
+<meta name="description" content="Script Novel Studio es un estudio de escritura de escritorio para novelas, script novels y guiones, con ayuda de escritura con IA integrada. Planifica con una sinopsis y un esquema, redacta capítulo por capítulo y exporta para KDP e IngramSpark. Por Script Novel Publishing.">
+<link rel="icon" type="image/png" href="../assets/app-icon-512.png">
+<link rel="apple-touch-icon" href="../assets/app-icon-512.png">
+<meta property="og:title" content="Script Novel Studio — Escribe novelas, script novels y guiones">
+<meta property="og:description" content="Script Novel Studio es un estudio de escritura de escritorio para novelas, script novels y guiones, con ayuda de escritura con IA integrada. Planifica con una sinopsis y un esquema, redacta capítulo por capítulo y exporta para KDP e IngramSpark. Por Script Novel Publishing.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://scriptnovelstudio.com/">
+<meta property="og:image" content="https://scriptnovelstudio.com/assets/shot-editor.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --navy-950:#0a0f1e; --navy-900:#0d1526; --navy-850:#111c33; --navy-800:#152238; --navy-700:#1e2f4e;
+    --line:#26355a; --line-gold:rgba(212,168,87,.35);
+    --gold:#d4a857; --gold-hi:#f2d492; --gold-deep:#a87f2d; --blue:#3a7bff;
+    --text:#f4f1e8; --muted:#a9b2c6; --muted-2:#8b96ad;
+    --sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif:Georgia, "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin:0; font-family: var(--sans); background:
+    radial-gradient(1100px 560px at 88% -8%, rgba(58,123,255,.14), transparent 60%),
+    radial-gradient(900px 620px at -10% 22%, rgba(212,168,87,.10), transparent 55%),
+    linear-gradient(180deg, var(--navy-900), var(--navy-950) 340px), var(--navy-950);
+    color: var(--text); line-height: 1.6; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--gold); }
+
+  /* Header */
+  header.site { display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 24px 0 10px;
+    position: sticky; top: 0; z-index: 50; background: rgba(10,15,30,.92);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: padding .18s ease; }
+  header.site.compact { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  header.site.compact .brand img { height: 42px; }
+  header.site.compact .brand span { display: none; }
+  .brand img { transition: height .18s ease; }
+  .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
+  .brand img { height: 68px; width: auto; display: block; }
+  .brand span { font-family: var(--serif); font-style: italic; font-size: 13.5px; letter-spacing: .08em; color: var(--gold);
+    background: linear-gradient(180deg, #f6dc9a, #eec96f 45%, #d4a857 75%, #a87f2d);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  nav.site { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
+  nav.site a { color: var(--muted); text-decoration: none; font-size: 15px; }
+  nav.site a:hover { color: var(--gold-hi); }
+  nav.site a.signin { color: var(--gold-hi); border: 1px solid var(--line-gold); border-radius: 999px; padding: 7px 18px; font-weight: 600; }
+  nav.site a.signin:hover { background: rgba(212,168,87,.12); color: var(--gold-hi); }
+
+  /* Buttons + tags */
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 13px 28px; }
+  .btn-gold { background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806;
+    box-shadow: 0 8px 26px rgba(212,168,87,.28), inset 0 1px 0 rgba(255,255,255,.5); }
+  .btn-gold:hover { filter: brightness(1.06); }
+  .btn-ghost { border: 1px solid var(--line-gold); color: var(--gold-hi); }
+  .btn-ghost:hover { background: rgba(212,168,87,.10); }
+
+  /* Hero */
+  .hero { text-align: center; padding: 54px 0 8px; }
+  .hero h1 { font-family: var(--serif); font-size: 50px; line-height: 1.14; font-weight: normal; margin: 16px 0 16px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p.lede { color: var(--muted); font-size: 19.5px; max-width: 680px; margin: 0 auto; }
+  .hero .cta { margin-top: 28px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .shot-frame { margin: 46px auto 0; max-width: 1020px; border: 1px solid var(--line-gold); border-radius: 16px;
+    background: linear-gradient(180deg, var(--navy-850), var(--navy-900)); padding: 10px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 90px rgba(212,168,87,.10); }
+  .shot-frame img { display: block; width: 100%; height: auto; border-radius: 9px; }
+  .strip { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: center; margin: 30px auto 0; max-width: 900px;
+    color: var(--muted); font-size: 14.5px; }
+  .strip b { color: var(--gold-hi); font-weight: 600; }
+
+  /* Sections */
+  section.band { padding: 74px 0 6px; }
+  h2 { font-family: var(--serif); font-size: 33px; font-weight: normal; text-align: center; margin: 0 0 10px; }
+  h2 span { color: var(--gold); }
+  .sub { text-align: center; color: var(--muted); margin: 0 auto 30px; max-width: 640px; font-size: 17px; }
+  .feature { display: grid; grid-template-columns: 1fr 1.25fr; gap: 52px; align-items: center; padding: 40px 0; }
+  .feature.flip { grid-template-columns: 1.25fr 1fr; }
+  .feature.flip .copy { order: 2; }
+  .feature.flip .shot-frame { order: 1; }
+  .feature .shot-frame { margin: 0; }
+  .feature h3 { font-family: var(--serif); font-size: 27px; font-weight: normal; margin: 10px 0 10px; }
+  .feature p { color: var(--muted); font-size: 16.5px; margin: 0 0 12px; }
+  .feature ul { color: var(--muted); font-size: 16px; margin: 10px 0 0; padding-left: 20px; }
+  .feature li { margin-bottom: 6px; }
+  .feature li b, .feature p b { color: var(--text); font-weight: 600; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 16px; }
+  .card { background: linear-gradient(180deg, rgba(58,123,255,.06), rgba(255,255,255,.014)), var(--navy-850);
+    border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+  .card h3 { font-family: var(--serif); margin: 0 0 7px; font-size: 20px; font-weight: normal; color: var(--text); }
+  .card p { color: var(--muted); margin: 0; font-size: 15.5px; }
+
+  /* Pricing */
+  .price { font-family: var(--serif); font-size: 40px; margin: 10px 0 2px; color: var(--text); }
+  .price small { font-size: 15px; color: var(--muted); font-family: var(--sans); }
+  .credits { color: var(--gold); font-size: 15px; letter-spacing: .4px; font-weight: 600; }
+  .card.featured { border-color: var(--gold); box-shadow: 0 0 44px rgba(212,168,87,.13); }
+  .lifetime { margin-top: 18px; text-align: left; display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; align-items: center;
+    border-color: var(--line-gold); }
+  .lifetime .lrow { display: flex; gap: 20px; align-items: center; }
+  .lifetime img { width: 76px; height: 76px; }
+  .packs { text-align: center; color: var(--muted); max-width: 760px; margin-left: auto; margin-right: auto; }
+  .packs strong { color: var(--text); font-weight: 600; }
+
+  /* Purchase controls */
+  .billing-toggle { display: flex; gap: 6px; justify-content: center; margin: 4px auto 30px; }
+  .billing-toggle button { font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; color: var(--muted);
+    background: var(--navy-850); border: 1px solid var(--line); border-radius: 999px; padding: 9px 22px; }
+  .billing-toggle button.is-active { color: #221806; border-color: transparent;
+    background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); }
+  .billing-toggle button span { font-weight: 400; font-size: 13.5px; }
+  button.buy { font: inherit; cursor: pointer; border: 0; width: 100%; margin-top: 18px; text-align: center; }
+  button.buy[disabled] { opacity: .65; cursor: wait; }
+  .lbuy { text-align: right; }
+  .lbuy .buy { width: auto; margin-top: 12px; }
+  .packs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 22px; }
+  .pack { text-align: center; padding: 20px 16px; }
+  .pack .pname { font-family: var(--serif); font-size: 19px; color: var(--text); }
+  .pack .psub { color: var(--muted-2); font-size: 13.5px; }
+  .pack .pprice { font-family: var(--serif); font-size: 28px; margin: 6px 0 0; color: var(--text); }
+  .pack .buy { margin-top: 14px; padding: 11px 18px; font-size: 15px; }
+  .checkout-status { text-align: center; color: var(--gold-hi); min-height: 1.5em; margin: 14px auto 0; max-width: 640px; font-size: 15.5px; }
+  .checkout-status:empty { margin: 0; min-height: 0; }
+  .checkout-status.error { color: #f0a3a3; }
+  .card .checkout-status, .pack .checkout-status { font-size: 14.5px; }
+  .signin-overlay { position: fixed; inset: 0; background: rgba(4,7,15,.8); z-index: 60;
+    display: flex; align-items: flex-start; justify-content: center; padding: 6vh 18px 30px; overflow-y: auto; }
+  .signin-overlay[hidden] { display: none; }
+  .signin-box { position: relative; width: 100%; max-width: 460px; }
+  .signin-note { text-align: center; color: var(--muted); margin: 0 0 14px; font-size: 15.5px; }
+  .signin-close { position: absolute; top: -16px; right: -8px; z-index: 2; width: 38px; height: 38px; border-radius: 999px;
+    border: 1px solid var(--line-gold); background: var(--navy-800); color: var(--gold-hi); font-size: 19px; cursor: pointer; line-height: 1; }
+
+  /* Focus (keyboard) */
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* Gold flourish divider */
+  .flourish { display: flex; align-items: center; gap: 14px; max-width: 760px; margin: 54px auto 0; opacity: .55; }
+  .flourish::before, .flourish::after { content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-gold)); }
+  .flourish::after { background: linear-gradient(90deg, var(--line-gold), transparent); }
+  .flourish i { width: 9px; height: 9px; flex: none; background: var(--gold); transform: rotate(45deg); }
+
+  /* How it works */
+  .steps { border-top: 2px solid var(--line-gold); padding-top: 28px; margin-top: 26px; }
+  .step .num { font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--gold); display: block; margin-bottom: 12px; }
+
+  /* FAQ */
+  .faq-list { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
+  .faq-item { background: var(--navy-850); border: 1px solid var(--line); border-radius: 14px; padding: 4px 24px; }
+  .faq-item summary { font-family: var(--serif); font-size: 19px; color: var(--text); cursor: pointer; padding: 16px 0; }
+  .faq-item summary:hover { color: var(--gold-hi); }
+  .faq-item p { color: var(--muted); margin: 0 0 18px; font-size: 16px; }
+
+  /* Final CTA + footer */
+  .final { text-align: center; margin-top: 84px; border: 1px solid var(--line-gold); border-radius: 18px; padding: 46px 30px;
+    background: radial-gradient(600px 260px at 50% -30%, rgba(212,168,87,.16), transparent 65%), var(--navy-850); }
+  .final h2 { margin-bottom: 8px; }
+  .final p { color: var(--muted); margin: 0 auto 24px; max-width: 560px; font-size: 17px; }
+  footer.site { border-top: 1px solid var(--line); margin-top: 64px; padding: 36px 0 42px; color: var(--muted); font-size: 14.5px; }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 30px; margin-bottom: 26px; }
+  .foot-grid h4 { font-family: var(--serif); font-weight: normal; color: var(--text); font-size: 16.5px; margin: 0 0 10px; }
+  .foot-grid a { color: var(--muted); text-decoration: none; display: block; margin-bottom: 7px; }
+  .foot-grid a:hover { color: var(--gold-hi); }
+  .foot-grid p { margin: 0 0 8px; }
+  .foot-brand img { height: 40px; width: auto; }
+  .footer-tagline { color: var(--gold); font-style: italic; font-family: var(--serif); }
+  .foot-base { border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted-2); font-size: 13.5px; }
+  footer.site a.mail { color: var(--gold); display: inline; }
+
+  @media (max-width: 880px) {
+    .brand img { height: 56px; }
+    .hero { padding-top: 36px; }
+    .hero h1 { font-size: 35px; }
+    .hero p.lede { font-size: 17.5px; }
+    section.band { padding-top: 52px; }
+    h2 { font-size: 27px; }
+    .feature, .feature.flip { grid-template-columns: 1fr; gap: 24px; padding: 26px 0; }
+    .feature.flip .copy { order: 1; } .feature.flip .shot-frame { order: 2; }
+    .foot-grid { grid-template-columns: 1fr; gap: 22px; }
+    header.site { justify-content: center; text-align: center; }
+    header.site.compact .brand img { height: 42px; }
+    .brand { align-items: center; }
+    nav.site { justify-content: center; }
+    .lifetime .lrow { flex-direction: column; text-align: center; }
+    .lifetime { justify-content: center; text-align: center; }
+    .lbuy { text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <a class="brand" href="index.html"><img src="../assets/logo-web.png" alt="Script Novel Studio" /><span>Your Writing Spouse</span></a>
+    <nav class="site">
+      <a href="#features">Características</a>
+      <a href="#how">Cómo funciona</a>
+      <a href="#pricing">Precios</a>
+      <a href="../why-studio.html">Por qué Studio</a>
+      <a href="#faq">Preguntas frecuentes</a>
+      <a class="signin" href="../account/">Iniciar sesión</a>
+      <a href="../index.html">English</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <span class="tag">Un estudio de escritura de Script Novel Publishing</span>
+    <h1>Un solo estudio para <span>novelas, script novels,<br>y guiones</span></h1>
+    <p class="lede">Cambia las reglas del juego: Script Novel Studio puede escribir tu libro completo, desde la primera palabra en la página hasta un manuscrito terminado. Planifica con una sinopsis y un esquema que tu IA sí lee, redacta capítulo por capítulo en un editor que conoce el formato, y revisa cada palabra antes de que entre en tu manuscrito.</p>
+    <div class="cta">
+      <a class="btn btn-gold" href="#pricing">Ver planes y precios</a>
+      <a class="btn btn-ghost" href="../account/">Iniciar sesión</a>
+    </div>
+    <div class="shot-frame"><img src="../assets/shot-editor.jpg" alt="El editor de Script Novel Studio, un capítulo del manuscrito abierto en la página" /></div>
+    <div class="strip">
+      <span>App de escritorio para <b>Windows</b></span>
+      <span>Los proyectos viven <b>en tu computadora</b></span>
+      <span>Interfaz en <b>inglés y español</b></span>
+      <span>Exportaciones: <b>PDF · EPUB · DOCX · FDX</b></span>
+    </div>
+  </section>
+
+  <div class="flourish" aria-hidden="true"><i></i></div>
+
+  <section class="band" id="features">
+    <span class="tag" style="display:block; text-align:center;">Escribir con IA</span>
+    <h2>Pide la tarea, <span>no el agente</span></h2>
+    <p class="sub">Sin nombres de agentes que descifrar. Un botón dorado en el editor abre un menú en lenguaje sencillo de autor, y antes de que algo se ejecute, el estudio te dice qué va a leer y dónde va a llegar el resultado.</p>
+    <div class="feature">
+      <div class="copy">
+        <h3>El menú Escribir con IA</h3>
+        <p>Siete opciones, escritas como los autores hablan de su trabajo:</p>
+        <ul>
+          <li><b>Escribir mi primer párrafo</b>, creado a partir de tu sinopsis</li>
+          <li><b>Seguir escribiendo</b> desde tu cursor, o <b>Mejorar mi escritura</b></li>
+          <li><b>Recibir comentarios sobre mi historia</b>: informes de trama, ritmo y continuidad</li>
+          <li><b>Hacer una pregunta</b> sobre tu libro o sobre el oficio</li>
+          <li><b>Escribir este capítulo</b>, o <b>Escribir el libro completo</b> con el cálculo de créditos mostrado antes</li>
+        </ul>
+      </div>
+      <div class="shot-frame"><img src="../assets/shot-write-menu.jpg" alt="El menú Escribir con IA abierto en el editor, con las siete tareas de escritura" /></div>
+    </div>
+
+    <div class="feature flip">
+      <div class="copy">
+        <h3>Una sinopsis y un esquema que tus agentes sí leen</h3>
+        <p>Tu sinopsis vive a la vista, en la pestaña Esquema, donde puedes verla y mantenerla al día. Cuando un capítulo está vacío, los agentes trabajan desde <b>primero tu idea del esquema, luego tu esquema y luego tu sinopsis</b>, y cada resultado nombra la base que usó. Nunca más respuestas sobre la historia equivocada.</p>
+        <p>Construye el esquema a partir de tu idea con un clic, expándelo en un momento clave para cada capítulo y define un <b>número objetivo de palabras</b> para que los borradores de capítulo se escriban pensando en la longitud del libro que quieres terminar.</p>
+      </div>
+      <div class="shot-frame"><img src="../assets/shot-outline.jpg" alt="La pestaña Esquema con una sinopsis, una idea y un esquema de la historia capítulo por capítulo" /></div>
+    </div>
+
+    <div class="feature">
+      <div class="copy">
+        <h3>Capítulo por capítulo, y nada entra sin revisión</h3>
+        <p>Pide un capítulo y el borrador va a una <b>cola de revisión</b>, no a tu manuscrito. Léelo ahí, acéptalo, devuélvelo con una nota para revisarlo o descártalo. Aceptar es la única manera de que un borrador se convierta en parte de tu libro.</p>
+        <p>La cola conserva tus borradores cuando cierras la app, y una ejecución de libro completo escribe cada capítulo vacío en orden, omite los que ya escribiste y puede detenerse después de cualquier capítulo.</p>
+      </div>
+      <div class="shot-frame"><img src="../assets/shot-queue.jpg" alt="La cola de revisión de la pestaña Esquema, un capítulo redactado esperando ser aceptado, revisado o descartado" /></div>
+    </div>
+
+    <div class="feature flip">
+      <div class="copy">
+        <h3>Mira el libro impreso antes de imprimirlo</h3>
+        <p>Elige un destino de publicación y el estudio aplica las reglas de esa plataforma por ti: anchos de margen interior de <b>Amazon KDP Print</b> según el número de páginas, <b>KDP Kindle</b> y mínimos de margen interior de <b>IngramSpark</b>, con un aviso al pasar el límite de 828 páginas de KDP. Cada ajuste se informa, nunca se hace en silencio.</p>
+        <p>La vista previa de impresión presenta páginas reales con tu tamaño de libro, con tu página de título, página de derechos de autor y dedicatoria al frente, encabezados de página y números de página que empiezan en el capítulo uno.</p>
+      </div>
+      <div class="shot-frame"><img src="../assets/shot-print.jpg" alt="Vista previa de impresión que muestra el capítulo uno presentado como página de libro impreso" /></div>
+    </div>
+  </section>
+
+  <section class="band" id="how">
+    <span class="tag" style="display:block; text-align:center;">Cómo funciona</span>
+    <h2>De la idea al <span>archivo publicado</span></h2>
+    <div class="grid steps">
+      <div class="card step"><span class="num">1</span><h3>Trae la idea</h3><p>Empieza con una sinopsis, o con unas líneas honestas sobre el libro.</p></div>
+      <div class="card step"><span class="num">2</span><h3>Construye el esquema</h3><p>El estudio convierte tu idea en un esquema capítulo por capítulo, con un momento clave para cada capítulo.</p></div>
+      <div class="card step"><span class="num">3</span><h3>Redacta y luego revisa</h3><p>Los borradores de la IA llegan a una cola de revisión. Nada entra en tu manuscrito hasta que lo aceptas.</p></div>
+      <div class="card step"><span class="num">4</span><h3>Publica el archivo</h3><p>Exporta PDF listo para imprimir, EPUB, DOCX o FDX, con las reglas de KDP e IngramSpark aplicadas.</p></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <span class="tag" style="display:block; text-align:center;">El trabajo completo</span>
+    <h2>Hecho para <span>el trabajo completo</span></h2>
+    <p class="sub">Desde la primera idea hasta el archivo que subes, el estudio se queda con el libro.</p>
+    <div class="grid">
+      <div class="card"><h3>Tres formatos de escritura</h3><p>Novelas tradicionales, script novels y guiones con estándar de la industria, cada uno con los elementos correctos, ajustes de género, tipografía y tamaños de impresión.</p></div>
+      <div class="card"><h3>Exportaciones profesionales</h3><p>Envía tu trabajo como PDF listo para imprimir, un libro electrónico (EPUB), un documento de Word (DOCX) o un archivo de Final Draft (FDX).</p></div>
+      <div class="card"><h3>Capítulos reales, proyectos reales</h3><p>Organiza un manuscrito completo capítulo por capítulo, reordena capítulos con un clic y retoma tu último libro justo donde lo dejaste cuando se abre el estudio.</p></div>
+      <div class="card"><h3>Herramientas de revisión que respetan el trabajo</h3><p>Resalta pasajes para revisarlos después, busca y reemplaza en un capítulo o en todo el libro, y un estado de guardado que te dice la verdad sobre tu trabajo.</p></div>
+      <div class="card"><h3>Inglés y español</h3><p>Toda la interfaz cambia entre inglés y español, y con el español activado, los agentes también redactan en español. Tu manuscrito nunca se traduce ni se toca.</p></div>
+      <div class="card"><h3>Tu trabajo sigue siendo tuyo</h3><p>Los proyectos se guardan en tu propia computadora y se guardan mientras escribes. Todo lo que escribes en el estudio es tuyo; no reclamamos la propiedad de tus manuscritos ni de tus exportaciones.</p></div>
+    </div>
+  </section>
+
+  <div class="flourish" aria-hidden="true"><i></i></div>
+
+  <section class="band" id="pricing">
+    <span class="tag" style="display:block; text-align:center;">Planes y créditos</span>
+    <h2>Elige tu <span>nivel de poder creativo</span></h2>
+    <p class="sub">Todos los planes incluyen el editor completo, los tres formatos y el menú Escribir con IA. Los planes se diferencian en los créditos de IA que se reponen cada mes. La facturación anual equivale a dos meses gratis.</p>
+    <div class="billing-toggle" role="group" aria-label="Intervalo de facturación">
+      <button type="button" id="billing-month" class="is-active">Mensual</button>
+      <button type="button" id="billing-year">Anual <span>(dos meses gratis)</span></button>
+    </div>
+    <div class="grid">
+      <div class="card" data-monthly="29" data-annual="290">
+        <h3>Starter</h3>
+        <div class="price"><span class="amount">$29</span><small class="per"> /mes</small></div>
+        <div class="credits">750,000 créditos al mes</div>
+        <p>$290 con facturación anual. Para escritores que están creando un hábito constante con la ayuda de la IA a la mano.</p>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="subscription" data-item-id="starter">Elegir Starter</button>
+      </div>
+      <div class="card featured" data-monthly="79" data-annual="790">
+        <div class="tag">El más popular</div>
+        <h3>Author</h3>
+        <div class="price"><span class="amount">$79</span><small class="per"> /mes</small></div>
+        <div class="credits">2.5 millones de créditos al mes</div>
+        <p>$790 con facturación anual. Con el tamaño para llevar un libro completo por todo el proceso cada mes.</p>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="subscription" data-item-id="pro">Elegir Author</button>
+      </div>
+      <div class="card" data-monthly="149" data-annual="1490">
+        <h3>Studio</h3>
+        <div class="price"><span class="amount">$149</span><small class="per"> /mes</small></div>
+        <div class="credits">5.5 millones de créditos al mes</div>
+        <p>$1,490 con facturación anual. Para producción de alto volumen y varios proyectos a la vez.</p>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="subscription" data-item-id="studio">Elegir Studio</button>
+      </div>
+      <div class="card" data-monthly="299" data-annual="2990">
+        <h3>Creator</h3>
+        <div class="price"><span class="amount">$299</span><small class="per"> /mes</small></div>
+        <div class="credits">12 millones de créditos al mes</div>
+        <p>$2,990 con facturación anual. El máximo margen creativo para escritores de tiempo completo.</p>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="subscription" data-item-id="unlimited">Elegir Creator</button>
+      </div>
+    </div>
+
+    <div class="card lifetime">
+      <div class="lrow">
+        <img src="../assets/app-icon-web.png" alt="" />
+        <div>
+          <div class="tag">Licencia de por vida</div>
+          <h3>Paga una vez. Es tuyo para siempre.</h3>
+          <p style="color:var(--muted); margin:0; max-width:560px;">El estudio y cada versión futura, incluidos de por vida, más 2.5 millones de créditos, suficientes para tu primer libro. Sin factura mensual por el software, nunca.</p>
+        </div>
+      </div>
+      <div class="lbuy">
+        <div class="price">$299<small> pago único</small></div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="lifetime" data-item-id="lifetime">Elegir licencia de por vida</button>
+      </div>
+    </div>
+
+    <p class="packs" style="margin-top:30px;">¿Necesitas más IA en un mes intenso? Compra un paquete de créditos de pago único. Los créditos que compras son tuyos hasta que los uses.</p>
+    <div class="packs-grid">
+      <div class="card pack">
+        <div class="pname">250k Credits</div>
+        <div class="pprice">$9</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="tokens-20k">Comprar</button>
+      </div>
+      <div class="card pack">
+        <div class="pname">500k Credits</div>
+        <div class="pprice">$19</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="tokens-50k">Comprar</button>
+      </div>
+      <div class="card pack">
+        <div class="pname">750k Credits</div>
+        <div class="pprice">$29</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="book-pack">Comprar</button>
+      </div>
+      <div class="card pack">
+        <div class="pname">1.5M Credits</div>
+        <div class="pprice">$59</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="tokens-150k">Comprar</button>
+      </div>
+      <div class="card pack">
+        <div class="pname">Book Credit</div>
+        <div class="psub">2.5 millones de créditos</div>
+        <div class="pprice">$99</div>
+        <button type="button" class="btn btn-gold buy" data-purchase-type="token-pack" data-item-id="full-book-pack">Comprar</button>
+      </div>
+    </div>
+    <p class="checkout-status" id="checkout-status" role="status" aria-live="polite"></p>
+    <div class="strip">
+      <span><b>Pago seguro</b> con Stripe</span>
+      <span>Úsalo en <b>hasta 2 computadoras</b></span>
+      <span><b>Cancela cuando quieras</b>, tus archivos siguen siendo tuyos</span>
+      <span>Los créditos comprados <b>nunca caducan</b></span>
+    </div>
+    <p class="packs" style="margin-top:18px;">¿Te preguntas cómo se compara el estudio? <a href="../why-studio.html">Mira qué lo hace diferente</a>.</p>
+  </section>
+
+  <section class="band" id="faq">
+    <span class="tag" style="display:block; text-align:center;">Buenas preguntas</span>
+    <h2>Preguntas <span>frecuentes</span></h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>¿Puedo subir o bajar de plan después?</summary>
+        <p>Sí. Las subidas de plan entran en vigor de inmediato: Stripe abona el tiempo no usado de tu plan actual, pagas solo la diferencia por el resto del periodo y tus créditos se completan con la diferencia entre los planes. Las bajadas de plan entran en vigor cuando termina tu periodo pagado actual, así que conservas todo lo que ya pagaste. Nunca terminarás suscrito a dos planes a la vez.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Qué pasa si cancelo?</summary>
+        <p>Conservas el acceso completo hasta el final del periodo que pagaste. Después el estudio se bloquea, pero los archivos de tus proyectos viven en tu propia computadora y nunca se cambian ni se eliminan. Vuelve a suscribirte cuando quieras y todo estará justo donde lo dejaste. Una licencia de por vida nunca se bloquea.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿En cuántas computadoras puedo usarlo?</summary>
+        <p>Cada compra se puede activar en hasta 2 computadoras.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Qué cubren los créditos?</summary>
+        <p>Los créditos miden la ayuda de escritura con IA: redactar, reescribir, informes y preguntas. Escribir a mano, organizar capítulos y exportar tu libro siempre es gratis, y funciona sin conexión.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Funciona en español?</summary>
+        <p>Sí. Toda la interfaz cambia entre inglés y español, y con el español activado, la IA también redacta en español. Tu manuscrito nunca se traduce ni se cambia.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Qué pasa si me quedo sin créditos?</summary>
+        <p>La IA se pausa; tu escritura y tus exportaciones siguen funcionando. Añade un paquete de créditos de pago único o espera la reposición mensual de tu plan. Los créditos del plan se reponen completos en cada periodo, y los créditos del plan que no uses no se acumulan. Los créditos que compras en un paquete son diferentes: se quedan contigo hasta que los uses y nunca caducan.</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="flourish" aria-hidden="true"><i></i></div>
+
+  <div class="final">
+    <span class="tag">Empieza hoy</span>
+    <h2>Tu próximo capítulo <span>te espera</span></h2>
+    <p>Script Novel Studio cambia las reglas del juego. Desde la primera palabra en la página hasta un manuscrito terminado, puede escribir literalmente tu libro completo, no solo un capítulo o un esquema: es tu consultor, editor, corrector, entrenador de gramática y más, todo en un solo estudio. Seas un escritor experimentado o nunca hayas escrito nada fuera de un trabajo de la escuela, Script Novel Studio es tuyo: para tenerlo, para guardarlo y, por supuesto, ¡para teclear!</p>
+    <a class="btn btn-gold" href="#pricing">Ver planes y precios</a>
+    <p style="margin-top:20px; font-size:15px;">¿Ya escribes con nosotros? <a href="../account/">Inicia sesión en tu cuenta</a>.</p>
+  </div>
+
+  <footer class="site">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="../assets/logo-web.png" alt="Script Novel Studio" />
+        <p style="margin-top:10px;">Script Novel Studio. <span class="footer-tagline">Your Writing Spouse.</span><br>Un producto de Script Novel Publishing.</p>
+      </div>
+      <div>
+        <h4>Studio</h4>
+        <a href="#features">Características</a>
+        <a href="#pricing">Precios</a>
+        <a href="../why-studio.html">Por qué Studio</a>
+        <a href="../account/">Iniciar sesión</a>
+        <a href="https://scriptnovelpublishing.com">Script Novel Publishing</a>
+      </div>
+      <div>
+        <h4>Habla con una persona</h4>
+        <p>Preguntas sobre el estudio, los planes o tu cuenta:</p>
+        <a class="mail" href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a>
+      </div>
+    </div>
+    <div class="foot-links" style="margin-bottom:12px;">
+      <a href="terms.html" style="display:inline; margin-right:18px;">Términos del servicio</a>
+      <a href="privacy.html" style="display:inline; margin-right:18px;">Política de privacidad</a>
+      <a href="refunds.html" style="display:inline;">Política de reembolsos</a>
+    </div>
+    <div class="foot-base">Script Novel Studio es un producto de Script Novel Publishing. Soporte: <a href="mailto:support@scriptnovelpublishing.com" style="color:var(--gold);">support@scriptnovelpublishing.com</a>.</div>
+  </footer>
+</div>
+
+<div class="signin-overlay" id="signin-modal" hidden>
+  <div class="signin-box">
+    <button type="button" class="signin-close" id="signin-close" aria-label="Cerrar inicio de sesión">&times;</button>
+    <p class="signin-note">Inicia sesión o crea tu cuenta gratuita para terminar tu compra. El pago se abre justo después, en esta misma pestaña.</p>
+    <div id="signin-mount"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Purchase wiring for the pricing section. Buttons carry the exact item
+  // ids the entitlement service expects (see core/billing-manager.js and
+  // service/server.js validatePurchase):
+  //   subscription: starter | pro | studio | unlimited, interval month|year
+  //   token-pack:   tokens-20k | tokens-50k | book-pack | tokens-150k | full-book-pack
+  //   lifetime:     itemId 'lifetime'
+  // The service answers 201 { id, url } and the browser goes to url
+  // (Stripe Checkout). Identity is the Clerk session token from the
+  // 'studio-app' template, the same pattern as the /account/ page.
+  // A signed-in subscriber who already has a live subscription gets a
+  // plan change instead of a second checkout: the service answers 200
+  // with { changed, effective, ... } or { alreadyCurrent: true }, and
+  // those outcomes are reported in words below (see planChangeMessage).
+  var SERVICE_URL = 'https://sns-entitlement-service.onrender.com';
+  var SUPPORT_EMAIL = 'support@scriptnovelpublishing.com';
+  var CLERK_KEY = 'pk_test_dG9nZXRoZXItcm9iaW4tNTE3Mi5jbGVyay5hY2NvdW50cy5kZXYk';
+  var CLERK_SRC = 'https://together-robin-5172.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
+
+  var statusEl = document.getElementById('checkout-status');
+  var modal = document.getElementById('signin-modal');
+  var buyButtons = Array.prototype.slice.call(document.querySelectorAll('[data-purchase-type]'));
+  var pending = null;        // { button, payload } waiting on sign-in
+  var clerkPromise = null;   // Clerk load, started on first purchase click
+  var signInListener = false;
+
+  // Redirect seam: the browser goes to the Stripe URL the service returns.
+  // (A named seam so the flow can be exercised in tests without navigating.)
+  var checkout = {
+    navigate: function (url) { window.location.href = url; }
+  };
+  window.SNSCheckout = checkout;
+
+  buyButtons.forEach(function (button) {
+    button.setAttribute('data-label', button.textContent);
+    button.addEventListener('click', function () { startPurchase(button); });
+  });
+
+  // ---- Monthly / Annual toggle ----
+  var interval = 'month';
+  var monthBtn = document.getElementById('billing-month');
+  var yearBtn = document.getElementById('billing-year');
+  function setInterval(next) {
+    interval = next;
+    monthBtn.classList.toggle('is-active', next === 'month');
+    yearBtn.classList.toggle('is-active', next === 'year');
+    document.querySelectorAll('[data-monthly][data-annual]').forEach(function (card) {
+      var amount = card.querySelector('.amount');
+      var per = card.querySelector('.per');
+      if (amount) amount.textContent = '$' + Number(card.getAttribute(next === 'month' ? 'data-monthly' : 'data-annual')).toLocaleString('en-US');
+      if (per) per.textContent = next === 'month' ? ' /mes' : ' /año';
+    });
+  }
+  monthBtn.addEventListener('click', function () { setInterval('month'); });
+  yearBtn.addEventListener('click', function () { setInterval('year'); });
+
+  // ---- Button + message helpers ----
+  function setBusy(button, busy, label) {
+    buyButtons.forEach(function (b) { b.disabled = busy; });
+    if (button) {
+      button.textContent = busy ? (label || 'Abriendo el pago seguro...') : button.getAttribute('data-label');
+    }
+  }
+  function showMessage(button, text, isError) {
+    if (button && statusEl && button.parentNode) button.parentNode.insertBefore(statusEl, button.nextSibling);
+    statusEl.textContent = text;
+    statusEl.classList.toggle('error', Boolean(isError));
+  }
+  function clearMessage() {
+    statusEl.textContent = '';
+    statusEl.classList.remove('error');
+  }
+  function fail(button, message) {
+    setBusy(button, false);
+    showMessage(button, message, true);
+  }
+
+  // ---- Clerk (loaded lazily on the first purchase click) ----
+  function loadClerk() {
+    if (window.Clerk) return window.Clerk.load();
+    if (!clerkPromise) {
+      clerkPromise = new Promise(function (resolve, reject) {
+        var script = document.createElement('script');
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        script.setAttribute('data-clerk-publishable-key', CLERK_KEY);
+        script.src = CLERK_SRC;
+        script.onload = function () { resolve(); };
+        script.onerror = function () { reject(new Error('clerk-load')); };
+        document.head.appendChild(script);
+      }).then(function () { return window.Clerk.load(); });
+    }
+    return clerkPromise;
+  }
+  function sessionToken() {
+    if (!window.Clerk || !window.Clerk.session) return Promise.resolve(null);
+    return window.Clerk.session.getToken({ template: 'studio-app' }).catch(function () { return null; });
+  }
+
+  // ---- Checkout call ----
+  var PLAN_NAMES = { starter: 'Starter', pro: 'Author', studio: 'Studio', unlimited: 'Creator' };
+  function planName(id) { return PLAN_NAMES[id] || id; }
+  function formatCredits(amount) { return Number(amount || 0).toLocaleString('en-US'); }
+  // Words for the service's plan-change outcomes (no Stripe page opens
+  // for these — the change happens on the existing subscription).
+  function planChangeMessage(data) {
+    if (!data) {
+      return 'No se pudo completar la compra. Inténtalo de nuevo o escribe a ' + SUPPORT_EMAIL + '.';
+    }
+    if (data.alreadyCurrent) {
+      return 'Ya estás en este plan.'
+        + (data.canceledPendingChange ? ' Tu cambio programado se canceló.' : '');
+    }
+    if (data.changed && data.effective === 'immediate' && data.intervalChanged) {
+      return 'Ya estás en el plan ' + planName(data.plan) + ', con facturación '
+        + (data.interval === 'year' ? 'anual' : 'mensual')
+        + '. Abonamos tu tiempo no usado, y tu nuevo periodo empieza con '
+        + formatCredits(data.topUpCredits) + ' créditos.';
+    }
+    if (data.changed && data.effective === 'immediate') {
+      return 'Ya estás en el plan ' + planName(data.plan) + '. Abonamos tu tiempo no usado y añadimos '
+        + formatCredits(data.topUpCredits) + ' créditos.';
+    }
+    if (data.changed && data.effective === 'period_end') {
+      var when = data.effectiveDate
+        ? 'el ' + new Date(data.effectiveDate).toLocaleDateString('es', { year: 'numeric', month: 'long', day: 'numeric' })
+        : 'al final de tu periodo actual';
+      return 'Pasarás al plan ' + planName(data.plan) + ' ' + when + '. Nada cambia hasta entonces.';
+    }
+    return 'No se pudo completar la compra. Inténtalo de nuevo o escribe a ' + SUPPORT_EMAIL + '.';
+  }
+  function postCheckout(payload, token) {
+    return fetch(SERVICE_URL + '/v1/checkout', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      return response.json().catch(function () { return null; }).then(function (data) {
+        if (!response.ok) {
+          throw new Error((data && data.error) || ('El servicio de pago devolvió un error (' + response.status + ').'));
+        }
+        if (!data || (!data.url && !data.changed && !data.alreadyCurrent)) {
+          throw new Error('El servicio de pago devolvió una respuesta inesperada.');
+        }
+        return data;
+      });
+    });
+  }
+  function runCheckout(button, payload, token) {
+    postCheckout(payload, token).then(function (data) {
+      if (data.url) {
+        checkout.navigate(data.url);
+        return;
+      }
+      setBusy(button, false);
+      showMessage(button, planChangeMessage(data), false);
+    }).catch(function (error) {
+      fail(button, 'No se pudo abrir el pago. ' + (error && error.message ? error.message + ' ' : '')
+        + 'Inténtalo de nuevo o escribe a ' + SUPPORT_EMAIL + ' y te ayudaremos a completar tu compra.');
+    });
+  }
+
+  // ---- Sign-in modal (keeps the purchase; /account/ is untouched) ----
+  function openSignIn(button, payload) {
+    pending = { button: button, payload: payload };
+    if (!signInListener) {
+      signInListener = true;
+      window.Clerk.addListener(function (event) {
+        if (event && event.session && pending) {
+          var next = pending;
+          pending = null;
+          modal.hidden = true;
+          sessionToken().then(function (token) {
+            if (token) {
+              runCheckout(next.button, next.payload, token);
+            } else {
+              fail(next.button, 'El inicio de sesión terminó, pero no se pudo leer la sesión. Haz clic en tu opción de nuevo o escribe a ' + SUPPORT_EMAIL + '.');
+            }
+          });
+        }
+      });
+    }
+    try {
+      window.Clerk.mountSignIn(document.getElementById('signin-mount'));
+    } catch (error) {
+      pending = null;
+      fail(button, 'No se pudo abrir el formulario de inicio de sesión. Inténtalo de nuevo o escribe a ' + SUPPORT_EMAIL + '.');
+      return;
+    }
+    modal.hidden = false;
+  }
+  function cancelSignIn() {
+    if (!pending) { modal.hidden = true; return; }
+    var button = pending.button;
+    pending = null;
+    modal.hidden = true;
+    setBusy(button, false);
+    showMessage(button, 'El inicio de sesión se canceló, así que la compra no se inició.', false);
+  }
+  document.getElementById('signin-close').addEventListener('click', cancelSignIn);
+  modal.addEventListener('click', function (event) { if (event.target === modal) cancelSignIn(); });
+
+  // ---- Entry point ----
+  function startPurchase(button) {
+    var payload = {
+      purchaseType: button.getAttribute('data-purchase-type'),
+      itemId: button.getAttribute('data-item-id'),
+      locale: 'es'
+    };
+    if (payload.purchaseType === 'subscription') payload.interval = interval;
+    clearMessage();
+    setBusy(button, true);
+    loadClerk().then(function () {
+      return sessionToken();
+    }).then(function (token) {
+      if (token) {
+        runCheckout(button, payload, token);
+      } else {
+        button.textContent = 'Esperando el inicio de sesión...';
+        openSignIn(button, payload);
+      }
+    }).catch(function () {
+      fail(button, 'No se pudo cargar el inicio de sesión seguro. Revisa tu conexión e inténtalo de nuevo, o escribe a ' + SUPPORT_EMAIL + '.');
+    });
+  }
+})();
+</script>
+<script>
+  // Compact sticky header: shrink the brand once the reader scrolls.
+  (function () {
+    var header = document.querySelector('header.site');
+    if (!header) return;
+    var onScroll = function () { header.classList.toggle('compact', window.scrollY > 24); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+</body>
+</html>
