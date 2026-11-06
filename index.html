@@ -4,124 +4,300 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Script Novel Studio — Write Novels, Script Novels, and Screenplays</title>
-<meta name="description" content="Script Novel Studio is a desktop writing studio for novels, script novels, and screenplays, with AI writing agents built in. By Script Novel Publishing.">
+<meta name="description" content="Script Novel Studio is a desktop writing studio for novels, script novels, and screenplays, with AI writing help built in. Plan with a synopsis and outline, draft chapter by chapter, and export for KDP and IngramSpark. By Script Novel Publishing.">
 <style>
-  :root { --bg:#111218; --panel:#1d1f26; --line:#3b3e47; --gold:#d4a857; --blue:#3a7bff; --text:#f2f0ea; --muted:#b9bcc7; }
+  :root {
+    --navy-950:#0a0f1e; --navy-900:#0d1526; --navy-850:#111c33; --navy-800:#152238; --navy-700:#1e2f4e;
+    --line:#26355a; --line-gold:rgba(212,168,87,.35);
+    --gold:#d4a857; --gold-hi:#f2d492; --gold-deep:#a87f2d; --blue:#3a7bff;
+    --text:#f4f1e8; --muted:#a9b2c6; --muted-2:#8b96ad;
+    --sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif:Georgia, "Times New Roman", serif;
+  }
   * { box-sizing: border-box; }
-  body { margin:0; font-family: Georgia, 'Times New Roman', serif; background:
-    radial-gradient(900px 480px at 85% -5%, rgba(58,123,255,.16), transparent 60%),
-    radial-gradient(800px 500px at 0% 105%, rgba(212,168,87,.12), transparent 60%), var(--bg);
+  html { scroll-behavior: smooth; }
+  body { margin:0; font-family: var(--sans); background:
+    radial-gradient(1100px 560px at 88% -8%, rgba(58,123,255,.14), transparent 60%),
+    radial-gradient(900px 620px at -10% 22%, rgba(212,168,87,.10), transparent 55%),
+    linear-gradient(180deg, var(--navy-900), var(--navy-950) 340px), var(--navy-950);
     color: var(--text); line-height: 1.6; }
-  .wrap { max-width: 1020px; margin: 0 auto; padding: 0 22px; }
-  header { padding: 26px 0 6px; display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; }
-  .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
-  .brand img { height: 50px; width: auto; display: block; }
-  .brand span { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: 13px; letter-spacing: 0.08em; color: #d4a857; background: linear-gradient(180deg, #f6dc9a, #eec96f 45%, #d4a857 75%, #a87f2d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  nav a { color: var(--muted); text-decoration: none; margin-left: 20px; font-size: 15px; }
-  nav a:hover { color: var(--gold); }
-  .hero { text-align: center; padding: 56px 0 30px; }
-  .hero h1 { font-size: 46px; line-height: 1.15; margin: 0 0 14px; font-weight: normal; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--gold); }
+
+  /* Header */
+  header.site { display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 24px 0 10px; }
+  .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
+  .brand img { height: 54px; width: auto; display: block; }
+  .brand span { font-family: var(--serif); font-style: italic; font-size: 13.5px; letter-spacing: .08em; color: var(--gold);
+    background: linear-gradient(180deg, #f6dc9a, #eec96f 45%, #d4a857 75%, #a87f2d);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  nav.site { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
+  nav.site a { color: var(--muted); text-decoration: none; font-size: 15px; }
+  nav.site a:hover { color: var(--gold-hi); }
+  nav.site a.signin { color: var(--gold-hi); border: 1px solid var(--line-gold); border-radius: 999px; padding: 7px 18px; font-weight: 600; }
+  nav.site a.signin:hover { background: rgba(212,168,87,.12); color: var(--gold-hi); }
+
+  /* Buttons + tags */
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 13px 28px; }
+  .btn-gold { background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806;
+    box-shadow: 0 8px 26px rgba(212,168,87,.28), inset 0 1px 0 rgba(255,255,255,.5); }
+  .btn-gold:hover { filter: brightness(1.06); }
+  .btn-ghost { border: 1px solid var(--line-gold); color: var(--gold-hi); }
+  .btn-ghost:hover { background: rgba(212,168,87,.10); }
+
+  /* Hero */
+  .hero { text-align: center; padding: 54px 0 8px; }
+  .hero h1 { font-family: var(--serif); font-size: 50px; line-height: 1.14; font-weight: normal; margin: 16px 0 16px; }
   .hero h1 span { color: var(--gold); }
-  .hero p { color: var(--muted); font-size: 19px; max-width: 640px; margin: 0 auto; }
-  h2 { font-size: 30px; font-weight: normal; text-align: center; margin: 52px 0 8px; }
-  .sub { text-align:center; color: var(--muted); margin: 0 auto 26px; max-width: 620px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-  .card { background: linear-gradient(180deg, rgba(58,123,255,.07), rgba(255,255,255,.015)), var(--panel);
-    border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
-  .card h3 { margin: 0 0 6px; font-size: 20px; font-weight: normal; }
+  .hero p.lede { color: var(--muted); font-size: 19.5px; max-width: 680px; margin: 0 auto; }
+  .hero .cta { margin-top: 28px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .shot-frame { margin: 46px auto 0; max-width: 1020px; border: 1px solid var(--line-gold); border-radius: 16px;
+    background: linear-gradient(180deg, var(--navy-850), var(--navy-900)); padding: 10px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 90px rgba(212,168,87,.10); }
+  .shot-frame img { display: block; width: 100%; height: auto; border-radius: 9px; }
+  .strip { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: center; margin: 30px auto 0; max-width: 900px;
+    color: var(--muted); font-size: 14.5px; }
+  .strip b { color: var(--gold-hi); font-weight: 600; }
+
+  /* Sections */
+  section.band { padding: 74px 0 6px; }
+  h2 { font-family: var(--serif); font-size: 33px; font-weight: normal; text-align: center; margin: 0 0 10px; }
+  h2 span { color: var(--gold); }
+  .sub { text-align: center; color: var(--muted); margin: 0 auto 30px; max-width: 640px; font-size: 17px; }
+  .feature { display: grid; grid-template-columns: 1fr 1.25fr; gap: 52px; align-items: center; padding: 40px 0; }
+  .feature.flip { grid-template-columns: 1.25fr 1fr; }
+  .feature.flip .copy { order: 2; }
+  .feature.flip .shot-frame { order: 1; }
+  .feature .shot-frame { margin: 0; }
+  .feature h3 { font-family: var(--serif); font-size: 27px; font-weight: normal; margin: 10px 0 10px; }
+  .feature p { color: var(--muted); font-size: 16.5px; margin: 0 0 12px; }
+  .feature ul { color: var(--muted); font-size: 16px; margin: 10px 0 0; padding-left: 20px; }
+  .feature li { margin-bottom: 6px; }
+  .feature li b, .feature p b { color: var(--text); font-weight: 600; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 16px; }
+  .card { background: linear-gradient(180deg, rgba(58,123,255,.06), rgba(255,255,255,.014)), var(--navy-850);
+    border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+  .card h3 { font-family: var(--serif); margin: 0 0 7px; font-size: 20px; font-weight: normal; color: var(--text); }
   .card p { color: var(--muted); margin: 0; font-size: 15.5px; }
-  .price { font-size: 38px; margin: 8px 0 2px; }
-  .price small { font-size: 15px; color: var(--muted); }
-  .credits { color: var(--gold); font-size: 15px; letter-spacing: .4px; }
-  .featured { border-color: var(--gold); }
-  .tag { display:inline-block; font-size: 12px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
-  .packs { text-align: center; color: var(--muted); }
-  .packs strong { color: var(--text); font-weight: normal; }
-  .lifetime { margin-top: 18px; text-align: left; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; align-items: center; }
-  footer { border-top: 1px solid var(--line); margin-top: 60px; padding: 26px 0 40px; color: var(--muted); font-size: 14.5px; }
-  footer a { color: var(--muted); }
-  footer a:hover { color: var(--gold); }
-  .foot-links a { margin-right: 18px; }
-  .footer-tagline { color: #d4a857; font-style: italic; }
+
+  /* Pricing */
+  .price { font-family: var(--serif); font-size: 40px; margin: 10px 0 2px; color: var(--text); }
+  .price small { font-size: 15px; color: var(--muted); font-family: var(--sans); }
+  .credits { color: var(--gold); font-size: 15px; letter-spacing: .4px; font-weight: 600; }
+  .card.featured { border-color: var(--gold); box-shadow: 0 0 44px rgba(212,168,87,.13); }
+  .lifetime { margin-top: 18px; text-align: left; display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; align-items: center;
+    border-color: var(--line-gold); }
+  .lifetime .lrow { display: flex; gap: 20px; align-items: center; }
+  .lifetime img { width: 76px; height: 76px; }
+  .packs { text-align: center; color: var(--muted); max-width: 760px; margin-left: auto; margin-right: auto; }
+  .packs strong { color: var(--text); font-weight: 600; }
+
+  /* Final CTA + footer */
+  .final { text-align: center; margin-top: 84px; border: 1px solid var(--line-gold); border-radius: 18px; padding: 46px 30px;
+    background: radial-gradient(600px 260px at 50% -30%, rgba(212,168,87,.16), transparent 65%), var(--navy-850); }
+  .final h2 { margin-bottom: 8px; }
+  .final p { color: var(--muted); margin: 0 auto 24px; max-width: 560px; font-size: 17px; }
+  footer.site { border-top: 1px solid var(--line); margin-top: 64px; padding: 36px 0 42px; color: var(--muted); font-size: 14.5px; }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 30px; margin-bottom: 26px; }
+  .foot-grid h4 { font-family: var(--serif); font-weight: normal; color: var(--text); font-size: 16.5px; margin: 0 0 10px; }
+  .foot-grid a { color: var(--muted); text-decoration: none; display: block; margin-bottom: 7px; }
+  .foot-grid a:hover { color: var(--gold-hi); }
+  .foot-grid p { margin: 0 0 8px; }
+  .foot-brand img { height: 40px; width: auto; }
+  .footer-tagline { color: var(--gold); font-style: italic; font-family: var(--serif); }
+  .foot-base { border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted-2); font-size: 13.5px; }
+  footer.site a.mail { color: var(--gold); display: inline; }
+
+  @media (max-width: 880px) {
+    .hero { padding-top: 36px; }
+    .hero h1 { font-size: 35px; }
+    .hero p.lede { font-size: 17.5px; }
+    section.band { padding-top: 52px; }
+    h2 { font-size: 27px; }
+    .feature, .feature.flip { grid-template-columns: 1fr; gap: 24px; padding: 26px 0; }
+    .feature.flip .copy { order: 1; } .feature.flip .shot-frame { order: 2; }
+    .foot-grid { grid-template-columns: 1fr; gap: 22px; }
+    header.site { justify-content: center; text-align: center; }
+    .brand { align-items: center; }
+    nav.site { justify-content: center; }
+    .lifetime .lrow { flex-direction: column; text-align: center; }
+    .lifetime { justify-content: center; text-align: center; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div class="brand"><img src="assets/logo-horizontal-premium-transparent.png" alt="Script Novel Studio" /><span>Your Writing Spouse</span></div>
-    <nav>
+  <header class="site">
+    <a class="brand" href="index.html"><img src="assets/logo-web.png" alt="Script Novel Studio" /><span>Your Writing Spouse</span></a>
+    <nav class="site">
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
       <a href="terms.html">Terms</a>
       <a href="privacy.html">Privacy</a>
       <a href="refunds.html">Refunds</a>
-            <a href="account/">Sign in</a>
+      <a class="signin" href="account/">Sign in</a>
     </nav>
   </header>
 
   <section class="hero">
+    <span class="tag">A writing studio by Script Novel Publishing</span>
     <h1>One studio for <span>novels, script novels,<br>and screenplays</span></h1>
-    <p>A desktop writing studio with a format-aware editor and AI writing agents built in, made by Script Novel Publishing for writers who finish books.</p>
+    <p class="lede">Write in a format-aware editor, plan with a synopsis and outline your AI actually reads, and draft chapter by chapter, reviewing every word before it enters your manuscript.</p>
+    <div class="cta">
+      <a class="btn btn-gold" href="#pricing">See plans and pricing</a>
+      <a class="btn btn-ghost" href="account/">Sign in</a>
+    </div>
+    <div class="shot-frame"><img src="assets/shot-editor.jpg" alt="The Script Novel Studio editor, a manuscript chapter open on the page" /></div>
+    <div class="strip">
+      <span><b>Windows</b> desktop app</span>
+      <span>Projects live <b>on your computer</b></span>
+      <span>Interface in <b>English &amp; Spanish</b></span>
+      <span>Exports: <b>PDF · EPUB · DOCX · FDX</b></span>
+    </div>
   </section>
 
-  <h2 id="features">What the studio does</h2>
-  <p class="sub">Write in the format your story needs. The editor knows the difference between a novel, a script novel, and a screenplay, and it formats as you type.</p>
-  <div class="grid">
-    <div class="card"><h3>Three writing formats</h3><p>Traditional novels, script novels, and industry screenplays, each with the right elements, typography, and print trim sizes.</p></div>
-    <div class="card"><h3>Seven AI agents</h3><p>Writer, editor, continuity, pacing, plot, emotional depth, and Q&amp;A agents that work with your project's format, genre, and tone.</p></div>
-    <div class="card"><h3>Real chapters, real projects</h3><p>Organize a full manuscript chapter by chapter. Projects live on your own computer and save automatically as you type.</p></div>
-    <div class="card"><h3>Professional exports</h3><p>Send your work out as a Word document, an ebook (EPUB), a print-ready PDF, or a Final Draft file (FDX).</p></div>
+  <section class="band" id="features">
+    <span class="tag" style="display:block; text-align:center;">Write with AI</span>
+    <h2>Ask for the task, <span>not the agent</span></h2>
+    <p class="sub">No agent names to decode. One gold button in the editor opens a menu in plain author language, and before anything runs, the studio tells you what it will read and where the result will land.</p>
+    <div class="feature">
+      <div class="copy">
+        <h3>The Write with AI menu</h3>
+        <p>Seven choices, written the way authors talk about their work:</p>
+        <ul>
+          <li><b>Write my first paragraph</b>, built from your synopsis</li>
+          <li><b>Continue writing</b> from your cursor, or <b>Improve my writing</b></li>
+          <li><b>Get feedback on my story</b>: plot, pacing, and continuity reports</li>
+          <li><b>Ask a question</b> about your book or the craft</li>
+          <li><b>Write this chapter</b>, or <b>Write entire book</b> with the credit estimate shown first</li>
+        </ul>
+      </div>
+      <div class="shot-frame"><img src="assets/shot-write-menu.jpg" alt="The Write with AI menu open in the editor, listing the seven writing tasks" /></div>
+    </div>
+
+    <div class="feature flip">
+      <div class="copy">
+        <h3>A synopsis and outline your agents actually read</h3>
+        <p>Your synopsis lives in the open, in the Outline tab, where you can see it and keep it current. When a chapter is empty, the agents work from your <b>outline idea first, then your outline, then your synopsis</b>, and every result names the basis it used. No more answers about the wrong story.</p>
+        <p>Build the outline from your idea with one click, expand it into a beat for every chapter, and set a <b>target word count</b> so chapter drafts are written toward the length of the book you mean to finish.</p>
+      </div>
+      <div class="shot-frame"><img src="assets/shot-outline.jpg" alt="The Outline tab with a synopsis, an idea, and a chapter-by-chapter story outline" /></div>
+    </div>
+
+    <div class="feature">
+      <div class="copy">
+        <h3>Chapter by chapter, and nothing lands unreviewed</h3>
+        <p>Ask for a chapter and the draft goes to a <b>review queue</b>, not into your manuscript. Read it there, accept it, send it back with a note to revise, or discard it. Accepting is the only way a draft becomes part of your book.</p>
+        <p>The queue keeps your drafts when you close the app, and a whole-book run writes every empty chapter in order, skips the ones you have already written, and can be stopped after any chapter.</p>
+      </div>
+      <div class="shot-frame"><img src="assets/shot-editor.jpg" alt="A chapter open in the studio editor, ready to write" /></div>
+    </div>
+
+    <div class="feature flip">
+      <div class="copy">
+        <h3>See the printed book before you print it</h3>
+        <p>Choose a publishing target and the studio applies that platform's rules for you: <b>Amazon KDP Print</b> gutter widths by page count, <b>KDP Kindle</b>, and <b>IngramSpark</b> inside-margin minimums, with a warning past KDP's 828-page cap. Every adjustment is reported, never silent.</p>
+        <p>The print preview lays out real pages at your trim size with your title page, copyright page, and dedication up front, running heads, and page numbers that start on chapter one.</p>
+      </div>
+      <div class="shot-frame"><img src="assets/shot-print.jpg" alt="Print preview showing Chapter One laid out as a printed book page" /></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2>Built for the <span>whole job</span></h2>
+    <p class="sub">From the first idea to the file you upload, the studio stays with the book.</p>
+    <div class="grid">
+      <div class="card"><h3>Three writing formats</h3><p>Traditional novels, script novels, and industry screenplays, each with the right elements, genre presets, typography, and print trim sizes.</p></div>
+      <div class="card"><h3>Professional exports</h3><p>Send your work out as a print-ready PDF, an ebook (EPUB), a Word document (DOCX), or a Final Draft file (FDX).</p></div>
+      <div class="card"><h3>Real chapters, real projects</h3><p>Organize a full manuscript chapter by chapter, reorder chapters with a click, and pick up your last book right where you left it when the studio opens.</p></div>
+      <div class="card"><h3>Revision tools that respect the work</h3><p>Highlight passages to revisit, find and replace across one chapter or the whole book, and a save status that tells you the truth about your work.</p></div>
+      <div class="card"><h3>English and Spanish</h3><p>The full interface switches between English and Spanish, and with Spanish on, the agents draft in Spanish too. Your manuscript itself is never translated or touched.</p></div>
+      <div class="card"><h3>Your work stays yours</h3><p>Projects are stored on your own computer and saved as you write. Everything you write in the studio is yours; we claim no ownership of your manuscripts or exports.</p></div>
+    </div>
+  </section>
+
+  <section class="band" id="pricing">
+    <span class="tag" style="display:block; text-align:center;">Plans and credits</span>
+    <h2>Pick your <span>creative power level</span></h2>
+    <p class="sub">Every plan includes the full editor, all three formats, and the Write with AI menu. Plans differ in the AI credits they refill each month. Annual billing is two months free.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Starter</h3>
+        <div class="price">$29<small> /month</small></div>
+        <div class="credits">750,000 credits monthly</div>
+        <p>$290 billed annually. For writers building a steady habit with AI help close at hand.</p>
+      </div>
+      <div class="card featured">
+        <div class="tag">Most popular</div>
+        <h3>Author</h3>
+        <div class="price">$79<small> /month</small></div>
+        <div class="credits">2.5 million credits monthly</div>
+        <p>$790 billed annually. Sized to carry a full book through the pipeline each month.</p>
+      </div>
+      <div class="card">
+        <h3>Studio</h3>
+        <div class="price">$149<small> /month</small></div>
+        <div class="credits">5.5 million credits monthly</div>
+        <p>$1,490 billed annually. For high-volume production and multiple projects at once.</p>
+      </div>
+      <div class="card">
+        <h3>Creator</h3>
+        <div class="price">$299<small> /month</small></div>
+        <div class="credits">12 million credits monthly</div>
+        <p>$2,990 billed annually. Maximum creative runway for full-time writers.</p>
+      </div>
+    </div>
+
+    <div class="card lifetime">
+      <div class="lrow">
+        <img src="assets/app-icon-web.png" alt="" />
+        <div>
+          <div class="tag">Lifetime license</div>
+          <h3>Pay once. Own it forever.</h3>
+          <p style="color:var(--muted); margin:0; max-width:560px;">The studio and every future version of it, included for life, plus 2.5 million credits, enough for your first book. No monthly bill for the software, ever.</p>
+        </div>
+      </div>
+      <div class="price">$299<small> one-time</small></div>
+    </div>
+
+    <p class="packs" style="margin-top:26px;">Need more AI in a heavy month? One-time credit packs: <strong>250k for $9</strong>, <strong>500k for $19</strong>, <strong>750k for $29</strong>, <strong>1.5M for $59</strong>, and the <strong>Book Credit, 2.5M for $99</strong>. Credits you buy are yours until you use them.</p>
+  </section>
+
+  <div class="final">
+    <span class="tag">Begin today</span>
+    <h2>Your next chapter <span>is waiting</span></h2>
+    <p>Bring the idea. The studio will help you give it chapters, keep them honest, and carry the book all the way to a file you can publish.</p>
+    <a class="btn btn-gold" href="#pricing">See plans and pricing</a>
+    <p style="margin-top:20px; font-size:15px;">Already writing with us? <a href="account/">Sign in to your account</a>.</p>
   </div>
 
-  <h2 id="pricing">Plans and credits</h2>
-  <p class="sub">Every plan includes the full editor, all three formats, and the AI agents. Plans differ in the AI credits they refill each month. Annual billing is two months free.</p>
-  <div class="grid">
-    <div class="card">
-      <h3>Starter</h3>
-      <div class="price">$29<small> /month</small></div>
-      <div class="credits">750,000 credits monthly</div>
-      <p>$290 billed annually. For writers building a steady habit with AI help close at hand.</p>
+  <footer class="site">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logo-web.png" alt="Script Novel Studio" />
+        <p style="margin-top:10px;">Script Novel Studio. <span class="footer-tagline">Your Writing Spouse.</span><br>A product of Script Novel Publishing.</p>
+      </div>
+      <div>
+        <h4>Studio</h4>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="account/">Sign in</a>
+        <a href="https://scriptnovelpublishing.com">Script Novel Publishing</a>
+      </div>
+      <div>
+        <h4>Talk to a person</h4>
+        <p>Questions about the studio, plans, or your account:</p>
+        <a class="mail" href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a>
+      </div>
     </div>
-    <div class="card featured">
-      <div class="tag">Most popular</div>
-      <h3>Author</h3>
-      <div class="price">$79<small> /month</small></div>
-      <div class="credits">2.5 million credits monthly</div>
-      <p>$790 billed annually. Sized to carry a full book through the pipeline each month.</p>
+    <div class="foot-links" style="margin-bottom:12px;">
+      <a href="terms.html" style="display:inline; margin-right:18px;">Terms of Service</a>
+      <a href="privacy.html" style="display:inline; margin-right:18px;">Privacy Policy</a>
+      <a href="refunds.html" style="display:inline;">Refund Policy</a>
     </div>
-    <div class="card">
-      <h3>Studio</h3>
-      <div class="price">$149<small> /month</small></div>
-      <div class="credits">5.5 million credits monthly</div>
-      <p>$1,490 billed annually. For high-volume production and multiple projects at once.</p>
-    </div>
-    <div class="card">
-      <h3>Creator</h3>
-      <div class="price">$299<small> /month</small></div>
-      <div class="credits">12 million credits monthly</div>
-      <p>$2,990 billed annually. Maximum creative runway for full-time writers.</p>
-    </div>
-  </div>
-
-  <div class="card lifetime">
-    <div>
-      <div class="tag">Lifetime license</div>
-      <h3>Pay once. Own it forever.</h3>
-      <p style="color:var(--muted); margin:0; max-width:560px;">The studio and every future version of it, included for life, plus 2.5 million credits, enough for your first book. No monthly bill for the software, ever.</p>
-    </div>
-    <div class="price">$299<small> one-time</small></div>
-  </div>
-
-  <p class="packs" style="margin-top:26px;">Need more AI in a heavy month? One-time credit packs: <strong>250k for $9</strong>, <strong>500k for $19</strong>, <strong>750k for $29</strong>, <strong>1.5M for $59</strong>, and the <strong>Book Credit, 2.5M for $99</strong>. Credits you buy are yours until you use them.</p>
-
-  <footer>
-    <div class="foot-links">
-      <a href="terms.html">Terms of Service</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="refunds.html">Refund Policy</a>
-      <a href="https://scriptnovelpublishing.com">Script Novel Publishing</a>
-    </di.
-    <p>Script Novel Studio. <span class="footer-tagline">Your Writing Spouse.</span> A product of Script Novel Publishing. Questions about the studio, plans, or your account: email us at <a href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a>.</p>
+    <div class="foot-base">Script Novel Studio is a product of Script Novel Publishing. Support: <a href="mailto:support@scriptnovelpublishing.com" style="color:var(--gold);">support@scriptnovelpublishing.com</a>.</div>
   </footer>
 </div>
 </body>
