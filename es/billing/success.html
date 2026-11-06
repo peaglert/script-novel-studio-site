@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gracias — Script Novel Studio</title>
+<meta name="description" content="Gracias por tu compra. Tu plan de Script Novel Studio está activo.">
+<style>
+  :root {
+    --navy-950:#0a0f1e; --navy-900:#0d1526; --navy-850:#111c33;
+    --line:#26355a; --line-gold:rgba(212,168,87,.35);
+    --gold:#d4a857; --gold-hi:#f2d492;
+    --text:#f4f1e8; --muted:#a9b2c6;
+    --sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif:Georgia, "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: var(--sans); background:
+    radial-gradient(1100px 560px at 88% -8%, rgba(58,123,255,.14), transparent 60%),
+    radial-gradient(900px 620px at -10% 22%, rgba(212,168,87,.10), transparent 55%),
+    linear-gradient(180deg, var(--navy-900), var(--navy-950) 340px), var(--navy-950);
+    color: var(--text); line-height: 1.6; }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+  header.site { display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 24px 0 6px; }
+  .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
+  .brand img { height: 68px; width: auto; display: block; }
+  .brand span { font-family: var(--serif); font-style: italic; font-size: 13px; letter-spacing: .08em; color: var(--gold);
+    background: linear-gradient(180deg, #f6dc9a, #eec96f 45%, #d4a857 75%, #a87f2d);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  nav.site { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 20px; }
+  nav.site a { color: var(--muted); text-decoration: none; font-size: 15px; }
+  nav.site a:hover { color: var(--gold-hi); }
+  .hero { text-align: center; padding: 46px 0 8px; }
+  .hero img { max-width: 300px; width: 82%; height: auto; border-radius: 24px; }
+  .hero h1 { font-family: var(--serif); font-size: 44px; line-height: 1.15; margin: 24px 0 14px; font-weight: normal; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--muted); font-size: 19px; max-width: 640px; margin: 0 auto; }
+  .card { background: linear-gradient(180deg, rgba(58,123,255,.06), rgba(255,255,255,.014)), var(--navy-850);
+    border: 1px solid var(--line); border-radius: 14px; padding: 28px; max-width: 720px; margin: 32px auto 0;
+    box-shadow: 0 18px 44px rgba(0,0,0,.35); }
+  .card h2 { font-family: var(--serif); font-size: 24px; font-weight: normal; margin: 0 0 10px; }
+  .card p { color: var(--muted); margin: 0 0 12px; font-size: 16.5px; }
+  .card p:last-child { margin-bottom: 0; }
+  .card a { color: var(--gold); }
+  footer.site { border-top: 1px solid var(--line); margin-top: 60px; padding: 28px 0 40px; color: var(--muted); font-size: 14.5px; }
+  footer.site a { color: var(--muted); text-decoration: none; }
+  footer.site a:hover { color: var(--gold-hi); }
+  .foot-links a { margin-right: 18px; }
+  .footer-tagline { color: var(--gold); font-style: italic; font-family: var(--serif); }
+  footer.site a.mail { color: var(--gold); }
+  @media (max-width: 640px) { .brand img { height: 54px; } .hero h1 { font-size: 32px; } header.site { justify-content: center; } .brand { align-items: center; } nav.site { justify-content: center; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <a class="brand" href="../index.html"><img src="../../assets/logo-gold-square.png" alt="Script Novel Studio" /><span>Your Writing Spouse</span></a>
+    <nav class="site">
+      <a href="../index.html#features">Características</a>
+      <a href="../index.html#pricing">Precios</a>
+      <a href="../terms.html">Términos</a>
+      <a href="../privacy.html">Privacidad</a>
+      <a href="../refunds.html">Reembolsos</a>
+      <a href="../../index.html">English</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <img src="../../assets/logo-gold-square.png" alt="Script Novel Studio">
+    <h1>Gracias. <span>Tu estudio está listo.</span></h1>
+    <p>Tu pago se procesó y tu plan ya está activo. Tus créditos están en tu cuenta y te esperan en la app.</p>
+  </section>
+
+  <div class="card">
+    <h2>Qué sigue</h2>
+    <p>Abre Script Novel Studio en tu computadora e inicia sesión con la misma dirección de correo que usaste al pagar. Tu plan y tus créditos estarán ahí, listos para escribir.</p>
+    <p>Un recibo de esta compra va en camino a esa dirección de correo, de parte de Stripe.</p>
+  </div>
+
+  <div class="card">
+    <h2>Estamos aquí si nos necesitas</h2>
+    <p>¿Preguntas sobre tu compra, tu plan, tus créditos o tu cuenta? Escríbenos cuando quieras a <a href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a> y una persona de Script Novel Publishing te responderá.</p>
+    <p>Gracias por confiar en nosotros con tus historias. Ahora ve y termina ese libro.</p>
+  </div>
+
+  <footer class="site">
+    <div class="foot-links">
+      <a href="../terms.html">Términos del servicio</a>
+      <a href="../privacy.html">Política de privacidad</a>
+      <a href="../refunds.html">Política de reembolsos</a>
+      <a href="https://scriptnovelpublishing.com">Script Novel Publishing</a>
+    </div>
+    <p>Script Novel Studio. <span class="footer-tagline">Your Writing Spouse.</span> Un producto de Script Novel Publishing. Atención al cliente: <a class="mail" href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a>.</p>
+  </footer>
+</div>
+</body>
+</html>
