@@ -192,6 +192,32 @@
     .lifetime { justify-content: center; text-align: center; }
     .lbuy { text-align: center; }
   }
+
+  /* Header polish (Nov 7, 2026): CTA, underline hovers, scroll shadow, language toggle, Clerk-aware sign-in */
+  header.site { animation: snsHeaderIn .45s ease both; }
+  @keyframes snsHeaderIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  header.site.compact { box-shadow: 0 12px 32px rgba(0,0,0,.38); }
+  nav.site a { position: relative; }
+  nav.site a:not(.signin):not(.cta-btn)::after { content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 100%; border-radius: 2px; background: linear-gradient(90deg, #f6dc9a, #d4a857); transform: scaleX(0); transform-origin: left center; transition: transform .22s ease; }
+  nav.site a:not(.signin):not(.cta-btn):hover::after, nav.site a.current:not(.signin):not(.cta-btn)::after { transform: scaleX(1); }
+  .lang-toggle a::after { content: none !important; }
+  nav.site a.signin { color: #f0d48a; border: 1px solid rgba(212,168,87,.45); border-radius: 999px; padding: 7px 18px; font-weight: 600; text-decoration: none; }
+  nav.site a.signin:hover { background: rgba(212,168,87,.12); color: #f0d48a; }
+  nav.site a.cta-btn { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; border-radius: 999px; padding: 8px 18px; text-decoration: none; transition: filter .18s ease; }
+  nav.site a.cta-btn:hover { filter: brightness(1.07); color: #141a2e; }
+  .lang-toggle { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; white-space: nowrap; }
+  .lang-toggle .on { color: #f0d48a; font-weight: 700; }
+  .lang-toggle .sep { opacity: .35; }
+  .lang-toggle a { font-size: 13.5px; }
+  @media (max-width: 880px) {
+    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: 100%; }
+    nav.site::-webkit-scrollbar { display: none; }
+    nav.site a, .lang-toggle { white-space: nowrap; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    header.site { animation: none; }
+    nav.site a::after { transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -204,8 +230,9 @@
       <a href="#pricing">Precios</a>
       <a href="../why-studio.html">Por qué Studio</a>
       <a href="#faq">Preguntas frecuentes</a>
-      <a class="signin" href="../account/">Iniciar sesión</a>
-      <a href="../index.html">English</a>
+      <a class="signin" id="signin-link" href="../account/">Iniciar sesión</a>
+      <a class="cta-btn" href="#pricing">Obtén el Studio</a>
+      <span class="lang-toggle"><a href="../index.html">EN</a><span class="sep">|</span><span class="on">ES</span></span>
     </nav>
   </header>
 
@@ -721,5 +748,22 @@
     onScroll();
   })();
 </script>
+
+  <script>
+  // Header sign-in state: show the account label when a Clerk session exists.
+  (function () {
+    var KEY = 'pk_test_dG9nZXRoZXItcm9iaW4tNTE3Mi5jbGVyay5hY2NvdW50cy5kZXYk';
+    var SRC = 'https://together-robin-5172.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
+    var ACCOUNT = '../account/'; var LABEL = 'Tu cuenta';
+    function apply() {
+      var el = document.getElementById('signin-link');
+      if (el && window.Clerk && window.Clerk.user) { el.textContent = LABEL; el.href = ACCOUNT; }
+    }
+    function ready() { if (window.Clerk) { window.Clerk.load().then(function () { apply(); if (window.Clerk.addListener) window.Clerk.addListener(apply); }); } }
+    if (window.Clerk) { ready(); return; }
+    if (document.querySelector('script[src="' + SRC + '"]')) { var t = setInterval(function () { if (window.Clerk) { clearInterval(t); ready(); } }, 150); setTimeout(function () { clearInterval(t); }, 6000); return; }
+    var s = document.createElement('script'); s.async = true; s.crossOrigin = 'anonymous'; s.setAttribute('data-clerk-publishable-key', KEY); s.src = SRC; s.onload = ready; document.head.appendChild(s);
+  })();
+  </script>
 </body>
 </html>
