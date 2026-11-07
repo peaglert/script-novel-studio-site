@@ -228,6 +228,7 @@
   #acct-panel { position: fixed; top: 0; right: 0; height: 100dvh; width: min(344px, 90vw); background: #0d1526; border-left: 1px solid rgba(212,168,87,.3); z-index: 200; transform: translateX(102%); transition: transform .3s ease; padding: 20px 20px 24px; overflow-y: auto; box-shadow: -18px 0 44px rgba(0,0,0,.45); color: #e8ecf4; }
   #acct-panel.open { transform: none; }
   #acct-panel [hidden], #acct-backdrop[hidden] { display: none !important; }
+  .buy.is-current { opacity: .55; cursor: default; }
   .acct-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .acct-head span { font-family: var(--serif, Georgia, serif); font-size: 1.15rem; color: #f0d48a; }
   #acct-close { background: none; border: 1px solid rgba(212,168,87,.4); color: #f0d48a; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; line-height: 1; cursor: pointer; }
@@ -619,7 +620,7 @@
 
   // ---- Button + message helpers ----
   function setBusy(button, busy, label) {
-    buyButtons.forEach(function (b) { b.disabled = busy; });
+    buyButtons.forEach(function (b) { if (!b.hasAttribute('data-plan-locked')) b.disabled = busy; });
     if (button) {
       button.textContent = busy ? (label || 'Opening secure checkout...') : button.getAttribute('data-label');
     }
@@ -720,6 +721,7 @@
       }
       setBusy(button, false);
       showMessage(button, planChangeMessage(data), false);
+      document.dispatchEvent(new Event('sns-plan-changed'));
     }).catch(function (error) {
       fail(button, 'Checkout could not be opened. ' + (error && error.message ? error.message + ' ' : '')
         + 'Please try again, or email ' + SUPPORT_EMAIL + ' and we will help you complete your purchase.');
@@ -818,7 +820,7 @@
     var SRC = 'https://together-robin-5172.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
     var SERVICE = 'https://sns-entitlement-service.onrender.com';
     var ACCOUNT = 'account/'; var PRICING = '#pricing'; var LOCALE = 'en-US';
-    var L = { account: 'Your account', plan: 'Plan', creditsTitle: 'Credits available', planCredits: 'Plan credits left this period', bonusCredits: 'Pack and bonus credits (never expire)', loading: 'Loading your plan and credits...', errorText: "Couldn't reach your account just now. Check your connection and try again.", retry: 'Try again', noPlan: 'No active plan', lifetimeName: 'Lifetime', lockedNote: 'Choose a plan to unlock the studio.', seePlans: 'See plans', renews: 'Renews', accessUntil: 'Access until', switches: 'Switches to', status: { active: 'Active', trialing: 'Trial', past_due: 'Payment past due', canceled: 'Canceled', lifetime: 'Lifetime', inactive: 'No plan' } };
+    var L = { account: 'Your account', plan: 'Plan', creditsTitle: 'Credits available', planCredits: 'Plan credits left this period', bonusCredits: 'Pack and bonus credits (never expire)', loading: 'Loading your plan and credits...', errorText: "Couldn't reach your account just now. Check your connection and try again.", retry: 'Try again', noPlan: 'No active plan', lifetimeName: 'Lifetime', lockedNote: 'Choose a plan to unlock the studio.', seePlans: 'See plans', planCurrent: 'Your current plan', planSwitchYear: 'Switch to Annual', planSwitchMonth: 'Switch to Monthly', planScheduled: 'Scheduled for ', renews: 'Renews', accessUntil: 'Access until', switches: 'Switches to', status: { active: 'Active', trialing: 'Trial', past_due: 'Payment past due', canceled: 'Canceled', lifetime: 'Lifetime', inactive: 'No plan' } };
     var PLAN_NAMES = { starter: 'Starter', pro: 'Author', studio: 'Studio', unlimited: 'Creator' };
     var loadedAt = 0;
     function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -896,6 +898,38 @@
     var changeBtn = document.getElementById('acct-change');
     if (changeBtn) changeBtn.addEventListener('click', function (ev) { var href = changeBtn.getAttribute('href'); closePanel(); if (href && href.charAt(0) === '#') { ev.preventDefault(); var t = document.querySelector(href); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
     document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closePanel(); });
+    // Pricing guard: a signed-in member cannot pick the plan they already have.
+    var ownedEnt = null;
+    function curInterval() { var y = document.getElementById('billing-year'); return (y && y.classList.contains('is-active')) ? 'year' : 'month'; }
+    function lockBtn(b, label) { b.disabled = true; b.setAttribute('data-plan-locked', '1'); b.classList.add('is-current'); b.textContent = label; }
+    function unlockBtn(b, label) { b.disabled = false; b.removeAttribute('data-plan-locked'); b.classList.remove('is-current'); b.textContent = label || b.getAttribute('data-label'); }
+    function renderPlanStates() {
+      if (!ownedEnt) return;
+      var iv = curInterval();
+      document.querySelectorAll('button.buy').forEach(function (b) {
+        var type = b.getAttribute('data-purchase-type'); var item = b.getAttribute('data-item-id');
+        if (type === 'subscription') {
+          if (ownedEnt.lifetime) { lockBtn(b, L.planCurrent); return; }
+          if (ownedEnt.planId === item) {
+            if (iv === ownedEnt.billingInterval) lockBtn(b, L.planCurrent);
+            else unlockBtn(b, iv === 'year' ? L.planSwitchYear : L.planSwitchMonth);
+            return;
+          }
+          if (ownedEnt.pendingPlanId === item && iv === ownedEnt.pendingInterval) {
+            var d = ownedEnt.pendingEffectiveAt ? new Date(ownedEnt.pendingEffectiveAt).toLocaleDateString(LOCALE, { month: 'short', day: 'numeric' }) : '';
+            lockBtn(b, L.planScheduled + d); return;
+          }
+          unlockBtn(b, null);
+        } else if (type === 'lifetime' && ownedEnt.lifetime) { lockBtn(b, L.planCurrent); }
+      });
+    }
+    function loadOwned() {
+      if (!document.getElementById('billing-month')) return;
+      getToken().then(function (token) { return fetchJson(API + '/v1/entitlement', token); }).then(function (ent) { ownedEnt = ent; renderPlanStates(); }).catch(function () { /* marking is a courtesy; checkout still guards */ });
+    }
+    ['billing-month', 'billing-year'].forEach(function (id) { var t = document.getElementById(id); if (t) t.addEventListener('click', function () { setTimeout(renderPlanStates, 0); }); });
+    document.addEventListener('sns-plan-changed', function () { ownedEnt = null; loadOwned(); });
+    clerkReady(function () { if (window.Clerk.user) loadOwned(); });
     var out = document.getElementById('acct-signout');
     if (out) out.addEventListener('click', function () { if (window.Clerk) window.Clerk.signOut().then(function () { window.location.reload(); }); });
     if (window.Clerk) { ready(); return; }
