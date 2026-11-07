@@ -69,6 +69,42 @@
     header.site { animation: none; }
     nav.site a::after { transition: none; }
   }
+
+  /* Account panel (Nov 7, 2026): avatar pill + slide-in profile with live plan and credits */
+  #signin-link { display: inline-flex; align-items: center; gap: 8px; }
+  #signin-link .acct-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block; }
+  #signin-link .acct-initial { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
+  #acct-backdrop { position: fixed; inset: 0; background: rgba(4,7,15,.55); z-index: 190; opacity: 0; transition: opacity .25s ease; }
+  #acct-backdrop.open { opacity: 1; }
+  #acct-panel { position: fixed; top: 0; right: 0; height: 100dvh; width: min(344px, 90vw); background: #0d1526; border-left: 1px solid rgba(212,168,87,.3); z-index: 200; transform: translateX(102%); transition: transform .3s ease; padding: 20px 20px 24px; overflow-y: auto; box-shadow: -18px 0 44px rgba(0,0,0,.45); color: #e8ecf4; }
+  #acct-panel.open { transform: none; }
+  .acct-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .acct-head span { font-family: var(--serif, Georgia, serif); font-size: 1.15rem; color: #f0d48a; }
+  #acct-close { background: none; border: 1px solid rgba(212,168,87,.4); color: #f0d48a; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; line-height: 1; cursor: pointer; }
+  .acct-id { display: flex; align-items: center; gap: 13px; margin-bottom: 18px; }
+  .acct-id img, .acct-photo-initial { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; flex: none; }
+  .acct-photo-initial { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; font-size: 24px; display: inline-flex; align-items: center; justify-content: center; }
+  #acct-name { margin: 0; font-size: 1.05rem; color: #fff; }
+  #acct-email { margin: 2px 0 0; font-size: .88rem; color: #9aa3b8; word-break: break-all; }
+  .acct-planrow { display: flex; align-items: center; gap: 9px; margin: 0 0 4px; font-size: .98rem; }
+  .acct-planrow .acct-planname { font-weight: 700; color: #fff; }
+  .acct-chip { font-size: .72rem; font-weight: 700; letter-spacing: .04em; border: 1px solid rgba(212,168,87,.5); color: #f0d48a; border-radius: 999px; padding: 2px 9px; }
+  .acct-sub { margin: 0 0 14px; font-size: .85rem; color: #9aa3b8; }
+  .acct-credits { background: rgba(212,168,87,.07); border: 1px solid rgba(212,168,87,.22); border-radius: 14px; padding: 13px 15px; margin-bottom: 16px; }
+  .acct-big { font-family: var(--serif, Georgia, serif); font-size: 1.65rem; color: #f0d48a; margin: 0; }
+  .acct-biglabel { margin: 0 0 9px; font-size: .8rem; color: #9aa3b8; }
+  .acct-line { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; margin-top: 6px; }
+  .acct-line span:first-child { color: #c6cdd9; }
+  .acct-line span:last-child { color: #fff; font-weight: 600; white-space: nowrap; }
+  .acct-loading, .acct-error { color: #9aa3b8; font-size: .92rem; }
+  .acct-error button { margin-left: 8px; background: none; border: 1px solid rgba(212,168,87,.5); color: #f0d48a; border-radius: 999px; padding: 3px 12px; cursor: pointer; font: inherit; }
+  .acct-actions { display: flex; flex-direction: column; gap: 9px; margin-top: 4px; }
+  .acct-btn { text-align: center; border-radius: 999px; padding: 10px 16px; font-weight: 700; text-decoration: none; border: 1px solid rgba(212,168,87,.55); color: #f0d48a; background: transparent; cursor: pointer; font-size: .95rem; }
+  a.acct-btn:hover { background: rgba(212,168,87,.12); color: #f0d48a; }
+  button.acct-btn:hover { background: rgba(212,168,87,.12); }
+  .acct-plans { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; border: none; }
+  .acct-plans:hover { filter: brightness(1.07); color: #141a2e; }
+  @media (prefers-reduced-motion: reduce) { #acct-panel, #acct-backdrop { transition: none; } }
 </style>
 </head>
 <body>
@@ -85,6 +121,21 @@
       <span class="lang-toggle"><a href="../index.html">EN</a><span class="sep">|</span><span class="on">ES</span></span>
     </nav>
   </header>
+  <div id="acct-backdrop" hidden></div>
+  <aside id="acct-panel" aria-hidden="true" aria-label="Tu cuenta">
+    <div class="acct-head"><span>Tu cuenta</span><button id="acct-close" type="button" aria-label="Cerrar">&times;</button></div>
+    <div class="acct-id">
+      <img id="acct-photo" alt="" hidden>
+      <span id="acct-photo-initial" class="acct-photo-initial">?</span>
+      <div><p id="acct-name"></p><p id="acct-email"></p></div>
+    </div>
+    <div id="acct-body"><p class="acct-loading">Cargando tu plan y tus créditos...</p></div>
+    <div class="acct-actions">
+      <a id="acct-manage" class="acct-btn" href="../account/">Administrar cuenta</a>
+      <button id="acct-signout" class="acct-btn" type="button">Cerrar sesión</button>
+    </div>
+  </aside>
+
 
   <div class="sheet">
   <h1>Política de privacidad</h1>
@@ -125,16 +176,90 @@
 </div>
 
   <script>
-  // Header sign-in state: show the account label when a Clerk session exists.
+  // Account panel: avatar in the header, live plan and credits from the service.
   (function () {
     var KEY = 'pk_test_dG9nZXRoZXItcm9iaW4tNTE3Mi5jbGVyay5hY2NvdW50cy5kZXYk';
     var SRC = 'https://together-robin-5172.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
-    var ACCOUNT = '../account/'; var LABEL = 'Tu cuenta';
-    function apply() {
-      var el = document.getElementById('signin-link');
-      if (el && window.Clerk && window.Clerk.user) { el.textContent = LABEL; el.href = ACCOUNT; }
+    var SERVICE = 'https://sns-entitlement-service.onrender.com';
+    var ACCOUNT = '../account/'; var PRICING = '../index.html#pricing'; var LOCALE = 'es';
+    var L = { account: 'Tu cuenta', plan: 'Plan', creditsTitle: 'Créditos disponibles', planCredits: 'Créditos del plan en este periodo', bonusCredits: 'Créditos de paquetes y bonos (nunca vencen)', loading: 'Cargando tu plan y tus créditos...', errorText: 'No pudimos contactar tu cuenta. Revisa tu conexión e inténtalo de nuevo.', retry: 'Intentar de nuevo', noPlan: 'Sin plan activo', lifetimeName: 'De por vida', lockedNote: 'Elige un plan para desbloquear el estudio.', seePlans: 'Ver planes', renews: 'Se renueva', accessUntil: 'Acceso hasta', switches: 'Cambia a', status: { active: 'Activo', trialing: 'Prueba', past_due: 'Pago vencido', canceled: 'Cancelado', lifetime: 'De por vida', inactive: 'Sin plan' } };
+    var PLAN_NAMES = { starter: 'Starter', pro: 'Author', studio: 'Studio', unlimited: 'Creator' };
+    var loadedAt = 0;
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function fmt(n) { return Number(n || 0).toLocaleString(LOCALE); }
+    function fmtDate(iso) { if (!iso) return ''; var d = new Date(iso); if (isNaN(d)) return ''; return d.toLocaleDateString(LOCALE, { year: 'numeric', month: 'short', day: 'numeric' }); }
+    function firstNameOf(user) { var n = (user.fullName || user.firstName || '').trim(); if (n) return n.split(' ')[0]; var em = user.primaryEmailAddress && user.primaryEmailAddress.emailAddress; return em ? em.split('@')[0] : L.account; }
+    function renderPill(user) {
+      var el = document.getElementById('signin-link'); if (!el) return;
+      el.textContent = '';
+      if (user.imageUrl) { var img = document.createElement('img'); img.className = 'acct-avatar'; img.src = user.imageUrl; img.alt = ''; el.appendChild(img); }
+      else { var s = document.createElement('span'); s.className = 'acct-initial'; s.textContent = firstNameOf(user).charAt(0).toUpperCase(); el.appendChild(s); }
+      var t = document.createElement('span'); t.textContent = firstNameOf(user); el.appendChild(t);
+      el.setAttribute('data-acct', '1');
+      var hero = document.getElementById('signin-hero'); if (hero) hero.textContent = L.account;
     }
+    function fillIdentity(user) {
+      var name = user.fullName || user.firstName || firstNameOf(user);
+      var email = (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress) || '';
+      document.getElementById('acct-name').textContent = name;
+      document.getElementById('acct-email').textContent = email;
+      var photo = document.getElementById('acct-photo'); var init = document.getElementById('acct-photo-initial');
+      if (user.imageUrl) { photo.src = user.imageUrl; photo.hidden = false; init.hidden = true; }
+      else { photo.hidden = true; init.hidden = false; init.textContent = name.charAt(0).toUpperCase(); }
+    }
+    function openPanel() {
+      var user = window.Clerk && window.Clerk.user; if (!user) return;
+      fillIdentity(user);
+      var bd = document.getElementById('acct-backdrop'); var panel = document.getElementById('acct-panel');
+      bd.hidden = false; requestAnimationFrame(function () { bd.classList.add('open'); panel.classList.add('open'); });
+      panel.setAttribute('aria-hidden', 'false');
+      if (Date.now() - loadedAt > 60000) loadData();
+    }
+    function closePanel() {
+      var bd = document.getElementById('acct-backdrop'); var panel = document.getElementById('acct-panel');
+      bd.classList.remove('open'); panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true');
+      setTimeout(function () { bd.hidden = true; }, 280);
+    }
+    function renderData(ent, cred) {
+      var body = document.getElementById('acct-body');
+      var planName = ent.planName || (ent.lifetime ? L.lifetimeName : L.noPlan);
+      var chip = L.status[ent.status] || ent.status || '';
+      var html = '<p class="acct-planrow"><span>' + esc(L.plan) + '</span><span class="acct-planname">' + esc(planName) + '</span>' + (chip ? '<span class="acct-chip">' + esc(chip) + '</span>' : '') + '</p>';
+      if (ent.status === 'canceled' && ent.periodEndsAt) html += '<p class="acct-sub">' + esc(L.accessUntil) + ' ' + esc(fmtDate(ent.periodEndsAt)) + '</p>';
+      else if (ent.periodEndsAt && (ent.status === 'active' || ent.status === 'trialing')) html += '<p class="acct-sub">' + esc(L.renews) + ' ' + esc(fmtDate(ent.periodEndsAt)) + '</p>';
+      if (ent.pendingPlanId && ent.pendingEffectiveAt) html += '<p class="acct-sub">' + esc(L.switches) + ' ' + esc(PLAN_NAMES[ent.pendingPlanId] || ent.pendingPlanId) + ' - ' + esc(fmtDate(ent.pendingEffectiveAt)) + '</p>';
+      html += '<div class="acct-credits"><p class="acct-big">' + fmt(cred.availableTokens) + '</p><p class="acct-biglabel">' + esc(L.creditsTitle) + '</p>';
+      if (Number(cred.monthlyBudget) > 0) html += '<div class="acct-line"><span>' + esc(L.planCredits) + '</span><span>' + fmt(cred.monthlyAvailable) + ' / ' + fmt(cred.monthlyBudget) + '</span></div>';
+      if (Number(cred.bonusBalance) > 0 || Number(cred.monthlyBudget) === 0) html += '<div class="acct-line"><span>' + esc(L.bonusCredits) + '</span><span>' + fmt(cred.bonusBalance) + '</span></div>';
+      html += '</div>';
+      if (ent.locked && !ent.lifetime) html += '<p class="acct-sub">' + esc(L.lockedNote) + '</p><div class="acct-actions"><a class="acct-btn acct-plans" href="' + PRICING + '">' + esc(L.seePlans) + '</a></div>';
+      body.innerHTML = html;
+      loadedAt = Date.now();
+    }
+    function loadData() {
+      var body = document.getElementById('acct-body');
+      body.innerHTML = '<p class="acct-loading">' + esc(L.loading) + '</p>';
+      window.Clerk.session.getToken({ template: 'studio-app' }).then(function (token) {
+        if (!token) throw new Error('no-token');
+        var headers = { Authorization: 'Bearer ' + token };
+        return Promise.all([
+          fetch(SERVICE + '/v1/entitlement', { headers: headers }).then(function (r) { if (!r.ok) throw new Error('ent'); return r.json(); }),
+          fetch(SERVICE + '/v1/credits', { headers: headers }).then(function (r) { if (!r.ok) throw new Error('cred'); return r.json(); })
+        ]);
+      }).then(function (pair) { renderData(pair[0], pair[1]); }).catch(function () {
+        body.innerHTML = '<p class="acct-error">' + esc(L.errorText) + '<button type="button" id="acct-retry">' + esc(L.retry) + '</button></p>';
+        document.getElementById('acct-retry').addEventListener('click', loadData);
+      });
+    }
+    function apply() { var user = window.Clerk && window.Clerk.user; if (user) renderPill(user); }
     function ready() { if (window.Clerk) { window.Clerk.load().then(function () { apply(); if (window.Clerk.addListener) window.Clerk.addListener(apply); }); } }
+    var pill = document.getElementById('signin-link');
+    if (pill) pill.addEventListener('click', function (ev) { if (pill.getAttribute('data-acct') === '1') { ev.preventDefault(); openPanel(); } });
+    var bd = document.getElementById('acct-backdrop'); if (bd) bd.addEventListener('click', closePanel);
+    var closeBtn = document.getElementById('acct-close'); if (closeBtn) closeBtn.addEventListener('click', closePanel);
+    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closePanel(); });
+    var out = document.getElementById('acct-signout');
+    if (out) out.addEventListener('click', function () { if (window.Clerk) window.Clerk.signOut().then(function () { window.location.reload(); }); });
     if (window.Clerk) { ready(); return; }
     if (document.querySelector('script[src="' + SRC + '"]')) { var t = setInterval(function () { if (window.Clerk) { clearInterval(t); ready(); } }, 150); setTimeout(function () { clearInterval(t); }, 6000); return; }
     var s = document.createElement('script'); s.async = true; s.crossOrigin = 'anonymous'; s.setAttribute('data-clerk-publishable-key', KEY); s.src = SRC; s.onload = ready; document.head.appendChild(s);
