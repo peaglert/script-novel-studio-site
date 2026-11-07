@@ -39,6 +39,10 @@
     border: 1px solid var(--line); border-radius: 14px; padding: 28px; max-width: 720px; margin: 32px auto 0;
     box-shadow: 0 18px 44px rgba(0,0,0,.35); }
   .card h2 { font-family: var(--serif); font-size: 24px; font-weight: normal; margin: 0 0 10px; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 13px 28px; }
+  .btn-gold { background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806; box-shadow: 0 8px 26px rgba(212,168,87,.28), inset 0 1px 0 rgba(255,255,255,.5); }
+  .btn-gold:hover { filter: brightness(1.06); }
+  .card a.btn-gold { color: #221806; }
   .card p { color: var(--muted); margin: 0 0 12px; font-size: 16.5px; }
   .card p:last-child { margin-bottom: 0; }
   .card a { color: var(--gold); }
@@ -150,7 +154,16 @@
     <img src="../assets/logo-gold-square.png" alt="Script Novel Studio">
     <h1>Thank you. <span>Your studio is ready.</span></h1>
     <p>Your payment went through and your plan is now active. Your credits are on your account and waiting for you in the app.</p>
+    <p>Welcome to Script Novel Studio. This page is your welcome letter: everything below is all you need to start writing today.</p>
   </section>
+
+  <div class="card">
+    <h2>Start here, three steps</h2>
+    <p><strong>1. Get the app.</strong> Your account page holds your download. One purchase covers up to 2 of your computers.</p>
+    <p><strong>2. Sign in.</strong> Open the app and sign in with the same email address you used at checkout. No password or license key is ever emailed to you; the sign-in is your key.</p>
+    <p><strong>3. Write.</strong> Start a project, or hand the studio your synopsis and let it draft the first chapter. Every draft waits for your approval before it enters your book.</p>
+    <p><a class="btn btn-gold" href="../account/" style="margin-top:6px;">Go to your account</a></p>
+  </div>
 
   <div class="card">
     <h2>What happens next</h2>
