@@ -157,7 +157,7 @@
   .lang-toggle .sep { opacity: .35; }
   .lang-toggle a { font-size: 13.5px; }
   @media (max-width: 880px) {
-    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: 100%; }
+    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 8px; padding: 9px 20px; background: rgba(16,24,48,.55); border: 1px solid rgba(212,168,87,.22); border-radius: 999px; scroll-padding-inline: 20px; }
     nav.site::-webkit-scrollbar { display: none; }
     nav.site a, .lang-toggle { white-space: nowrap; }
   }
