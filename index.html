@@ -227,6 +227,7 @@
   #acct-backdrop.open { opacity: 1; }
   #acct-panel { position: fixed; top: 0; right: 0; height: 100dvh; width: min(344px, 90vw); background: #0d1526; border-left: 1px solid rgba(212,168,87,.3); z-index: 200; transform: translateX(102%); transition: transform .3s ease; padding: 20px 20px 24px; overflow-y: auto; box-shadow: -18px 0 44px rgba(0,0,0,.45); color: #e8ecf4; }
   #acct-panel.open { transform: none; }
+  #acct-panel [hidden], #acct-backdrop[hidden] { display: none !important; }
   .acct-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .acct-head span { font-family: var(--serif, Georgia, serif); font-size: 1.15rem; color: #f0d48a; }
   #acct-close { background: none; border: 1px solid rgba(212,168,87,.4); color: #f0d48a; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; line-height: 1; cursor: pointer; }
