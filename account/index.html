@@ -20,6 +20,8 @@
         color: var(--text); font-family: var(--sans); }
       main { width: 100%; max-width: 460px; }
       .logo { display: block; width: 300px; max-width: 86%; margin: 0 auto 8px; }
+      .logo-link { display: block; width: 300px; max-width: 86%; margin: 0 auto 8px; cursor: pointer; }
+      .logo-link .logo { width: 100%; max-width: 100%; margin: 0; }
       h1 { text-align: center; font-family: var(--serif); font-size: 1.6rem; font-weight: normal; margin: 12px 0 6px; }
       .sub { text-align: center; color: var(--muted); font-size: 0.97rem; line-height: 1.55; margin: 0 0 26px; }
       #sign-in { display: flex; justify-content: center; }
@@ -52,7 +54,7 @@
   </head>
   <body>
     <main>
-      <img class="logo" src="../assets/logo-web.png" alt="Script Novel Studio" />
+      <a class="logo-link" href="../index.html" aria-label="Back to the Script Novel Studio home page"><img class="logo" src="../assets/logo-web.png" alt="Script Novel Studio" /></a>
       <h1>Sign in to Script Novel Studio</h1>
       <p class="sub">Use the same account you subscribed with. Signing in connects your plan, credits, and computers.</p>
       <p id="status">Loading secure sign-in...</p>
@@ -83,6 +85,7 @@
         </div>
       </div>
       <p class="fine">Wrong account? <button type="button" id="sign-out">Sign out</button> and sign in again.<br>Help: <a href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a></p>
+      <p class="fine"><a href="../index.html">&larr; Back to the home page</a></p>
     </main>
     <script>
       const status = document.getElementById('status');
