@@ -832,8 +832,7 @@
       else { var s = document.createElement('span'); s.className = 'acct-initial'; s.textContent = firstNameOf(user).charAt(0).toUpperCase(); el.appendChild(s); }
       var t = document.createElement('span'); t.textContent = firstNameOf(user); el.appendChild(t);
       el.setAttribute('data-acct', '1');
-      var hero = document.getElementById('signin-hero');
-      if (hero) { hero.textContent = L.account; if (!hero.getAttribute('data-acct-wired')) { hero.setAttribute('data-acct-wired', '1'); hero.addEventListener('click', function (ev) { if (window.Clerk && window.Clerk.user) { ev.preventDefault(); openPanel(); } }); } }
+      var hero = document.getElementById('signin-hero'); if (hero) hero.textContent = L.account;
     }
     function fillIdentity(user) {
       var name = user.fullName || user.firstName || firstNameOf(user);
