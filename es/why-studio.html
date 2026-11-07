@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Por qué Script Novel Studio — Lo que lo distingue</title>
+<meta name="description" content="Cómo se compara Script Novel Studio con las apps de taller de escritura, las herramientas de coescritura con IA y los generadores de libros en línea, y por qué puede escribir tu libro entero sin dejar de ser tú el autor.">
+<link rel="icon" type="image/png" href="../assets/app-icon-512.png">
+<link rel="apple-touch-icon" href="assets/app-icon-512.png">
+<meta property="og:title" content="Por qué Script Novel Studio — Lo que lo distingue">
+<meta property="og:description" content="Cómo se compara Script Novel Studio con las apps de taller de escritura, las herramientas de coescritura con IA y los generadores de libros en línea, y por qué puede escribir tu libro entero sin dejar de ser tú el autor.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://scriptnovelstudio.com/es/why-studio.html">
+<meta property="og:image" content="https://scriptnovelstudio.com/assets/shot-editor.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --navy-950:#0a0f1e; --navy-900:#0d1526; --navy-850:#111c33; --navy-800:#152238; --navy-700:#1e2f4e;
+    --line:#26355a; --line-gold:rgba(212,168,87,.35);
+    --gold:#d4a857; --gold-hi:#f2d492; --gold-deep:#a87f2d; --blue:#3a7bff;
+    --text:#f4f1e8; --muted:#a9b2c6; --muted-2:#8b96ad;
+    --sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif:Georgia, "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin:0; font-family: var(--sans); background:
+    radial-gradient(1100px 560px at 88% -8%, rgba(58,123,255,.14), transparent 60%),
+    radial-gradient(900px 620px at -10% 22%, rgba(212,168,87,.10), transparent 55%),
+    linear-gradient(180deg, var(--navy-900), var(--navy-950) 340px), var(--navy-950);
+    color: var(--text); line-height: 1.6; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--gold); }
+
+  /* Header */
+  header.site { display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 24px 0 10px;
+    position: sticky; top: 0; z-index: 50; background: rgba(10,15,30,.92);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: padding .28s ease, box-shadow .28s ease; }
+  header.site.compact { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  header.site.compact .brand img { height: 42px; }
+  header.site.compact .brand span { display: none; }
+  .brand img { transition: height .28s ease; }
+  .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
+  .brand img { height: 68px; width: auto; display: block; }
+  .brand span { font-family: var(--serif); font-style: italic; font-size: 13.5px; letter-spacing: .08em; color: var(--gold);
+    background: linear-gradient(180deg, #f6dc9a, #eec96f 45%, #d4a857 75%, #a87f2d);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  nav.site { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
+  nav.site a { color: var(--muted); text-decoration: none; font-size: 15px; }
+  nav.site a:hover { color: var(--gold-hi); }
+  nav.site a.current { color: var(--gold); font-weight: 600; }
+  nav.site a.signin { color: var(--gold-hi); border: 1px solid var(--line-gold); border-radius: 999px; padding: 7px 18px; font-weight: 600; }
+  nav.site a.signin:hover { background: rgba(212,168,87,.12); color: var(--gold-hi); }
+
+  /* Buttons + tags */
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 13px 28px; }
+  .btn-gold { background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806;
+    box-shadow: 0 8px 26px rgba(212,168,87,.28), inset 0 1px 0 rgba(255,255,255,.5); }
+  .btn-gold:hover { filter: brightness(1.06); }
+
+  /* Hero */
+  .hero { text-align: center; padding: 54px 0 8px; }
+  .hero h1 { font-family: var(--serif); font-size: 50px; line-height: 1.14; font-weight: normal; margin: 16px 0 16px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p.lede { color: var(--muted); font-size: 19.5px; max-width: 680px; margin: 0 auto; }
+
+  /* Sections */
+  section.band { padding: 74px 0 6px; }
+  h2 { font-family: var(--serif); font-size: 33px; font-weight: normal; text-align: center; margin: 0 0 10px; }
+  h2 span { color: var(--gold); }
+  .sub { text-align: center; color: var(--muted); margin: 0 auto 30px; max-width: 640px; font-size: 17px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 16px; }
+  .camps { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card { background: linear-gradient(180deg, rgba(58,123,255,.06), rgba(255,255,255,.014)), var(--navy-850);
+    border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+  .card h3 { font-family: var(--serif); margin: 0 0 7px; font-size: 20px; font-weight: normal; color: var(--text); }
+  .card p { color: var(--muted); margin: 0; font-size: 15.5px; }
+
+  /* Focus (keyboard) */
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* Gold flourish divider */
+  .flourish { display: flex; align-items: center; gap: 14px; max-width: 760px; margin: 54px auto 0; opacity: .55; }
+  .flourish::before, .flourish::after { content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-gold)); }
+  .flourish::after { background: linear-gradient(90deg, var(--line-gold), transparent); }
+  .flourish i { width: 9px; height: 9px; flex: none; background: var(--gold); transform: rotate(45deg); }
+
+  /* Comparison table */
+  .compare-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+  table.compare { border-collapse: collapse; width: 100%; min-width: 780px; background: var(--navy-850); font-size: 15px; }
+  table.compare th, table.compare td { padding: 14px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  table.compare tbody tr:last-child th, table.compare tbody tr:last-child td { border-bottom: 0; }
+  table.compare thead th { font-family: var(--serif); font-weight: normal; font-size: 17px; color: var(--text); background: var(--navy-800); }
+  table.compare th.row { color: var(--text); font-weight: 600; width: 25%; }
+  table.compare td { color: var(--muted); }
+  table.compare th.studio, table.compare td.studio { background: rgba(212,168,87,.07); }
+  table.compare thead th.studio { color: var(--gold-hi); }
+  .yes { color: var(--gold); font-weight: 700; font-size: 17px; }
+  .no { color: var(--muted-2); }
+  .qual { display: block; font-size: 13px; color: var(--muted-2); margin-top: 2px; }
+  .fineprint { text-align: center; color: var(--muted-2); font-size: 13.5px; max-width: 720px; margin: 16px auto 0; }
+
+  /* Closing */
+  .closing-p { text-align: center; color: var(--muted); font-size: 18.5px; max-width: 720px; margin: 0 auto; }
+  .closing-p b { color: var(--text); font-weight: 600; }
+  .pitch-line { font-family: var(--serif); font-style: italic; background: linear-gradient(180deg, #f6dc9a, #eec96f 45%, #d4a857 75%, #a87f2d);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: var(--gold); font-size: 18px; margin: 22px auto 0; max-width: 560px; }
+
+  /* Final CTA + footer */
+  .final { text-align: center; margin-top: 84px; border: 1px solid var(--line-gold); border-radius: 18px; padding: 46px 30px;
+    background: radial-gradient(600px 260px at 50% -30%, rgba(212,168,87,.16), transparent 65%), var(--navy-850); }
+  .final h2 { margin-bottom: 8px; }
+  .final p { color: var(--muted); margin: 0 auto 24px; max-width: 560px; font-size: 17px; }
+  footer.site { border-top: 1px solid var(--line); margin-top: 64px; padding: 36px 0 42px; color: var(--muted); font-size: 14.5px; }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 30px; margin-bottom: 26px; }
+  .foot-grid h4 { font-family: var(--serif); font-weight: normal; color: var(--text); font-size: 16.5px; margin: 0 0 10px; }
+  .foot-grid a { color: var(--muted); text-decoration: none; display: block; margin-bottom: 7px; }
+  .foot-grid a:hover { color: var(--gold-hi); }
+  .foot-grid p { margin: 0 0 8px; }
+  .foot-brand img { height: 40px; width: auto; }
+  .footer-tagline { color: var(--gold); font-style: italic; font-family: var(--serif); }
+  .foot-base { border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted-2); font-size: 13.5px; }
+  footer.site a.mail { color: var(--gold); display: inline; }
+
+  @media (max-width: 880px) {
+    .brand img { height: 56px; }
+    .hero { padding-top: 36px; }
+    .hero h1 { font-size: 35px; }
+    .hero p.lede { font-size: 17.5px; }
+    section.band { padding-top: 52px; }
+    h2 { font-size: 27px; }
+    .foot-grid { grid-template-columns: 1fr; gap: 22px; }
+    header.site { justify-content: center; text-align: center; }
+    header.site.compact .brand img { height: 42px; }
+    .brand { align-items: center; }
+    nav.site { justify-content: center; }
+    .closing-p { font-size: 17px; }
+  }
+
+  /* Header polish (Nov 7, 2026): CTA, underline hovers, scroll shadow, language toggle, Clerk-aware sign-in */
+  header.site { animation: snsHeaderIn .45s ease both; }
+  @keyframes snsHeaderIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  header.site.compact { box-shadow: 0 12px 32px rgba(0,0,0,.38); }
+  nav.site a { position: relative; }
+  nav.site a:not(.signin):not(.cta-btn)::after { content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 100%; border-radius: 2px; background: linear-gradient(90deg, #f6dc9a, #d4a857); transform: scaleX(0); transform-origin: left center; transition: transform .22s ease; }
+  nav.site a:not(.signin):not(.cta-btn):hover::after, nav.site a.current:not(.signin):not(.cta-btn)::after { transform: scaleX(1); }
+  .lang-toggle a::after { content: none !important; }
+  nav.site a.signin { color: #f0d48a; border: 1px solid rgba(212,168,87,.45); border-radius: 999px; padding: 7px 18px; font-weight: 600; text-decoration: none; }
+  nav.site a.signin:hover { background: rgba(212,168,87,.12); color: #f0d48a; }
+  nav.site a.cta-btn { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; border-radius: 999px; padding: 8px 18px; text-decoration: none; transition: filter .18s ease; }
+  nav.site a.cta-btn:hover { filter: brightness(1.07); color: #141a2e; }
+  .lang-toggle { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; white-space: nowrap; }
+  .lang-toggle .on { color: #f0d48a; font-weight: 700; }
+  .lang-toggle .sep { opacity: .35; }
+  .lang-toggle a { font-size: 13.5px; }
+  @media (max-width: 880px) {
+    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 8px; padding: 9px 20px; background: rgba(16,24,48,.55); border: 1px solid rgba(212,168,87,.22); border-radius: 999px; scroll-padding-inline: 20px; }
+    nav.site::-webkit-scrollbar { display: none; }
+    nav.site a, .lang-toggle { white-space: nowrap; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    header.site { animation: none; }
+    nav.site a::after { transition: none; }
+  }
+
+  /* Account panel (Nov 7, 2026): avatar pill + slide-in profile with live plan and credits */
+  #signin-link { display: inline-flex; align-items: center; gap: 8px; }
+  #signin-link .acct-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block; }
+  #signin-link .acct-initial { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
+  #acct-backdrop { position: fixed; inset: 0; background: rgba(4,7,15,.55); z-index: 190; opacity: 0; transition: opacity .25s ease; }
+  #acct-backdrop.open { opacity: 1; }
+  #acct-panel { position: fixed; top: 0; right: 0; height: 100dvh; width: min(344px, 90vw); background: #0d1526; border-left: 1px solid rgba(212,168,87,.3); z-index: 200; transform: translateX(102%); transition: transform .3s ease; padding: 20px 20px 24px; overflow-y: auto; box-shadow: -18px 0 44px rgba(0,0,0,.45); color: #e8ecf4; }
+  #acct-panel.open { transform: none; }
+  #acct-panel [hidden], #acct-backdrop[hidden] { display: none !important; }
+  .acct-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .acct-head span { font-family: var(--serif, Georgia, serif); font-size: 1.15rem; color: #f0d48a; }
+  #acct-close { background: none; border: 1px solid rgba(212,168,87,.4); color: #f0d48a; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; line-height: 1; cursor: pointer; }
+  .acct-id { display: flex; align-items: center; gap: 13px; margin-bottom: 18px; }
+  .acct-id img, .acct-photo-initial { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; flex: none; }
+  .acct-photo-initial { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; font-size: 24px; display: inline-flex; align-items: center; justify-content: center; }
+  #acct-name { margin: 0; font-size: 1.05rem; color: #fff; }
+  #acct-email { margin: 2px 0 0; font-size: .88rem; color: #9aa3b8; word-break: break-all; }
+  .acct-planrow { display: flex; align-items: center; gap: 9px; margin: 0 0 4px; font-size: .98rem; }
+  .acct-planrow .acct-planname { font-weight: 700; color: #fff; }
+  .acct-chip { font-size: .72rem; font-weight: 700; letter-spacing: .04em; border: 1px solid rgba(212,168,87,.5); color: #f0d48a; border-radius: 999px; padding: 2px 9px; }
+  .acct-sub { margin: 0 0 14px; font-size: .85rem; color: #9aa3b8; }
+  .acct-credits { background: rgba(212,168,87,.07); border: 1px solid rgba(212,168,87,.22); border-radius: 14px; padding: 13px 15px; margin-bottom: 16px; }
+  .acct-big { font-family: var(--serif, Georgia, serif); font-size: 1.65rem; color: #f0d48a; margin: 0; }
+  .acct-biglabel { margin: 0 0 9px; font-size: .8rem; color: #9aa3b8; }
+  .acct-line { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; margin-top: 6px; }
+  .acct-line span:first-child { color: #c6cdd9; }
+  .acct-line span:last-child { color: #fff; font-weight: 600; white-space: nowrap; }
+  .acct-loading, .acct-error { color: #9aa3b8; font-size: .92rem; }
+  .acct-error button { margin-left: 8px; background: none; border: 1px solid rgba(212,168,87,.5); color: #f0d48a; border-radius: 999px; padding: 3px 12px; cursor: pointer; font: inherit; }
+  .acct-actions { display: flex; flex-direction: column; gap: 9px; margin-top: 4px; }
+  .acct-btn { text-align: center; border-radius: 999px; padding: 10px 16px; font-weight: 700; text-decoration: none; border: 1px solid rgba(212,168,87,.55); color: #f0d48a; background: transparent; cursor: pointer; font-size: .95rem; }
+  a.acct-btn:hover { background: rgba(212,168,87,.12); color: #f0d48a; }
+  button.acct-btn:hover { background: rgba(212,168,87,.12); }
+  .acct-plans { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; border: none; }
+  .acct-plans:hover { filter: brightness(1.07); color: #141a2e; }
+  @media (prefers-reduced-motion: reduce) { #acct-panel, #acct-backdrop { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <a class="brand" href="index.html"><img src="../assets/logo-web.png" alt="Script Novel Studio" /><span>Your Writing Spouse</span></a>
+    <nav class="site">
+      <a href="index.html#features">Características</a>
+      <a href="index.html#how">Cómo funciona</a>
+      <a href="index.html#pricing">Precios</a>
+      <a href="why-studio.html" class="current" aria-current="page">Por qué Studio</a>
+      <a href="index.html#faq">Preguntas frecuentes</a>
+      <a class="signin" id="signin-link" href="../account/">Iniciar sesión</a>
+      <a class="cta-btn" href="index.html#pricing">Obtén el Studio</a>
+      <span class="lang-toggle"><a href="../why-studio.html">EN</a><span class="sep">|</span><span class="on">ES</span></span>
+    </nav>
+  </header>
+  <div id="acct-backdrop" hidden></div>
+  <aside id="acct-panel" aria-hidden="true" aria-label="Tu cuenta">
+    <div class="acct-head"><span>Tu cuenta</span><button id="acct-close" type="button" aria-label="Cerrar">&times;</button></div>
+    <div class="acct-id">
+      <img id="acct-photo" alt="" hidden>
+      <span id="acct-photo-initial" class="acct-photo-initial">?</span>
+      <div><p id="acct-name"></p><p id="acct-email"></p></div>
+    </div>
+    <div id="acct-body"><p class="acct-loading">Cargando tu plan y tus créditos...</p></div>
+    <div class="acct-actions">
+      <a id="acct-manage" class="acct-btn" href="../account/">Administrar cuenta</a>
+      <a id="acct-change" class="acct-btn" href="index.html#pricing">Cambiar de plan</a>
+      <button id="acct-signout" class="acct-btn" type="button">Cerrar sesión</button>
+    </div>
+  </aside>
+
+
+  <section class="hero">
+    <span class="tag">Por qué Script Novel Studio</span>
+    <h1>Muchas herramientas te ayudan a escribir.<br><span>Esta puede escribir el libro, y dejar que tú sigas siendo el autor.</span></h1>
+    <p class="lede">El software de escritura se divide en tres campos. Cada uno está hecho para un trabajo distinto, y cada uno se detiene en alguna parte. Aquí es donde se detienen, y donde el estudio sigue adelante.</p>
+  </section>
+
+  <div class="flourish" aria-hidden="true"><i></i></div>
+
+  <section class="band">
+    <span class="tag" style="display:block; text-align:center;">El panorama</span>
+    <h2>Tres campos, <span>tres puntos de parada</span></h2>
+    <p class="sub">Ninguna de estas es una mala herramienta. Cada una está hecha para un trabajo distinto, y es honesta en casi todo.</p>
+    <div class="grid camps">
+      <div class="card">
+        <h3>Las apps de taller</h3>
+        <p>Lugares hermosos para organizar un libro: capítulos, notas, fichas de personajes, formato. Todo está listo para las palabras. Las palabras en sí siguen siendo enteramente tuyas, una sesión a la vez. Cuando el manuscrito está terminado, los archivos de publicación son otro encargo, a menudo en otra herramienta.</p>
+      </div>
+      <div class="card">
+        <h3>Las herramientas de coescritura con IA</h3>
+        <p>Un socio talentoso a tu lado. Piensan ideas contigo, describen, expanden y redactan escenas y capítulos junto a ti, y las buenas dicen con claridad que no están hechas para escribir por ti. Tú sigues guiando cada escena, unes el libro por tu cuenta, y cuando está terminado, los archivos de impresión y de libro electrónico se producen en otra parte.</p>
+      </div>
+      <div class="card">
+        <h3>Los generadores de libros en línea</h3>
+        <p>El campo más nuevo: das una premisa y recibes un libro. Genuinamente impresionante, y genuinamente distinto en filosofía. El libro se escribe para ti en lugar de contigo, es solo novelas, tu manuscrito vive en su nube, y la herramienta en sí es una suscripción mientras la uses.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <span class="tag" style="display:block; text-align:center;">La comparación honesta</span>
+    <h2>Lado a lado, <span>con palabras claras</span></h2>
+    <div class="compare-scroll">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th scope="col">Qué esperar</th>
+            <th scope="col">Las apps de taller</th>
+            <th scope="col">Los coescritores con IA</th>
+            <th scope="col">Los generadores en línea</th>
+            <th scope="col" class="studio">Script Novel Studio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" class="row">Escribe el libro entero desde tu sinopsis y tu esquema</th>
+            <td><span class="no">—</span></td>
+            <td>Escena por escena, con tu guía</td>
+            <td><span class="yes">✓</span></td>
+            <td class="studio"><span class="yes">✓</span></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Cada borrador espera tu aprobación antes de entrar al libro</th>
+            <td>Nada se redacta por ti</td>
+            <td>Tú diriges cada escena</td>
+            <td><span class="no">—</span><span class="qual">El libro llega armado</span></td>
+            <td class="studio"><span class="yes">✓</span><span class="qual">Cola de revisión en cada borrador</span></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Novelas, novelas guion y guiones</th>
+            <td>Novelas; algunas hacen guiones</td>
+            <td>Prosa de ficción</td>
+            <td>Novelas</td>
+            <td class="studio"><span class="yes">✓</span><span class="qual">Los tres, más exportación FDX</span></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Tu manuscrito vive en tu propia computadora</th>
+            <td><span class="yes">✓</span><span class="qual">Casi siempre</span></td>
+            <td><span class="no">—</span><span class="qual">En su nube</span></td>
+            <td><span class="no">—</span><span class="qual">En su nube</span></td>
+            <td class="studio"><span class="yes">✓</span></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Vista previa de impresión con las reglas de márgenes de KDP e IngramSpark</th>
+            <td><span class="no">—</span></td>
+            <td><span class="no">—</span></td>
+            <td>Archivos KDP en algunas</td>
+            <td class="studio"><span class="yes">✓</span></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Exporta PDF, EPUB, DOCX y FDX desde la misma app</th>
+            <td>Algunos formatos</td>
+            <td><span class="no">—</span><span class="qual">El acabado ocurre en otra parte</span></td>
+            <td>Algunos formatos</td>
+            <td class="studio"><span class="yes">✓</span></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Interfaz y redacción con IA en inglés y español</th>
+            <td><span class="no">—</span></td>
+            <td><span class="no">—</span></td>
+            <td><span class="no">—</span></td>
+            <td class="studio"><span class="yes">✓</span></td>
+          </tr>
+          <tr>
+            <th scope="row" class="row">Una licencia de por vida, paga una vez</th>
+            <td>Algunas la ofrecen</td>
+            <td><span class="no">—</span></td>
+            <td><span class="no">—</span></td>
+            <td class="studio"><span class="yes">✓</span><span class="qual">$299 una sola vez</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fineprint">Categorías descritas en términos generales a noviembre de 2026. Los productos individuales varían; consulta las páginas de cada herramienta para ver sus funciones actuales.</p>
+  </section>
+
+  <section class="band">
+    <span class="tag" style="display:block; text-align:center;">La diferencia, en una frase</span>
+    <h2>La potencia de un generador. <span>La dignidad de un autor.</span></h2>
+    <p class="closing-p">El estudio lo construyó una editorial que vende libros, para escritores que quieren la potencia de un generador y la dignidad de un autor. <b>Puede escribir tu libro entero.</b> Simplemente se niega a quitarte el libro mientras lo hace.</p>
+  </section>
+
+  <div class="final">
+    <span class="tag">Empieza hoy</span>
+    <h2>Tu próximo capítulo <span>te espera</span></h2>
+    <p>Trae la idea. El estudio te ayudará a darle capítulos, a mantenerlos honestos y a llevar el libro hasta un archivo que puedas publicar.</p>
+    <a class="btn btn-gold" href="index.html#pricing">Ver planes y precios</a>
+    <p class="pitch-line">Yours, to have, to hold, and of course, to type.</p>
+  </div>
+
+  <footer class="site">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="../assets/logo-web.png" alt="Script Novel Studio" />
+        <p style="margin-top:10px;">Script Novel Studio. <span class="footer-tagline">Your Writing Spouse.</span><br>Un producto de Script Novel Publishing.</p>
+      </div>
+      <div>
+        <h4>Studio</h4>
+        <a href="index.html#features">Características</a>
+        <a href="index.html#pricing">Precios</a>
+        <a href="why-studio.html">Por qué Studio</a>
+        <a href="../account/">Iniciar sesión</a>
+        <a href="https://scriptnovelpublishing.com">Script Novel Publishing</a>
+      </div>
+      <div>
+        <h4>Habla con una persona</h4>
+        <p>Preguntas sobre el estudio, los planes o tu cuenta:</p>
+        <a class="mail" href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a>
+      </div>
+    </div>
+    <div class="foot-links" style="margin-bottom:12px;">
+      <a href="terms.html" style="display:inline; margin-right:18px;">Términos del servicio</a>
+      <a href="privacy.html" style="display:inline; margin-right:18px;">Política de privacidad</a>
+      <a href="refunds.html" style="display:inline;">Política de reembolsos</a>
+    </div>
+    <div class="foot-base">Script Novel Studio es un producto de Script Novel Publishing. Soporte: <a href="mailto:support@scriptnovelpublishing.com" style="color:var(--gold);">support@scriptnovelpublishing.com</a>.</div>
+  </footer>
+</div>
+
+<script>
+  // Compact sticky header: shrink the brand once the reader scrolls.
+  // Two thresholds (shrink past 80px, grow back under 16px) plus one check
+  // per animation frame, so the header cannot flicker around a single line
+  // while the reader scrolls up and down.
+  (function () {
+    var header = document.querySelector('header.site');
+    if (!header) return;
+    var ticking = false;
+    var update = function () {
+      ticking = false;
+      var y = window.scrollY;
+      if (!header.classList.contains('compact') && y > 80) header.classList.add('compact');
+      else if (header.classList.contains('compact') && y < 16) header.classList.remove('compact');
+    };
+    var onScroll = function () { if (!ticking) { ticking = true; window.requestAnimationFrame(update); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+  })();
+</script>
+
+  <script>
+  // Account panel: avatar in the header, live plan and credits from the service.
+  (function () {
+    var KEY = 'pk_test_dG9nZXRoZXItcm9iaW4tNTE3Mi5jbGVyay5hY2NvdW50cy5kZXYk';
+    var SRC = 'https://together-robin-5172.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
+    var SERVICE = 'https://sns-entitlement-service.onrender.com';
+    var ACCOUNT = '../account/'; var PRICING = 'index.html#pricing'; var LOCALE = 'es';
+    var L = { account: 'Tu cuenta', plan: 'Plan', creditsTitle: 'Créditos disponibles', planCredits: 'Créditos del plan en este periodo', bonusCredits: 'Créditos de paquetes y bonos (nunca vencen)', loading: 'Cargando tu plan y tus créditos...', errorText: 'No pudimos contactar tu cuenta. Revisa tu conexión e inténtalo de nuevo.', retry: 'Intentar de nuevo', noPlan: 'Sin plan activo', lifetimeName: 'De por vida', lockedNote: 'Elige un plan para desbloquear el estudio.', seePlans: 'Ver planes', renews: 'Se renueva', accessUntil: 'Acceso hasta', switches: 'Cambia a', status: { active: 'Activo', trialing: 'Prueba', past_due: 'Pago vencido', canceled: 'Cancelado', lifetime: 'De por vida', inactive: 'Sin plan' } };
+    var PLAN_NAMES = { starter: 'Starter', pro: 'Author', studio: 'Studio', unlimited: 'Creator' };
+    var loadedAt = 0;
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function fmt(n) { return Number(n || 0).toLocaleString(LOCALE); }
+    function fmtDate(iso) { if (!iso) return ''; var d = new Date(iso); if (isNaN(d)) return ''; return d.toLocaleDateString(LOCALE, { year: 'numeric', month: 'short', day: 'numeric' }); }
+    function firstNameOf(user) { var n = (user.fullName || user.firstName || '').trim(); if (n) return n.split(' ')[0]; var em = user.primaryEmailAddress && user.primaryEmailAddress.emailAddress; return em ? em.split('@')[0] : L.account; }
+    function renderPill(user) {
+      var el = document.getElementById('signin-link'); if (!el) return;
+      el.textContent = '';
+      if (user.imageUrl) { var img = document.createElement('img'); img.className = 'acct-avatar'; img.src = user.imageUrl; img.alt = ''; el.appendChild(img); }
+      else { var s = document.createElement('span'); s.className = 'acct-initial'; s.textContent = firstNameOf(user).charAt(0).toUpperCase(); el.appendChild(s); }
+      var t = document.createElement('span'); t.textContent = firstNameOf(user); el.appendChild(t);
+      el.setAttribute('data-acct', '1');
+      var hero = document.getElementById('signin-hero'); if (hero) hero.textContent = L.account;
+    }
+    function fillIdentity(user) {
+      var name = user.fullName || user.firstName || firstNameOf(user);
+      var email = (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress) || '';
+      document.getElementById('acct-name').textContent = name;
+      document.getElementById('acct-email').textContent = email;
+      var photo = document.getElementById('acct-photo'); var init = document.getElementById('acct-photo-initial');
+      if (user.imageUrl) { photo.src = user.imageUrl; photo.hidden = false; init.hidden = true; }
+      else { photo.hidden = true; init.hidden = false; init.textContent = name.charAt(0).toUpperCase(); }
+    }
+    function openPanel() {
+      var user = window.Clerk && window.Clerk.user; if (!user) return;
+      fillIdentity(user);
+      var bd = document.getElementById('acct-backdrop'); var panel = document.getElementById('acct-panel');
+      bd.hidden = false; requestAnimationFrame(function () { bd.classList.add('open'); panel.classList.add('open'); });
+      panel.setAttribute('aria-hidden', 'false');
+      if (Date.now() - loadedAt > 60000) loadData();
+    }
+    function closePanel() {
+      var bd = document.getElementById('acct-backdrop'); var panel = document.getElementById('acct-panel');
+      bd.classList.remove('open'); panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true');
+      setTimeout(function () { bd.hidden = true; }, 280);
+    }
+    function renderData(ent, cred) {
+      var body = document.getElementById('acct-body');
+      var planName = ent.planName || (ent.lifetime ? L.lifetimeName : L.noPlan);
+      var chip = L.status[ent.status] || ent.status || '';
+      var html = '<p class="acct-planrow"><span>' + esc(L.plan) + '</span><span class="acct-planname">' + esc(planName) + '</span>' + (chip ? '<span class="acct-chip">' + esc(chip) + '</span>' : '') + '</p>';
+      if (ent.status === 'canceled' && ent.periodEndsAt) html += '<p class="acct-sub">' + esc(L.accessUntil) + ' ' + esc(fmtDate(ent.periodEndsAt)) + '</p>';
+      else if (ent.periodEndsAt && (ent.status === 'active' || ent.status === 'trialing')) html += '<p class="acct-sub">' + esc(L.renews) + ' ' + esc(fmtDate(ent.periodEndsAt)) + '</p>';
+      if (ent.pendingPlanId && ent.pendingEffectiveAt) html += '<p class="acct-sub">' + esc(L.switches) + ' ' + esc(PLAN_NAMES[ent.pendingPlanId] || ent.pendingPlanId) + ' - ' + esc(fmtDate(ent.pendingEffectiveAt)) + '</p>';
+      html += '<div class="acct-credits"><p class="acct-big">' + fmt(cred.availableTokens) + '</p><p class="acct-biglabel">' + esc(L.creditsTitle) + '</p>';
+      if (Number(cred.monthlyBudget) > 0) html += '<div class="acct-line"><span>' + esc(L.planCredits) + '</span><span>' + fmt(cred.monthlyAvailable) + ' / ' + fmt(cred.monthlyBudget) + '</span></div>';
+      if (Number(cred.bonusBalance) > 0 || Number(cred.monthlyBudget) === 0) html += '<div class="acct-line"><span>' + esc(L.bonusCredits) + '</span><span>' + fmt(cred.bonusBalance) + '</span></div>';
+      html += '</div>';
+      if (ent.locked && !ent.lifetime) html += '<p class="acct-sub">' + esc(L.lockedNote) + '</p><div class="acct-actions"><a class="acct-btn acct-plans" href="' + PRICING + '">' + esc(L.seePlans) + '</a></div>';
+      body.innerHTML = html;
+      loadedAt = Date.now();
+    }
+    function loadData() {
+      var body = document.getElementById('acct-body');
+      body.innerHTML = '<p class="acct-loading">' + esc(L.loading) + '</p>';
+      window.Clerk.session.getToken({ template: 'studio-app' }).then(function (token) {
+        if (!token) throw new Error('no-token');
+        var headers = { Authorization: 'Bearer ' + token };
+        return Promise.all([
+          fetch(SERVICE + '/v1/entitlement', { headers: headers }).then(function (r) { if (!r.ok) throw new Error('ent'); return r.json(); }),
+          fetch(SERVICE + '/v1/credits', { headers: headers }).then(function (r) { if (!r.ok) throw new Error('cred'); return r.json(); })
+        ]);
+      }).then(function (pair) { renderData(pair[0], pair[1]); }).catch(function () {
+        body.innerHTML = '<p class="acct-error">' + esc(L.errorText) + '<button type="button" id="acct-retry">' + esc(L.retry) + '</button></p>';
+        document.getElementById('acct-retry').addEventListener('click', loadData);
+      });
+    }
+    function apply() { var user = window.Clerk && window.Clerk.user; if (user) renderPill(user); }
+    function ready() { if (window.Clerk) { window.Clerk.load().then(function () { apply(); if (window.Clerk.addListener) window.Clerk.addListener(apply); }); } }
+    var pill = document.getElementById('signin-link');
+    if (pill) pill.addEventListener('click', function (ev) { if (pill.getAttribute('data-acct') === '1') { ev.preventDefault(); openPanel(); } });
+    var bd = document.getElementById('acct-backdrop'); if (bd) bd.addEventListener('click', closePanel);
+    var closeBtn = document.getElementById('acct-close'); if (closeBtn) closeBtn.addEventListener('click', closePanel);
+    var changeBtn = document.getElementById('acct-change');
+    if (changeBtn) changeBtn.addEventListener('click', function (ev) { var href = changeBtn.getAttribute('href'); closePanel(); if (href && href.charAt(0) === '#') { ev.preventDefault(); var t = document.querySelector(href); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
+    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closePanel(); });
+    var out = document.getElementById('acct-signout');
+    if (out) out.addEventListener('click', function () { if (window.Clerk) window.Clerk.signOut().then(function () { window.location.reload(); }); });
+    if (window.Clerk) { ready(); return; }
+    if (document.querySelector('script[src="' + SRC + '"]')) { var t = setInterval(function () { if (window.Clerk) { clearInterval(t); ready(); } }, 150); setTimeout(function () { clearInterval(t); }, 6000); return; }
+    var s = document.createElement('script'); s.async = true; s.crossOrigin = 'anonymous'; s.setAttribute('data-clerk-publishable-key', KEY); s.src = SRC; s.onload = ready; document.head.appendChild(s);
+  })();
+  </script>
+</body>
+</html>
