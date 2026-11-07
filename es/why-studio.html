@@ -42,9 +42,7 @@
   .brand img { transition: height .28s ease; }
   .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
   .brand img { height: 68px; width: auto; display: block; }
-  .brand span { font-family: var(--serif); font-style: italic; font-size: 13.5px; letter-spacing: .08em; color: var(--gold);
-    background: linear-gradient(180deg, #f6dc9a, #eec96f 45%, #d4a857 75%, #a87f2d);
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .brand span { font-family: 'Montserrat', 'Segoe UI', sans-serif; font-style: normal; font-weight: 600; font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase; color: #d9ab2d; white-space: nowrap; margin-left: 25px; }
   nav.site { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
   nav.site a { color: var(--muted); text-decoration: none; font-size: 15px; }
   nav.site a:hover { color: var(--gold-hi); }
@@ -135,7 +133,7 @@
     .foot-grid { grid-template-columns: 1fr; gap: 22px; }
     header.site { justify-content: center; text-align: center; }
     header.site.compact .brand img { height: 42px; }
-    .brand { align-items: center; }
+    .brand { align-items: center; } .brand span { margin-left: 0; }
     nav.site { justify-content: center; }
     .closing-p { font-size: 17px; }
   }
@@ -203,6 +201,9 @@
   .acct-plans:hover { filter: brightness(1.07); color: #141a2e; }
   @media (prefers-reduced-motion: reduce) { #acct-panel, #acct-backdrop { transition: none; } }
 </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="wrap">
