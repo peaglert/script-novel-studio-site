@@ -81,6 +81,7 @@
             <button type="button" id="profile-upload">Upload photo</button>
             <button type="button" id="profile-remove">Remove photo</button>
           </div>
+          <div class="copy-row"><button type="button" id="profile-signout">Sign out</button></div>
           <p id="profile-message" aria-live="polite"></p>
         </div>
       </div>
@@ -128,9 +129,12 @@
         try { await navigator.clipboard.writeText(field.value); } catch (error) { document.execCommand('copy'); }
         document.getElementById('copy-token').textContent = 'Copied';
       });
-      document.getElementById('sign-out').addEventListener('click', async () => {
-        if (window.Clerk) await window.Clerk.signOut();
-        window.location.reload();
+      ['sign-out', 'profile-signout'].forEach(function (id) {
+        const btn = document.getElementById(id);
+        if (btn) btn.addEventListener('click', async () => {
+          if (window.Clerk) await window.Clerk.signOut();
+          window.location.reload();
+        });
       });
       const profileMessage = document.getElementById('profile-message');
       function renderProfile() {
