@@ -85,6 +85,11 @@
           <p id="profile-message" aria-live="polite"></p>
         </div>
       </div>
+      <div class="card" id="plan-card" hidden>
+        <h2>Your plan</h2>
+        <p id="plan-line" class="profile-email">Loading your plan...</p>
+        <a class="open-button" href="../index.html#pricing">Upgrade or change plan</a>
+      </div>
       <p class="fine">Wrong account? <button type="button" id="sign-out">Sign out</button> and sign in again.<br>Help: <a href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a></p>
       <p class="fine"><a href="../index.html">&larr; Back to the home page</a></p>
     </main>
@@ -140,7 +145,7 @@
       function renderProfile() {
         const user = window.Clerk && window.Clerk.user;
         const section = document.getElementById('profile');
-        if (!user) { section.hidden = true; return; }
+        if (!user) { section.hidden = true; const pc0 = document.getElementById('plan-card'); if (pc0) pc0.hidden = true; return; }
         const name = user.fullName || [user.firstName, user.lastName].filter(Boolean).join(' ') || user.username || '';
         const email = user.primaryEmailAddress ? user.primaryEmailAddress.emailAddress : '';
         document.getElementById('profile-name').textContent = name || email;
@@ -158,6 +163,24 @@
           initial.textContent = (name || email || '?').charAt(0).toUpperCase();
         }
         section.hidden = false;
+        const planCard = document.getElementById('plan-card');
+        if (planCard) { planCard.hidden = false; loadPlanLine(); }
+      }
+      let planLoaded = false;
+      async function loadPlanLine() {
+        if (planLoaded) return; planLoaded = true;
+        const line = document.getElementById('plan-line');
+        try {
+          const token = await window.Clerk.session.getToken({ template: 'studio-app' });
+          const res = await fetch('https://sns-entitlement-service.onrender.com/v1/entitlement', { headers: { Authorization: 'Bearer ' + token } });
+          if (!res.ok) throw new Error('ent');
+          const ent = await res.json();
+          const bits = [];
+          bits.push(ent.planName || (ent.lifetime ? 'Lifetime' : 'No active plan'));
+          if (ent.status) bits.push(ent.status === 'lifetime' ? 'Lifetime' : (ent.status.charAt(0).toUpperCase() + ent.status.slice(1).replace('_', ' ')));
+          if (ent.periodEndsAt && ent.status === 'active') bits.push('Renews ' + new Date(ent.periodEndsAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }));
+          line.textContent = bits.join(' · ');
+        } catch (e) { line.textContent = 'Your current plan and options are on the pricing page.'; }
       }
       document.getElementById('profile-upload').addEventListener('click', async () => {
         const file = document.getElementById('profile-file').files[0];
