@@ -249,6 +249,8 @@
     if (pill) pill.addEventListener('click', function (ev) { if (pill.getAttribute('data-acct') === '1') { ev.preventDefault(); openPanel(); } });
     var bd = document.getElementById('acct-backdrop'); if (bd) bd.addEventListener('click', closePanel);
     var closeBtn = document.getElementById('acct-close'); if (closeBtn) closeBtn.addEventListener('click', closePanel);
+    var changeBtn = document.getElementById('acct-change');
+    if (changeBtn) changeBtn.addEventListener('click', function (ev) { var href = changeBtn.getAttribute('href'); closePanel(); if (href && href.charAt(0) === '#') { ev.preventDefault(); var t = document.querySelector(href); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
     document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closePanel(); });
     var out = document.getElementById('acct-signout');
     if (out) out.addEventListener('click', function () { if (window.Clerk) window.Clerk.signOut().then(function () { window.location.reload(); }); });
