@@ -925,6 +925,21 @@
         } else if (type === 'lifetime' && ownedEnt.lifetime) { lockBtn(b, L.planCurrent); }
       });
     }
+    // Helpers for the pricing guard below, defined here on purpose:
+    // an earlier version called them without defining them, which
+    // threw and killed this whole script block before the Clerk
+    // loader at the bottom could run, freezing the header pill.
+    var API = SERVICE;
+    function getToken() { if (!window.Clerk || !window.Clerk.session) return Promise.resolve(null); return window.Clerk.session.getToken({ template: 'studio-app' }).catch(function () { return null; }); }
+    function fetchJson(url, token) { return fetch(url, { headers: { Authorization: 'Bearer ' + token } }).then(function (r) { if (!r.ok) throw new Error('http-' + r.status); return r.json(); }); }
+    function clerkReady(cb) {
+      var fired = false;
+      function go() { if (fired) return; fired = true; try { cb(); } catch (e) { /* marking is a courtesy */ } }
+      function attempt() { if (window.Clerk && window.Clerk.load) { window.Clerk.load().then(go, go); return true; } return false; }
+      if (attempt()) return;
+      var t = setInterval(function () { if (attempt()) clearInterval(t); }, 200);
+      setTimeout(function () { clearInterval(t); }, 8000);
+    }
     function loadOwned() {
       if (!document.getElementById('billing-month')) return;
       getToken().then(function (token) { return fetchJson(API + '/v1/entitlement', token); }).then(function (ent) { ownedEnt = ent; renderPlanStates(); }).catch(function () { /* marking is a courtesy; checkout still guards */ });
