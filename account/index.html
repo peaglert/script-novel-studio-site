@@ -44,6 +44,11 @@
       .profile-email { color: var(--muted); font-size: 0.9rem; margin: 2px 0 0; }
       .profile-controls input[type="file"] { width: 100%; color: var(--muted); font-size: 0.88rem; margin: 4px 0 10px; }
       #profile-message { min-height: 1.4em; margin: 10px 0 0; }
+      .reason { display: block; color: #c9c6bf; font-size: 0.92rem; line-height: 1.5; margin: 7px 0; cursor: pointer; }
+      .reason input { margin-right: 8px; accent-color: var(--gold); }
+      .cancel-q { color: var(--gold-hi); font-family: var(--serif); font-size: 1.02rem; margin: 14px 0 6px; }
+      #cancel-comment { min-height: 52px; font-size: 0.88rem; margin-top: 8px; }
+      #cancel-message { min-height: 1.4em; margin: 10px 0 0; }
     </style>
     <script
       async
@@ -89,6 +94,30 @@
         <h2>Your plan</h2>
         <p id="plan-line" class="profile-email">Loading your plan...</p>
         <a class="open-button" href="../index.html#pricing">Upgrade or change plan</a>
+        <div id="subscription-area" hidden>
+          <p id="sub-line" class="profile-email"></p>
+          <div class="copy-row" id="cancel-open-row" hidden><button type="button" id="cancel-open">Cancel subscription</button></div>
+          <div id="cancel-panel" hidden>
+            <p id="cancel-access"></p>
+            <p class="cancel-q">What made you file for divorce?</p>
+            <label class="reason"><input type="radio" name="cancel-reason" value="missing_feature">A feature I needed wasn't there</label>
+            <label class="reason"><input type="radio" name="cancel-reason" value="too_expensive">The price</label>
+            <label class="reason"><input type="radio" name="cancel-reason" value="life_busy">Life got busy</label>
+            <label class="reason"><input type="radio" name="cancel-reason" value="not_using">I wasn't using it enough</label>
+            <label class="reason"><input type="radio" name="cancel-reason" value="technical_problem">I hit a technical problem</label>
+            <label class="reason"><input type="radio" name="cancel-reason" value="other">Something else</label>
+            <textarea id="cancel-comment" placeholder="Anything else? (optional)" aria-label="Anything else (optional)"></textarea>
+            <div class="copy-row">
+              <button type="button" id="cancel-confirm">Confirm cancellation</button>
+              <button type="button" id="cancel-keep">Keep my plan</button>
+            </div>
+          </div>
+          <div id="cancel-scheduled" hidden>
+            <p id="scheduled-line"></p>
+            <div class="copy-row"><button type="button" id="undo-cancel">Undo cancellation</button></div>
+          </div>
+          <p id="cancel-message" aria-live="polite"></p>
+        </div>
       </div>
       <div class="card" id="download-card" hidden>
         <h2>Download the app</h2>
@@ -174,22 +203,124 @@
         const downloadCard = document.getElementById('download-card');
         if (downloadCard) { downloadCard.hidden = false; loadDownload(); }
       }
+      const SERVICE_URL = 'https://sns-entitlement-service.onrender.com';
       let planLoaded = false;
       async function loadPlanLine() {
         if (planLoaded) return; planLoaded = true;
+        await refreshPlan();
+      }
+      async function fetchEntitlement() {
+        const token = await window.Clerk.session.getToken({ template: 'studio-app' });
+        const res = await fetch(SERVICE_URL + '/v1/entitlement', { headers: { Authorization: 'Bearer ' + token } });
+        if (!res.ok) throw new Error('ent');
+        return res.json();
+      }
+      function longDate(iso) {
+        const d = new Date(iso || '');
+        return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      }
+      async function refreshPlan() {
         const line = document.getElementById('plan-line');
         try {
-          const token = await window.Clerk.session.getToken({ template: 'studio-app' });
-          const res = await fetch('https://sns-entitlement-service.onrender.com/v1/entitlement', { headers: { Authorization: 'Bearer ' + token } });
-          if (!res.ok) throw new Error('ent');
-          const ent = await res.json();
+          const ent = await fetchEntitlement();
           const bits = [];
           bits.push(ent.planName || (ent.lifetime ? 'Lifetime' : 'No active plan'));
           if (ent.status) bits.push(ent.status === 'lifetime' ? 'Lifetime' : (ent.status.charAt(0).toUpperCase() + ent.status.slice(1).replace('_', ' ')));
-          if (ent.periodEndsAt && ent.status === 'active') bits.push('Renews ' + new Date(ent.periodEndsAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }));
+          if (ent.periodEndsAt && ent.status === 'active') bits.push((ent.cancelAtPeriodEnd ? 'Ends ' : 'Renews ') + new Date(ent.periodEndsAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }));
           line.textContent = bits.join(' · ');
+          renderSubscription(ent);
         } catch (e) { line.textContent = 'Your current plan and options are on the pricing page.'; }
       }
+      // Self-serve cancellation (item 43): canceling schedules the end
+      // at the paid period end, never immediate, and never issues a
+      // refund. The service's webhook records the schedule; this block
+      // re-reads the entitlement after every call and renders from it.
+      function renderSubscription(ent) {
+        const area = document.getElementById('subscription-area');
+        const subLine = document.getElementById('sub-line');
+        const openRow = document.getElementById('cancel-open-row');
+        const panel = document.getElementById('cancel-panel');
+        const scheduled = document.getElementById('cancel-scheduled');
+        area.hidden = true; openRow.hidden = true; panel.hidden = true; scheduled.hidden = true;
+        subLine.textContent = '';
+        if (!ent) return;
+        if (ent.lifetime) {
+          subLine.textContent = 'Lifetime license — no subscription to cancel.';
+          area.hidden = false;
+          return;
+        }
+        const live = ent.planId && ['active', 'trialing', 'past_due'].includes(ent.status);
+        if (!live) return; // No plan: the plan line above already says so.
+        area.hidden = false;
+        if (ent.cancelAtPeriodEnd) {
+          document.getElementById('scheduled-line').textContent =
+            'Your cancellation is scheduled. You have full access through ' + longDate(ent.periodEndsAt) + '.';
+          scheduled.hidden = false;
+          return;
+        }
+        document.getElementById('cancel-access').textContent =
+          'Your plan stays fully active through ' + longDate(ent.periodEndsAt) + '. After that date the studio locks. Your projects stay on your computer, untouched.';
+        openRow.hidden = false;
+      }
+      async function postBilling(path, body) {
+        const token = await window.Clerk.session.getToken({ template: 'studio-app' });
+        const res = await fetch(SERVICE_URL + path, {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify(body || {}),
+        });
+        const data = await res.json().catch(() => ({}));
+        return { ok: res.ok, status: res.status, data };
+      }
+      document.getElementById('cancel-open').addEventListener('click', () => {
+        document.getElementById('cancel-panel').hidden = false;
+        document.getElementById('cancel-open-row').hidden = true;
+        document.getElementById('cancel-message').textContent = '';
+      });
+      document.getElementById('cancel-keep').addEventListener('click', () => {
+        document.getElementById('cancel-panel').hidden = true;
+        document.getElementById('cancel-open-row').hidden = false;
+        document.getElementById('cancel-message').textContent = '';
+      });
+      document.getElementById('cancel-confirm').addEventListener('click', async () => {
+        const message = document.getElementById('cancel-message');
+        const picked = document.querySelector('input[name="cancel-reason"]:checked');
+        const comment = document.getElementById('cancel-comment').value.trim();
+        message.textContent = 'Scheduling your cancellation...';
+        try {
+          const result = await postBilling('/v1/billing/cancel', {
+            reason: picked ? picked.value : undefined,
+            comment: comment || undefined,
+          });
+          if (result.ok && result.data.cancelScheduled) {
+            message.textContent = 'Your cancellation is scheduled. You have full access through ' + longDate(result.data.periodEndsAt) + '.';
+          } else if (result.data && result.data.error === 'nothing_to_cancel') {
+            message.textContent = 'There is no subscription to cancel on this account.';
+          } else {
+            message.textContent = 'That could not be done just now. Try again, or email support@scriptnovelpublishing.com.';
+            return;
+          }
+          await refreshPlan();
+        } catch (e) {
+          message.textContent = 'That could not be done just now. Try again, or email support@scriptnovelpublishing.com.';
+        }
+      });
+      document.getElementById('undo-cancel').addEventListener('click', async () => {
+        const message = document.getElementById('cancel-message');
+        message.textContent = 'Undoing your cancellation...';
+        try {
+          const result = await postBilling('/v1/billing/reactivate', {});
+          if (result.ok && !result.data.cancelScheduled) {
+            message.textContent = 'Your cancellation is undone. Your plan continues as before.';
+          } else {
+            message.textContent = 'That could not be done just now. Try again, or email support@scriptnovelpublishing.com.';
+            return;
+          }
+          await refreshPlan();
+        } catch (e) {
+          message.textContent = 'That could not be done just now. Try again, or email support@scriptnovelpublishing.com.';
+        }
+      });
       let downloadLoaded = false;
       async function loadDownload() {
         if (downloadLoaded) return; downloadLoaded = true;
