@@ -90,6 +90,12 @@
         <p id="plan-line" class="profile-email">Loading your plan...</p>
         <a class="open-button" href="../index.html#pricing">Upgrade or change plan</a>
       </div>
+      <div class="card" id="download-card" hidden>
+        <h2>Download the app</h2>
+        <p id="download-line" class="profile-email">Checking for the latest version...</p>
+        <a class="open-button" id="download-button" href="#" hidden>Download Script Novel Studio</a>
+        <p id="download-note" hidden>The download link is made for your account and lasts 15 minutes. If it expires, refresh this page for a fresh one.</p>
+      </div>
       <p class="fine">Wrong account? <button type="button" id="sign-out">Sign out</button> and sign in again.<br>Help: <a href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a></p>
       <p class="fine"><a href="../index.html">&larr; Back to the home page</a></p>
     </main>
@@ -145,7 +151,7 @@
       function renderProfile() {
         const user = window.Clerk && window.Clerk.user;
         const section = document.getElementById('profile');
-        if (!user) { section.hidden = true; const pc0 = document.getElementById('plan-card'); if (pc0) pc0.hidden = true; return; }
+        if (!user) { section.hidden = true; const pc0 = document.getElementById('plan-card'); if (pc0) pc0.hidden = true; const dc0 = document.getElementById('download-card'); if (dc0) dc0.hidden = true; return; }
         const name = user.fullName || [user.firstName, user.lastName].filter(Boolean).join(' ') || user.username || '';
         const email = user.primaryEmailAddress ? user.primaryEmailAddress.emailAddress : '';
         document.getElementById('profile-name').textContent = name || email;
@@ -165,6 +171,8 @@
         section.hidden = false;
         const planCard = document.getElementById('plan-card');
         if (planCard) { planCard.hidden = false; loadPlanLine(); }
+        const downloadCard = document.getElementById('download-card');
+        if (downloadCard) { downloadCard.hidden = false; loadDownload(); }
       }
       let planLoaded = false;
       async function loadPlanLine() {
@@ -181,6 +189,31 @@
           if (ent.periodEndsAt && ent.status === 'active') bits.push('Renews ' + new Date(ent.periodEndsAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }));
           line.textContent = bits.join(' · ');
         } catch (e) { line.textContent = 'Your current plan and options are on the pricing page.'; }
+      }
+      let downloadLoaded = false;
+      async function loadDownload() {
+        if (downloadLoaded) return; downloadLoaded = true;
+        const line = document.getElementById('download-line');
+        const button = document.getElementById('download-button');
+        const note = document.getElementById('download-note');
+        try {
+          const token = await window.Clerk.session.getToken({ template: 'studio-app' });
+          const res = await fetch('https://sns-entitlement-service.onrender.com/v1/downloads/latest', { headers: { Authorization: 'Bearer ' + token } });
+          const body = await res.json().catch(() => ({}));
+          if (res.status === 403) {
+            line.textContent = (body.error && body.error.message) || 'This account has no purchase on record, so there is nothing to download yet.';
+            return;
+          }
+          if (!res.ok || !body.url) throw new Error('dl');
+          const mb = body.sizeBytes ? ' · ' + Math.round(body.sizeBytes / 1048576) + ' MB' : '';
+          line.textContent = 'Version ' + body.version + ' for Windows' + mb + '. One download covers installing on up to 2 of your computers.';
+          button.href = body.url;
+          button.textContent = 'Download Script Novel Studio ' + body.version;
+          button.hidden = false;
+          note.hidden = false;
+        } catch (e) {
+          line.textContent = 'The download could not be prepared just now. Refresh this page, or email support@scriptnovelpublishing.com and we will send help.';
+        }
       }
       document.getElementById('profile-upload').addEventListener('click', async () => {
         const file = document.getElementById('profile-file').files[0];
