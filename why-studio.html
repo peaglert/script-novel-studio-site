@@ -44,6 +44,7 @@
   .brand img { height: 68px; width: auto; display: block; }
   .brand span { font-family: 'Montserrat', 'Segoe UI', sans-serif; font-style: normal; font-weight: 600; font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase; color: #d9ab2d; white-space: nowrap; margin-left: 25px; }
   nav.site { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
+  .site-nav-row { display: contents; }
   nav.site a { color: var(--muted); text-decoration: none; font-size: 15px; }
   nav.site a:hover { color: var(--gold-hi); }
   nav.site a.current { color: var(--gold); font-weight: 600; }
@@ -134,7 +135,6 @@
     header.site { justify-content: center; text-align: center; }
     header.site.compact .brand img { height: 42px; }
     .brand { align-items: center; } .brand span { margin-left: 0; }
-    nav.site { justify-content: center; }
     .closing-p { font-size: 17px; }
   }
 
@@ -155,7 +155,8 @@
   .lang-toggle .sep { opacity: .35; }
   .lang-toggle a { font-size: 13.5px; }
   @media (max-width: 880px) {
-    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 8px; padding: 9px 20px; background: rgba(16,24,48,.55); border: 1px solid rgba(212,168,87,.22); border-radius: 999px; scroll-padding-inline: 20px; }
+    nav.site { display: block; overflow-x: auto; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 8px; padding: 9px 20px; background: rgba(16,24,48,.55); border: 1px solid rgba(212,168,87,.22); border-radius: 999px; scroll-padding-inline: 20px; }
+    .site-nav-row { display: flex; align-items: center; flex-wrap: nowrap; gap: 4px 22px; width: max-content; margin-inline: auto; }
     nav.site::-webkit-scrollbar { display: none; }
     nav.site a, .lang-toggle { white-space: nowrap; }
   }
@@ -200,6 +201,31 @@
   .acct-plans { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; border: none; }
   .acct-plans:hover { filter: brightness(1.07); color: #141a2e; }
   @media (prefers-reduced-motion: reduce) { #acct-panel, #acct-backdrop { transition: none; } }
+
+  /* S icon blue pulse */
+  @keyframes sns-glow-pulse {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(64,156,255,0)); }
+    50% { filter: drop-shadow(0 0 14px rgba(64,156,255,.45)); }
+  }
+  @keyframes sns-sweep {
+    0% { background-position: 130% 0; }
+    45% { background-position: -130% 0; }
+    100% { background-position: -130% 0; }
+  }
+  .brand-pulse { animation: sns-glow-pulse 4.5s ease-in-out infinite; }
+  .s-pulse { display: inline-block; position: relative; line-height: 0; animation: sns-glow-pulse 4.5s ease-in-out infinite; }
+  .s-pulse::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, transparent 32%, rgba(96,186,255,.38) 46%, rgba(190,235,255,.75) 50%, rgba(96,186,255,.38) 54%, transparent 68%);
+    background-size: 280% 100%;
+    -webkit-mask-image: url("assets/app-icon-web.png"); mask-image: url("assets/app-icon-web.png");
+    -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    animation: sns-sweep 3.8s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-pulse, .s-pulse, .s-pulse::after { animation: none; }
+  }
 </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -208,8 +234,8 @@
 <body>
 <div class="wrap">
   <header class="site">
-    <a class="brand" href="index.html"><img src="assets/logo-web.png" alt="Script Novel Studio" /><span>Your Writing Spouse</span></a>
-    <nav class="site">
+    <a class="brand" href="index.html"><img class="brand-pulse" src="assets/logo-web.png" alt="Script Novel Studio" /><span>Your Writing Spouse</span></a>
+    <nav class="site"><div class="site-nav-row">
       <a href="index.html#features">Features</a>
       <a href="index.html#how">How it works</a>
       <a href="index.html#pricing">Pricing</a>
@@ -218,7 +244,7 @@
       <a class="signin" id="signin-link" href="account/">Sign in</a>
       <a class="cta-btn" href="index.html#pricing">Get the Studio</a>
       <span class="lang-toggle"><span class="on">EN</span><span class="sep">|</span><a href="es/why-studio.html">ES</a></span>
-    </nav>
+    </div></nav>
   </header>
   <div id="acct-backdrop" hidden></div>
   <aside id="acct-panel" aria-hidden="true" aria-label="Your account">
