@@ -15,218 +15,247 @@
 <meta name="twitter:card" content="summary_large_image">
 <style>
   :root {
-    --navy-950:#0a0f1e; --navy-900:#0d1526; --navy-850:#111c33; --navy-800:#152238; --navy-700:#1e2f4e;
-    --line:#26355a; --line-gold:rgba(212,168,87,.35);
-    --gold:#d4a857; --gold-hi:#f2d492; --gold-deep:#a87f2d; --blue:#3a7bff;
+    --navy-950:#0a0f1e; --navy-900:#0d1526; --navy-850:#111c33; --navy-800:#152238;
+    --line:#2a3a63; --line-steel:#26355a; --line-gold:rgba(212,168,87,.45);
+    --gold:#d4a857; --gold-hi:#f2d492; --gold-deep:#a87f2d;
     --text:#f4f1e8; --muted:#a9b2c6; --muted-2:#8b96ad;
+    --steel-950:#12151a; --steel-900:#20242a; --steel-850:#232830; --steel-700:#3a4149; --steel-500:#6e7987; --steel-edge:#0c0e12;
+    --brush: repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, rgba(0,0,0,.045) 1px 2px, transparent 2px 3px);
+    --steel: linear-gradient(180deg, #2c333d, #232830 55%, #1d2129);
     --sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --serif:Georgia, "Times New Roman", serif;
+    --serif: Georgia, "Times New Roman", serif;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin:0; font-family: var(--sans); background:
-    radial-gradient(1100px 560px at 88% -8%, rgba(58,123,255,.14), transparent 60%),
-    radial-gradient(900px 620px at -10% 22%, rgba(212,168,87,.10), transparent 55%),
-    linear-gradient(180deg, var(--navy-900), var(--navy-950) 340px), var(--navy-950);
-    color: var(--text); line-height: 1.6; }
+  body { margin:0; font-family: var(--sans); color: var(--text); line-height: 1.6;
+    background:
+      radial-gradient(1100px 560px at 88% -8%, rgba(58,123,255,.14), transparent 60%),
+      radial-gradient(900px 620px at -10% 22%, rgba(212,168,87,.10), transparent 55%),
+      linear-gradient(180deg, var(--navy-900), var(--navy-950) 340px), var(--navy-950); }
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
   a { color: var(--gold); }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  section[id] { scroll-margin-top: 120px; }
 
-  /* Header */
-  header.site { display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 24px 0 10px;
-    position: sticky; top: 0; z-index: 50; background: rgba(10,15,30,.92);
-    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: padding .28s ease, box-shadow .28s ease; }
-  header.site.compact { padding: 10px 0; border-bottom: 1px solid var(--line); }
-  header.site.compact .brand img { height: 42px; }
-  header.site.compact .brand span { display: none; }
-  .brand img { transition: height .28s ease; }
-  .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
-  .brand img { height: 68px; width: auto; display: block; }
-  .brand span { font-family: 'Montserrat', 'Segoe UI', sans-serif; font-style: normal; font-weight: 600; font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase; color: #d9ab2d; white-space: nowrap; margin-left: 25px; }
-  nav.site { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
-  nav.site a { color: var(--muted); text-decoration: none; font-size: 15px; }
+  /* ---------- Header: gunmetal bar (preview treatment) + production behavior ---------- */
+  header.site { display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 22px 22px 16px; margin-top: 16px;
+    position: sticky; top: 12px; z-index: 50;
+    border: 1px solid var(--steel-950); border-bottom-color: var(--steel-edge); border-radius: 14px;
+    background:
+      linear-gradient(112deg, rgba(255,255,255,0) 24%, rgba(233,239,247,.15) 44%, rgba(255,255,255,.06) 54%, rgba(255,255,255,0) 68%),
+      var(--brush),
+      linear-gradient(180deg, #343c48 0%, #272d36 36%, #22262e 70%, #1a1e25 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -1px 0 #0c0e12, 0 18px 40px rgba(0,0,0,.35);
+    transition: padding .28s ease, box-shadow .28s ease; animation: snsHeaderIn .45s ease both; }
+  @keyframes snsHeaderIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  header.site.compact { padding: 12px 22px 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -1px 0 #0c0e12, 0 12px 32px rgba(0,0,0,.42); }
+  header.site.compact .brand img { height: 56px; }
+  .brand { display:flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
+  .brand img { height: 88px; width: auto; display: block; transition: height .28s ease; }
+  .brand span { font-family: 'Montserrat', 'Segoe UI', sans-serif; font-weight: 600; font-size: 11.5px; letter-spacing: .24em; text-transform: uppercase; color: #d9ab2d; white-space: nowrap; margin-left: 33px; }
+  nav.site { display:flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
+  nav.site a { color: #c3cad4; text-decoration: none; font-size: 14px; position: relative; }
   nav.site a:hover { color: var(--gold-hi); }
-  nav.site a.signin { color: var(--gold-hi); border: 1px solid var(--line-gold); border-radius: 999px; padding: 7px 18px; font-weight: 600; }
-  nav.site a.signin:hover { background: rgba(212,168,87,.12); color: var(--gold-hi); }
+  nav.site a:not(.signin):not(.cta-btn)::after { content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 100%; border-radius: 2px; background: linear-gradient(90deg, #f6dc9a, #d4a857); transform: scaleX(0); transform-origin: left center; transition: transform .22s ease; }
+  nav.site a:not(.signin):not(.cta-btn):hover::after, nav.site a.current:not(.signin):not(.cta-btn)::after { transform: scaleX(1); }
+  .lang-toggle a::after { content: none !important; }
+  nav.site a.signin { display:inline-flex; align-items:center; justify-content:center; gap: 8px; height: 40px; line-height: 1; color: #eef1f5; border: 1px solid #565f6b; border-radius: 999px; padding: 0 18px; font-size: 14px; font-weight: 600;
+    background: linear-gradient(180deg, #3b434e, #262c34); box-shadow: inset 0 1px 0 rgba(255,255,255,.13), inset 0 -1px 0 rgba(0,0,0,.4); }
+  nav.site a.signin:hover { background: linear-gradient(180deg, #47515e, #2c333d); color: #ffffff; }
+  nav.site a.cta-btn { display:inline-flex; align-items:center; justify-content:center; height: 40px; line-height: 1; background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-size: 14px; font-weight: 700; border-radius: 999px; padding: 0 18px; box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -6px 12px rgba(138,100,32,.22); }
+  nav.site a.cta-btn:hover { filter: brightness(1.07); color: #141a2e; }
+  .lang-toggle { display: inline-flex; align-items: center; gap: 7px; color: #98a2ae; font-size: 13.5px; white-space: nowrap; }
+  .lang-toggle .on { color: #f2d492; font-weight: 700; }
+  .lang-toggle .sep { opacity: .35; }
+  .lang-toggle a { color: #98a2ae; font-size: 13.5px; }
+  #signin-link .acct-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block; }
+  #signin-link .acct-initial { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
 
-  /* Buttons + tags */
-  .tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase; }
-  .btn { display: inline-block; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 13px 28px; }
-  .btn-gold { background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806;
-    box-shadow: 0 8px 26px rgba(212,168,87,.28), inset 0 1px 0 rgba(255,255,255,.5); }
-  .btn-gold:hover { filter: brightness(1.06); }
-  .btn-ghost { border: 1px solid var(--line-gold); color: var(--gold-hi); }
-  .btn-ghost:hover { background: rgba(212,168,87,.10); }
-
-  /* Hero */
-  .hero { text-align: center; padding: 54px 0 8px; }
-  .hero h1 { font-family: var(--serif); font-size: 50px; line-height: 1.14; font-weight: normal; margin: 16px 0 16px; }
-  .hero h1 span { color: var(--gold); }
-  .hero p.lede { color: var(--muted); font-size: 19.5px; max-width: 680px; margin: 0 auto; }
-  .hero .cta { margin-top: 28px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .shot-frame { margin: 46px auto 0; max-width: 1020px; border: 1px solid var(--line-gold); border-radius: 16px;
-    background: linear-gradient(180deg, var(--navy-850), var(--navy-900)); padding: 10px;
-    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 90px rgba(212,168,87,.10); }
-  .shot-frame img { display: block; width: 100%; height: auto; border-radius: 9px; }
-  .strip { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: center; margin: 30px auto 0; max-width: 900px;
-    color: var(--muted); font-size: 14.5px; }
-  .strip b { color: var(--gold-hi); font-weight: 600; }
-
-  /* Sections */
-  section.band { padding: 74px 0 6px; }
-  h2 { font-family: var(--serif); font-size: 33px; font-weight: normal; text-align: center; margin: 0 0 10px; }
+  /* ---------- Shared (preview) ---------- */
+  section { padding: 84px 0 0; }
+  .eyebrow { display:block; text-align:center; font-size: 12.5px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--gold);
+    background: linear-gradient(90deg, #8a6420, #f6dc9a 45%, #d4a857 70%, #8a6420); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  h2 { font-family: var(--serif); font-weight: normal; font-size: 34px; line-height: 1.16; text-align: center; margin: 14px auto 10px; max-width: 720px; }
   h2 span { color: var(--gold); }
-  .sub { text-align: center; color: var(--muted); margin: 0 auto 30px; max-width: 640px; font-size: 17px; }
-  .feature { display: grid; grid-template-columns: 1fr 1.25fr; gap: 52px; align-items: center; padding: 40px 0; }
-  .feature.flip { grid-template-columns: 1.25fr 1fr; }
-  .feature.flip .copy { order: 2; }
-  .feature.flip .shot-frame { order: 1; }
-  .feature .shot-frame { margin: 0; }
-  .feature h3 { font-family: var(--serif); font-size: 27px; font-weight: normal; margin: 10px 0 10px; }
-  .feature p { color: var(--muted); font-size: 16.5px; margin: 0 0 12px; }
-  .feature ul { color: var(--muted); font-size: 16px; margin: 10px 0 0; padding-left: 20px; }
-  .feature li { margin-bottom: 6px; }
-  .feature li b, .feature p b { color: var(--text); font-weight: 600; }
+  .sub { text-align:center; color: var(--muted); font-size: 16px; max-width: 640px; margin: 0 auto; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; height: 48px; line-height: 1; text-decoration:none; border-radius: 999px; padding: 0 28px; font-weight: 700; font-size: 15.5px; }
+  .btn-gold { background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806; box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -6px 12px rgba(138,100,32,.22), 0 10px 26px rgba(212,168,87,.28); }
+  .btn-gold:hover { filter: brightness(1.06); }
+  .btn-ghost { border: 1px solid var(--line-gold); color: var(--gold-hi); background: transparent; }
+  .btn-ghost:hover { background: rgba(212,168,87,.12); }
+  .shot { border: 3px solid transparent; border-radius: 16px; overflow: hidden;
+    background: linear-gradient(#1d2129, #1d2129) padding-box,
+      linear-gradient(155deg, #7d8794, #3a4149 30%, #20242a 58%, #59636f 84%, #2b3038) border-box;
+    box-shadow: 0 30px 70px rgba(0,0,0,.55), 0 0 22px rgba(110,121,135,.14); }
+  .shot img, .shot video { display:block; width: 100%; height: auto; border-radius: 13px; border: 1px solid rgba(212,168,87,.55); }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 16px; }
-  .card { background: linear-gradient(180deg, rgba(58,123,255,.06), rgba(255,255,255,.014)), var(--navy-850);
-    border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
-  .card h3 { font-family: var(--serif); margin: 0 0 7px; font-size: 20px; font-weight: normal; color: var(--text); }
-  .card p { color: var(--muted); margin: 0; font-size: 15.5px; }
+  /* ---------- Hero ---------- */
+  .hero { text-align:center; padding: 64px 0 8px; }
+  .hero h1 { font-family: var(--serif); font-weight: normal; font-size: 52px; line-height: 1.12; margin: 18px auto 18px; max-width: 860px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p.lede { color: var(--muted); font-size: 18px; max-width: 700px; margin: 0 auto; }
+  .hero .cta { margin-top: 30px; display:flex; gap: 14px; justify-content:center; flex-wrap: wrap; }
+  .hero-stage { position: relative; margin: 56px auto 0; max-width: 980px; }
+  .hero-stage::before { content:""; position:absolute; inset: -56px -44px auto; height: 76%;
+    background: radial-gradient(closest-side, rgba(212,168,87,.28), transparent 70%); filter: blur(6px); z-index: 0; }
+  .hero-stage .shot { position: relative; z-index: 1; border-radius: 20px; }
+  .hero-stage .shot img { border-radius: 17px; }
+  .facts { display:flex; justify-content:center; flex-wrap: wrap; gap: 10px 34px; margin-top: 34px; color: var(--muted-2); font-size: 14.5px; }
+  .facts b { color: var(--text); font-weight: 600; }
 
-  /* Pricing */
-  .price { font-family: var(--serif); font-size: 40px; margin: 10px 0 2px; color: var(--text); }
-  .price small { font-size: 15px; color: var(--muted); font-family: var(--sans); }
-  .credits { color: var(--gold); font-size: 15px; letter-spacing: .4px; font-weight: 600; }
-  .card.featured { border-color: var(--gold); box-shadow: 0 0 44px rgba(212,168,87,.13); }
-  .lifetime { margin-top: 18px; text-align: left; display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; align-items: center;
-    border-color: var(--line-gold); }
-  .lifetime .lrow { display: flex; gap: 20px; align-items: center; }
-  .lifetime img { width: 76px; height: 76px; }
-  .packs { text-align: center; color: var(--muted); max-width: 760px; margin-left: auto; margin-right: auto; }
-  .packs strong { color: var(--text); font-weight: 600; }
+  /* ---------- Transformation strip ---------- */
+  .steps { display:grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 44px; }
+  .step { border: 1px solid var(--steel-950); border-radius: 16px; padding: 26px 22px;
+    background: var(--brush), var(--steel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.55), 0 14px 34px rgba(0,0,0,.34); }
+  .step .num { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(246,220,154,.55); color: #221806;
+    font-family: var(--serif); font-size: 20px; font-weight: 700; display:flex; align-items:center; justify-content:center; margin-bottom: 14px;
+    background: radial-gradient(circle at 32% 28%, #f6dc9a, #d4a857 55%, #8a6420);
+    box-shadow: 0 4px 14px rgba(212,168,87,.35), inset 0 1px 2px rgba(255,255,255,.55), inset 0 -2px 4px rgba(90,62,14,.45); }
+  .step h3 { font-family: var(--serif); font-weight: normal; font-size: 21px; margin: 0 0 6px; }
+  .step p { color: var(--muted); font-size: 15px; margin: 0; }
+  .watch { margin: 44px auto 0; max-width: 900px; }
+  .watch-line { text-align:center; color: var(--muted); font-size: 16px; margin: 18px auto 0; max-width: 640px; }
 
-  /* Purchase controls */
-  .billing-toggle { display: flex; gap: 6px; justify-content: center; margin: 4px auto 30px; }
-  .billing-toggle button { font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; color: var(--muted);
-    background: var(--navy-850); border: 1px solid var(--line); border-radius: 999px; padding: 9px 22px; }
+  /* ---------- Showcase ---------- */
+  #features { background: linear-gradient(112deg, transparent 56%, rgba(246,220,154,.05) 65%, rgba(246,220,154,.018) 72%, transparent 81%); }
+  .feature { display:grid; grid-template-columns: 1fr 1.35fr; gap: 48px; align-items:center; margin-top: 76px; }
+  .feature.flip { grid-template-columns: 1.35fr 1fr; }
+  .feature .copy { text-align: left; }
+  .feature .eyebrow { text-align: left; }
+  .feature h3 { font-family: var(--serif); font-weight: normal; font-size: 29px; line-height: 1.2; margin: 12px 0 10px; }
+  .feature h3 span { color: var(--gold); }
+  .feature p { color: var(--muted); font-size: 16px; margin: 0; max-width: 420px; }
+  .feature .duo { display:grid; grid-template-columns: 1fr; gap: 18px; }
+  .feature .duo .shot.small img { max-height: 300px; object-fit: cover; object-position: top; }
+
+  /* ---------- Control Center band ---------- */
+  .band { margin-top: 96px; border: 1px solid var(--steel-950); border-radius: 22px; padding: 52px 40px; text-align:center;
+    background:
+      radial-gradient(700px 300px at 50% -10%, rgba(168,182,200,.15), transparent 65%),
+      var(--brush),
+      linear-gradient(180deg, #2c333d, #232830 55%, #1c2028);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.55), 0 24px 60px rgba(0,0,0,.42); }
+  .band h2 { margin-top: 10px; }
+  .chips { display:flex; justify-content:center; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .chips span { border: 1px solid transparent; color: var(--gold-hi); border-radius: 999px; padding: 8px 20px; font-size: 15px; font-weight: 600; letter-spacing: .04em;
+    background: linear-gradient(rgba(212,168,87,.07), rgba(212,168,87,.07)) padding-box,
+      linear-gradient(150deg, rgba(138,100,32,.9), rgba(246,220,154,.75) 35%, rgba(212,168,87,.9) 65%, rgba(138,100,32,.9)) border-box; }
+
+  /* ---------- Pricing (production markup, preview system) ---------- */
+  .billing-toggle { display:flex; gap: 6px; justify-content:center; margin: 26px auto 34px; }
+  .billing-toggle button { display:inline-flex; align-items:center; justify-content:center; height: 40px; line-height: 1; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; color: var(--muted);
+    background: var(--navy-850); border: 1px solid var(--line); border-radius: 999px; padding: 0 22px; }
   .billing-toggle button.is-active { color: #221806; border-color: transparent;
     background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); }
   .billing-toggle button span { font-weight: 400; font-size: 13.5px; }
-  button.buy { font: inherit; cursor: pointer; border: 0; width: 100%; margin-top: 18px; text-align: center; }
+  #pricing .grid { display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .card { border: 1px solid var(--steel-950); border-radius: 18px; padding: 28px 24px; position: relative;
+    background: var(--brush), var(--steel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.09), inset 0 -1px 0 rgba(0,0,0,.5), 0 16px 38px rgba(0,0,0,.3); }
+  .card:not(.featured)::before { content:""; position:absolute; top:0; left:20px; right:20px; height:1px;
+    background: linear-gradient(90deg, transparent, #8a6420, #f6dc9a, #d4a857, #8a6420, transparent); }
+  .card.featured { border: 2px solid transparent;
+    background: var(--brush) padding-box,
+      linear-gradient(180deg, #2c333d, #232830 55%, #1d2129) padding-box,
+      linear-gradient(150deg, #8a6420, #f6dc9a 30%, #d4a857 60%, #8a6420) border-box;
+    box-shadow: 0 0 44px rgba(212,168,87,.16), inset 0 1px 0 rgba(255,255,255,.10), inset 0 0 24px rgba(212,168,87,.05); }
+  .card h3 { font-family: var(--serif); font-weight: normal; font-size: 24px; margin: 2px 0 0; color: var(--text); }
+  .card p { color: var(--muted); font-size: 15px; margin: 10px 0 0; }
+  .card .tag { position:absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg, #f0d48a, #d4a857); color: #221806;
+    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 999px; padding: 4px 14px; white-space: nowrap; }
+  .price { font-family: var(--serif); font-size: 42px; margin: 10px 0 2px; color: var(--text); }
+  .price small { font-size: 15px; color: var(--muted); font-family: var(--sans); }
+  .credits { color: var(--gold); font-size: 15px; font-weight: 600; margin: 4px 0 0; }
+  button.buy { font: inherit; cursor: pointer; }
+  #pricing button.buy { display:flex; align-items:center; justify-content:center; width: 100%; height: 48px; line-height: 1; text-align:center; margin-top: 20px;
+    border: 1px solid var(--line-gold); color: var(--gold-hi); background: transparent; border-radius: 999px; padding: 0 28px; font-size: 15.5px; font-weight: 700;
+    box-shadow: none; }
+  #pricing button.buy:hover { background: rgba(212,168,87,.12); filter: none; }
+  #pricing .card.featured button.buy { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #221806; border: 0;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -6px 12px rgba(138,100,32,.22); }
+  #pricing .card.featured button.buy:hover { filter: brightness(1.06); }
   button.buy[disabled] { opacity: .65; cursor: wait; }
+  .buy.is-current { opacity: .55; cursor: default; }
+  .lifetime { margin-top: 20px; text-align: left; display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; align-items: center;
+    border: 1px solid var(--line-gold); border-radius: 18px; padding: 28px 30px;
+    background: radial-gradient(600px 240px at 12% 0%, rgba(212,168,87,.14), transparent 60%), var(--brush), var(--steel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.09), inset 0 -1px 0 rgba(0,0,0,.5), 0 16px 38px rgba(0,0,0,.3); }
+  .lifetime::before { content: none; }
+  .lifetime .lrow { display: flex; gap: 20px; align-items: center; }
+  .lifetime img { width: 76px; height: 76px; }
+  .lifetime .tag { display:block; position: static; transform: none; background: none; padding: 0; border-radius: 0; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+  .lifetime h3 { font-family: var(--serif); font-weight: normal; font-size: 25px; margin: 0 0 4px; }
+  .lifetime .price { font-size: 38px; margin: 0; white-space: nowrap; }
+  .lifetime .price small { display: inline; }
   .lbuy { text-align: right; }
   .lbuy .buy { width: auto; margin-top: 12px; }
-  .packs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 22px; }
-  .pack { text-align: center; padding: 20px 16px; }
+  #pricing .lifetime button.buy { width: auto; background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806; border: 0;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -6px 12px rgba(138,100,32,.22); padding: 0 28px; }
+  .packs { text-align: center; color: var(--muted); max-width: 760px; margin-left: auto; margin-right: auto; font-size: 15.5px; }
+  .packs strong { color: var(--text); font-weight: 600; }
+  .packs-grid { display:grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 22px; }
+  .packs-grid .card { padding: 20px 16px; text-align: center; }
   .pack .pname { font-family: var(--serif); font-size: 19px; color: var(--text); }
   .pack .psub { color: var(--muted-2); font-size: 13.5px; }
-  .pack .pprice { font-family: var(--serif); font-size: 28px; margin: 6px 0 0; color: var(--text); }
-  .pack .buy { margin-top: 14px; padding: 11px 18px; font-size: 15px; }
+  .pack .pprice { font-family: var(--serif); font-size: 28px; margin: 6px 0 0; color: var(--gold-hi); }
+  #pricing .pack button.buy { margin-top: 14px; }
   .checkout-status { text-align: center; color: var(--gold-hi); min-height: 1.5em; margin: 14px auto 0; max-width: 640px; font-size: 15.5px; }
   .checkout-status:empty { margin: 0; min-height: 0; }
   .checkout-status.error { color: #f0a3a3; }
   .card .checkout-status, .pack .checkout-status { font-size: 14.5px; }
+  #pricing .strip { display:flex; justify-content:center; flex-wrap: wrap; gap: 8px 30px; margin-top: 34px; color: var(--muted-2); font-size: 14.5px; }
+  #pricing .strip b { color: var(--text); font-weight: 600; }
+
+  /* ---------- FAQ (production markup, new system) ---------- */
+  .faq-list { max-width: 820px; margin: 34px auto 0; display: grid; gap: 12px; }
+  .faq-item { border: 1px solid var(--steel-950); border-radius: 14px; padding: 4px 24px;
+    background: var(--brush), var(--steel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), inset 0 -1px 0 rgba(0,0,0,.5); }
+  .faq-item summary { font-family: var(--serif); font-size: 19px; color: var(--text); cursor: pointer; padding: 16px 0; }
+  .faq-item summary:hover { color: var(--gold-hi); }
+  .faq-item p { color: var(--muted); margin: 0 0 18px; font-size: 16px; }
+
+  /* ---------- Final CTA (preview plaque + production pitch) ---------- */
+  .final { text-align:center; position: relative; overflow: hidden; border: 2px solid transparent; border-radius: 22px; padding: 64px 40px 54px; margin-top: 96px;
+    background: radial-gradient(700px 320px at 50% -12%, rgba(212,168,87,.15), transparent 65%) padding-box,
+      linear-gradient(180deg, #101a33, #0b1122) padding-box,
+      linear-gradient(150deg, #8a6420, #f6dc9a 30%, #d4a857 60%, #8a6420) border-box;
+    box-shadow: 0 24px 60px rgba(0,0,0,.4), inset 0 0 30px rgba(212,168,87,.05); }
+  .final::before { content:""; position:absolute; inset: 0; pointer-events: none;
+    background: url("../assets/app-icon-web.png") no-repeat right -70px bottom -70px / 400px auto; opacity: .07; }
+  .final > * { position: relative; }
+  .final img.icon { width: 92px; height: 92px; margin-bottom: 8px; }
+  .final .pitch { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 760px; margin: 14px auto 30px; }
+  .final .signin-line { margin-top: 20px; font-size: 15px; color: var(--muted); }
+
+  /* ---------- Footer (production markup, new system) ---------- */
+  footer.site { margin-top: 60px; padding: 40px 0 46px; color: var(--muted); font-size: 14.5px; border-top: 1px solid rgba(244,241,232,.07); }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 30px; margin-bottom: 26px; }
+  .foot-grid h4 { font-family: var(--serif); font-weight: normal; color: var(--text); font-size: 16.5px; margin: 0 0 10px; }
+  .foot-grid a { color: var(--muted); text-decoration: none; display: block; margin-bottom: 7px; }
+  .foot-grid a:hover { color: var(--gold-hi); }
+  .foot-grid p { margin: 0 0 8px; }
+  .foot-brand img { height: 56px; width: auto; }
+  .footer-tagline { color: var(--gold); font-style: italic; font-family: var(--serif); }
+  .foot-base { border-top: 1px solid rgba(244,241,232,.07); padding-top: 18px; color: var(--muted-2); font-size: 13.5px; }
+  footer.site a.mail { color: var(--gold); display: inline; }
+
+  /* ---------- Sign-in modal (production) ---------- */
   .signin-overlay { position: fixed; inset: 0; background: rgba(4,7,15,.8); z-index: 60;
     display: flex; align-items: flex-start; justify-content: center; padding: 6vh 18px 30px; overflow-y: auto; }
   .signin-overlay[hidden] { display: none; }
   .signin-box { position: relative; width: 100%; max-width: 460px; }
   .signin-note { text-align: center; color: var(--muted); margin: 0 0 14px; font-size: 15.5px; }
   .signin-close { position: absolute; top: -16px; right: -8px; z-index: 2; width: 38px; height: 38px; border-radius: 999px;
-    border: 1px solid var(--line-gold); background: var(--navy-800); color: var(--gold-hi); font-size: 19px; cursor: pointer; line-height: 1; }
+    border: 1px solid var(--line-gold); background: #152238; color: var(--gold-hi); font-size: 19px; cursor: pointer; line-height: 1; }
 
-  /* Focus (keyboard) */
-  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-
-  /* Gold flourish divider */
-  .flourish { display: flex; align-items: center; gap: 14px; max-width: 760px; margin: 54px auto 0; opacity: .55; }
-  .flourish::before, .flourish::after { content: ""; flex: 1; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--line-gold)); }
-  .flourish::after { background: linear-gradient(90deg, var(--line-gold), transparent); }
-  .flourish i { width: 9px; height: 9px; flex: none; background: var(--gold); transform: rotate(45deg); }
-
-  /* How it works */
-  .steps { border-top: 2px solid var(--line-gold); padding-top: 28px; margin-top: 26px; }
-  .step .num { font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--gold); display: block; margin-bottom: 12px; }
-
-  /* FAQ */
-  .faq-list { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
-  .faq-item { background: var(--navy-850); border: 1px solid var(--line); border-radius: 14px; padding: 4px 24px; }
-  .faq-item summary { font-family: var(--serif); font-size: 19px; color: var(--text); cursor: pointer; padding: 16px 0; }
-  .faq-item summary:hover { color: var(--gold-hi); }
-  .faq-item p { color: var(--muted); margin: 0 0 18px; font-size: 16px; }
-
-  /* Final CTA + footer */
-  .final { text-align: center; margin-top: 84px; border: 1px solid var(--line-gold); border-radius: 18px; padding: 46px 30px;
-    background: radial-gradient(600px 260px at 50% -30%, rgba(212,168,87,.16), transparent 65%), var(--navy-850); }
-  .final h2 { margin-bottom: 8px; }
-  .final p { color: var(--muted); margin: 0 auto 24px; max-width: 560px; font-size: 17px; }
-  footer.site { border-top: 1px solid var(--line); margin-top: 64px; padding: 36px 0 42px; color: var(--muted); font-size: 14.5px; }
-  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 30px; margin-bottom: 26px; }
-  .foot-grid h4 { font-family: var(--serif); font-weight: normal; color: var(--text); font-size: 16.5px; margin: 0 0 10px; }
-  .foot-grid a { color: var(--muted); text-decoration: none; display: block; margin-bottom: 7px; }
-  .foot-grid a:hover { color: var(--gold-hi); }
-  .foot-grid p { margin: 0 0 8px; }
-  .foot-brand img { height: 40px; width: auto; }
-  .footer-tagline { color: var(--gold); font-style: italic; font-family: var(--serif); }
-  .foot-base { border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted-2); font-size: 13.5px; }
-  footer.site a.mail { color: var(--gold); display: inline; }
-
-  @media (max-width: 880px) {
-    .brand img { height: 56px; }
-    .hero { padding-top: 36px; }
-    .hero h1 { font-size: 35px; }
-    .hero p.lede { font-size: 17.5px; }
-    section.band { padding-top: 52px; }
-    h2 { font-size: 27px; }
-    .feature, .feature.flip { grid-template-columns: 1fr; gap: 24px; padding: 26px 0; }
-    .feature.flip .copy { order: 1; } .feature.flip .shot-frame { order: 2; }
-    .foot-grid { grid-template-columns: 1fr; gap: 22px; }
-    header.site { justify-content: center; text-align: center; }
-    header.site.compact .brand img { height: 42px; }
-    .brand { align-items: center; } .brand span { margin-left: 0; }
-    nav.site { justify-content: center; }
-    .lifetime .lrow { flex-direction: column; text-align: center; }
-    .lifetime { justify-content: center; text-align: center; }
-    .lbuy { text-align: center; }
-  }
-
-  /* Header polish (Nov 7, 2026): CTA, underline hovers, scroll shadow, language toggle, Clerk-aware sign-in */
-  header.site { animation: snsHeaderIn .45s ease both; }
-  @keyframes snsHeaderIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-  header.site.compact { box-shadow: 0 12px 32px rgba(0,0,0,.38); }
-  nav.site a { position: relative; }
-  nav.site a:not(.signin):not(.cta-btn)::after { content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 100%; border-radius: 2px; background: linear-gradient(90deg, #f6dc9a, #d4a857); transform: scaleX(0); transform-origin: left center; transition: transform .22s ease; }
-  nav.site a:not(.signin):not(.cta-btn):hover::after, nav.site a.current:not(.signin):not(.cta-btn)::after { transform: scaleX(1); }
-  .lang-toggle a::after { content: none !important; }
-  nav.site a.signin { color: #f0d48a; border: 1px solid rgba(212,168,87,.45); border-radius: 999px; padding: 7px 18px; font-weight: 600; text-decoration: none; }
-  nav.site a.signin:hover { background: rgba(212,168,87,.12); color: #f0d48a; }
-  nav.site a.cta-btn { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; border-radius: 999px; padding: 8px 18px; text-decoration: none; transition: filter .18s ease; }
-  nav.site a.cta-btn:hover { filter: brightness(1.07); color: #141a2e; }
-  .lang-toggle { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; white-space: nowrap; }
-  .lang-toggle .on { color: #f0d48a; font-weight: 700; }
-  .lang-toggle .sep { opacity: .35; }
-  .lang-toggle a { font-size: 13.5px; }
-  @media (max-width: 880px) {
-    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 8px; padding: 9px 20px; background: rgba(16,24,48,.55); border: 1px solid rgba(212,168,87,.22); border-radius: 999px; scroll-padding-inline: 20px; }
-    nav.site::-webkit-scrollbar { display: none; }
-    nav.site a, .lang-toggle { white-space: nowrap; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    header.site { animation: none; }
-    nav.site a::after { transition: none; }
-  }
-
-  /* Account panel (Nov 7, 2026): avatar pill + slide-in profile with live plan and credits */
-  #signin-link { display: inline-flex; align-items: center; gap: 8px; }
-  #signin-link .acct-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block; }
-  #signin-link .acct-initial { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
+  /* ---------- Account panel (production, verbatim values) ---------- */
   #acct-backdrop { position: fixed; inset: 0; background: rgba(4,7,15,.55); z-index: 190; opacity: 0; transition: opacity .25s ease; }
   #acct-backdrop.open { opacity: 1; }
   #acct-panel { position: fixed; top: 0; right: 0; height: 100dvh; width: min(344px, 90vw); background: #0d1526; border-left: 1px solid rgba(212,168,87,.3); z-index: 200; transform: translateX(102%); transition: transform .3s ease; padding: 20px 20px 24px; overflow-y: auto; box-shadow: -18px 0 44px rgba(0,0,0,.45); color: #e8ecf4; }
   #acct-panel.open { transform: none; }
   #acct-panel [hidden], #acct-backdrop[hidden] { display: none !important; }
-  .buy.is-current { opacity: .55; cursor: default; }
   .acct-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .acct-head span { font-family: var(--serif, Georgia, serif); font-size: 1.15rem; color: #f0d48a; }
   #acct-close { background: none; border: 1px solid rgba(212,168,87,.4); color: #f0d48a; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; line-height: 1; cursor: pointer; }
@@ -253,7 +282,34 @@
   button.acct-btn:hover { background: rgba(212,168,87,.12); }
   .acct-plans { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; border: none; }
   .acct-plans:hover { filter: brightness(1.07); color: #141a2e; }
-  @media (prefers-reduced-motion: reduce) { #acct-panel, #acct-backdrop { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { #acct-panel, #acct-backdrop { transition: none; } header.site { animation: none; } nav.site a::after { transition: none; } }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) { #pricing .grid { grid-template-columns: repeat(2, 1fr); } .packs-grid { grid-template-columns: repeat(3, 1fr); } .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 880px) {
+    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 4px; padding: 9px 20px; background: rgba(24,29,38,.6); border: 1px solid rgba(110,121,135,.35); border-radius: 999px; scroll-padding-inline: 20px; }
+    nav.site::-webkit-scrollbar { display: none; }
+    nav.site a, .lang-toggle { white-space: nowrap; }
+  }
+  @media (max-width: 720px) {
+    section { padding-top: 60px; }
+    header.site { justify-content: center; text-align: center; top: 8px; }
+    header.site.compact .brand img { height: 48px; }
+    .brand { align-items: center; } .brand img { height: 72px; } .brand span { margin-left: 0; }
+    nav.site { justify-content: center; }
+    .hero { padding-top: 40px; } .hero h1 { font-size: 34px; } .hero p.lede { font-size: 17px; }
+    h2 { font-size: 28px; }
+    .feature, .feature.flip { grid-template-columns: 1fr; gap: 24px; margin-top: 52px; }
+    .feature .copy, .feature .eyebrow { text-align: center; } .feature p { margin: 0 auto; }
+    #pricing .grid { grid-template-columns: 1fr; } .packs-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: 1fr; }
+    .band { padding: 38px 22px; }
+    .final { padding: 48px 22px 42px; }
+    .lifetime { justify-content: center; text-align: center; } .lifetime .lrow { flex-direction: column; text-align: center; }
+    .lbuy { text-align: center; }
+    .foot-grid { grid-template-columns: 1fr; gap: 22px; }
+  }
+
 </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -290,17 +346,18 @@
     </div>
   </aside>
 
-
   <section class="hero">
-    <span class="tag">Un estudio de escritura de Script Novel Publishing</span>
-    <h1>Un solo estudio para <span>novelas, script novels,<br>y guiones</span></h1>
-    <p class="lede">Cambia las reglas del juego: Script Novel Studio puede escribir tu libro completo, desde la primera palabra en la página hasta un manuscrito terminado. Planifica con una sinopsis y un esquema que tu IA sí lee, redacta capítulo por capítulo en un editor que conoce el formato, y revisa cada palabra antes de que entre en tu manuscrito.</p>
+    <span class="eyebrow">Un estudio de escritura de Script Novel Publishing</span>
+    <h1>Un solo estudio para <span>novelas, script novels y guiones</span></h1>
+    <p class="lede">Cambia las reglas del juego: Script Novel Studio puede escribir tu libro completo, desde la primera palabra en la página hasta un manuscrito terminado.</p>
     <div class="cta">
       <a class="btn btn-gold" href="#pricing">Ver planes y precios</a>
       <a id="signin-hero" class="btn btn-ghost" href="../account/">Iniciar sesión</a>
     </div>
-    <div class="shot-frame"><img src="../assets/shot-editor.jpg" alt="El editor de Script Novel Studio, un capítulo del manuscrito abierto en la página" /></div>
-    <div class="strip">
+    <div class="hero-stage">
+      <div class="shot"><img src="../assets/shot-editor.jpg" alt="El editor de Script Novel Studio, un capítulo del manuscrito abierto en la página" /></div>
+    </div>
+    <div class="facts">
       <span>App de escritorio para <b>Windows</b></span>
       <span>Los proyectos viven <b>en tu computadora</b></span>
       <span>Interfaz en <b>inglés y español</b></span>
@@ -308,88 +365,71 @@
     </div>
   </section>
 
-  <div class="flourish" aria-hidden="true"><i></i></div>
-
-  <section class="band" id="features">
-    <span class="tag" style="display:block; text-align:center;">Escribir con IA</span>
-    <h2>Pide la tarea, <span>no el agente</span></h2>
-    <p class="sub">Sin nombres de agentes que descifrar. Un botón dorado en el editor abre un menú en lenguaje sencillo de autor, y antes de que algo se ejecute, el estudio te dice qué va a leer y dónde va a llegar el resultado.</p>
-    <div class="feature">
-      <div class="copy">
-        <h3>El menú Escribir con IA</h3>
-        <p>Siete opciones, escritas como los autores hablan de su trabajo:</p>
-        <ul>
-          <li><b>Escribir mi primer párrafo</b>, creado a partir de tu sinopsis</li>
-          <li><b>Seguir escribiendo</b> desde tu cursor, o <b>Mejorar mi escritura</b></li>
-          <li><b>Recibir comentarios sobre mi historia</b>: informes de trama, ritmo y continuidad</li>
-          <li><b>Hacer una pregunta</b> sobre tu libro o sobre el oficio</li>
-          <li><b>Escribir este capítulo</b>, o <b>Escribir el libro completo</b> con el cálculo de créditos mostrado antes</li>
-        </ul>
-      </div>
-      <div class="shot-frame"><img src="../assets/shot-write-menu.jpg" alt="El menú Escribir con IA abierto en el editor, con las siete tareas de escritura" /></div>
-    </div>
-
-    <div class="feature flip">
-      <div class="copy">
-        <h3>Una sinopsis y un esquema que tus agentes sí leen</h3>
-        <p>Tu sinopsis vive a la vista, en la pestaña Esquema, donde puedes verla y mantenerla al día. Cuando un capítulo está vacío, los agentes trabajan desde <b>primero tu idea del esquema, luego tu esquema y luego tu sinopsis</b>, y cada resultado nombra la base que usó. Nunca más respuestas sobre la historia equivocada.</p>
-        <p>Construye el esquema a partir de tu idea con un clic, expándelo en un momento clave para cada capítulo y define un <b>número objetivo de palabras</b> para que los borradores de capítulo se escriban pensando en la longitud del libro que quieres terminar.</p>
-      </div>
-      <div class="shot-frame"><img src="../assets/shot-outline.jpg" alt="La pestaña Esquema con una sinopsis, una idea y un esquema de la historia capítulo por capítulo" /></div>
-    </div>
-
-    <div class="feature">
-      <div class="copy">
-        <h3>Capítulo por capítulo, y nada entra sin revisión</h3>
-        <p>Pide un capítulo y el borrador va a una <b>cola de revisión</b>, no a tu manuscrito. Léelo ahí, acéptalo, devuélvelo con una nota para revisarlo o descártalo. Aceptar es la única manera de que un borrador se convierta en parte de tu libro.</p>
-        <p>La cola conserva tus borradores cuando cierras la app, y una ejecución de libro completo escribe cada capítulo vacío en orden, omite los que ya escribiste y puede detenerse después de cualquier capítulo.</p>
-      </div>
-      <div class="shot-frame"><img src="../assets/shot-queue.jpg" alt="La cola de revisión de la pestaña Esquema, un capítulo redactado esperando ser aceptado, revisado o descartado" /></div>
-    </div>
-
-    <div class="feature flip">
-      <div class="copy">
-        <h3>Mira el libro impreso antes de imprimirlo</h3>
-        <p>Elige un destino de publicación y el estudio aplica las reglas de esa plataforma por ti: anchos de margen interior de <b>Amazon KDP Print</b> según el número de páginas, <b>KDP Kindle</b> y mínimos de margen interior de <b>IngramSpark</b>, con un aviso al pasar el límite de 828 páginas de KDP. Cada ajuste se informa, nunca se hace en silencio.</p>
-        <p>La vista previa de impresión presenta páginas reales con tu tamaño de libro, con tu página de título, página de derechos de autor y dedicatoria al frente, encabezados de página y números de página que empiezan en el capítulo uno.</p>
-      </div>
-      <div class="shot-frame"><img src="../assets/shot-print.jpg" alt="Vista previa de impresión que muestra el capítulo uno presentado como página de libro impreso" /></div>
-    </div>
-  </section>
-
-  <section class="band" id="how">
-    <span class="tag" style="display:block; text-align:center;">Cómo funciona</span>
+  <section id="how">
+    <span class="eyebrow">Cómo funciona</span>
     <h2>De la idea al <span>archivo publicado</span></h2>
-    <div class="grid steps">
-      <div class="card step"><span class="num">1</span><h3>Trae la idea</h3><p>Empieza con una sinopsis, o con unas líneas honestas sobre el libro.</p></div>
-      <div class="card step"><span class="num">2</span><h3>Construye el esquema</h3><p>El estudio convierte tu idea en un esquema capítulo por capítulo, con un momento clave para cada capítulo.</p></div>
-      <div class="card step"><span class="num">3</span><h3>Redacta y luego revisa</h3><p>Los borradores de la IA llegan a una cola de revisión. Nada entra en tu manuscrito hasta que lo aceptas.</p></div>
-      <div class="card step"><span class="num">4</span><h3>Publica el archivo</h3><p>Exporta PDF listo para imprimir, EPUB, DOCX o FDX, con las reglas de KDP e IngramSpark aplicadas.</p></div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Trae la idea</h3><p>Empieza con una sinopsis, o con unas líneas honestas sobre el libro.</p></div>
+      <div class="step"><div class="num">2</div><h3>Construye el esquema</h3><p>El estudio convierte tu idea en un esquema capítulo por capítulo, con un momento clave para cada capítulo.</p></div>
+      <div class="step"><div class="num">3</div><h3>Redacta y luego revisa</h3><p>Los borradores de la IA llegan a una cola de revisión. Nada entra en tu manuscrito hasta que lo aceptas.</p></div>
+      <div class="step"><div class="num">4</div><h3>Publica el archivo</h3><p>Exporta PDF listo para imprimir, EPUB, DOCX o FDX, con las reglas de KDP e IngramSpark aplicadas.</p></div>
     </div>
-    <div class="shot-frame">
-      <video controls preload="none" poster="../assets/walkthrough-es.jpg" src="../assets/walkthrough-es.mp4" style="display:block; width:100%; height:auto; border-radius:9px;"></video>
+    <div class="watch">
+      <div class="shot"><video controls preload="none" poster="../assets/walkthrough-es.jpg" src="../assets/walkthrough-es.mp4"></video></div>
+      <p class="watch-line">Mira el recorrido: tres minutos dentro del estudio, desde la primera pantalla hasta un capítulo redactado.</p>
     </div>
-    <p class="sub" style="margin-top:18px;">Mira el recorrido: tres minutos dentro del estudio, desde la primera pantalla hasta un capítulo redactado.</p>
   </section>
 
-  <section class="band">
-    <span class="tag" style="display:block; text-align:center;">El trabajo completo</span>
+  <section id="features">
+    <span class="eyebrow">Dentro del estudio</span>
     <h2>Hecho para <span>el trabajo completo</span></h2>
-    <p class="sub">Desde la primera idea hasta el archivo que subes, el estudio se queda con el libro.</p>
-    <div class="grid">
-      <div class="card"><h3>Tres formatos de escritura</h3><p>Novelas tradicionales, script novels y guiones con estándar de la industria, cada uno con los elementos correctos, ajustes de género, tipografía y tamaños de impresión.</p></div>
-      <div class="card"><h3>Exportaciones profesionales</h3><p>Envía tu trabajo como PDF listo para imprimir, un libro electrónico (EPUB), un documento de Word (DOCX) o un archivo de Final Draft (FDX).</p></div>
-      <div class="card"><h3>Capítulos reales, proyectos reales</h3><p>Organiza un manuscrito completo capítulo por capítulo, reordena capítulos con un clic y retoma tu último libro justo donde lo dejaste cuando se abre el estudio.</p></div>
-      <div class="card"><h3>Herramientas de revisión que respetan el trabajo</h3><p>Resalta pasajes para revisarlos después, busca y reemplaza en un capítulo o en todo el libro, y un estado de guardado que te dice la verdad sobre tu trabajo.</p></div>
-      <div class="card"><h3>Inglés y español</h3><p>Toda la interfaz cambia entre inglés y español, y con el español activado, los agentes también redactan en español. Tu manuscrito nunca se traduce ni se toca.</p></div>
-      <div class="card"><h3>Tu trabajo sigue siendo tuyo</h3><p>Los proyectos se guardan en tu propia computadora y se guardan mientras escribes. Todo lo que escribes en el estudio es tuyo; no reclamamos la propiedad de tus manuscritos ni de tus exportaciones.</p></div>
+
+    <div class="feature">
+      <div class="copy">
+        <span class="eyebrow">Escribir con IA</span>
+        <h3>Pide la tarea, <span>no el agente</span></h3>
+        <p>Un botón dorado en el editor abre un menú en lenguaje sencillo de autor: un primer párrafo, un capítulo o el libro completo.</p>
+      </div>
+      <div class="duo">
+        <div class="shot"><img src="../assets/shot-write-menu.jpg" alt="El menú Escribir con IA abierto en el editor, con las siete tareas de escritura" /></div>
+      </div>
+    </div>
+
+    <div class="feature flip">
+      <div class="duo">
+        <div class="shot"><img src="../assets/shot-outline.jpg" alt="La pestaña Esquema con una sinopsis, una idea y un esquema de la historia capítulo por capítulo" /></div>
+      </div>
+      <div class="copy">
+        <span class="eyebrow">Esquema</span>
+        <h3>Un esquema que tu IA <span>sí lee</span></h3>
+        <p>Tu sinopsis y tu esquema guían cada borrador, escrito pensando en la longitud objetivo del libro que quieres terminar.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="copy">
+        <span class="eyebrow">Revisión e impresión</span>
+        <h3>Nada entra <span>sin revisión</span></h3>
+        <p>Los borradores esperan en una cola de revisión, y la vista previa de impresión muestra páginas reales con las reglas de publicación aplicadas antes de imprimir.</p>
+      </div>
+      <div class="duo">
+        <div class="shot"><img src="../assets/shot-queue.jpg" alt="La cola de revisión de la pestaña Esquema, un capítulo redactado esperando ser aceptado, revisado o descartado" /></div>
+        <div class="shot small"><img src="../assets/shot-print.jpg" alt="Vista previa de impresión que muestra el capítulo uno presentado como página de libro impreso" /></div>
+      </div>
     </div>
   </section>
 
-  <div class="flourish" aria-hidden="true"><i></i></div>
+  <div class="band">
+    <span class="eyebrow">Centro de control del libro</span>
+    <h2>Seis revisiones profesionales, <span>una sola bandeja</span></h2>
+    <p class="sub">Cada capítulo revisado en busca de oficio y consistencia, y cada hallazgo llega a ti con una corrección que tú apruebas.</p>
+    <div class="chips">
+      <span>Editorial</span><span>Gramática</span><span>Trama</span><span>Diálogo</span><span>Continuidad</span><span>Ritmo</span>
+    </div>
+  </div>
 
-  <section class="band" id="pricing">
-    <span class="tag" style="display:block; text-align:center;">Planes y créditos</span>
+  <section id="pricing">
+    <span class="eyebrow">Planes y créditos</span>
     <h2>Elige tu <span>nivel de poder creativo</span></h2>
     <p class="sub">Todos los planes incluyen el editor completo, los tres formatos y el menú Escribir con IA. Los planes se diferencian en los créditos de IA que se reponen cada mes. La facturación anual equivale a dos meses gratis.</p>
     <div class="billing-toggle" role="group" aria-label="Intervalo de facturación">
@@ -482,8 +522,8 @@
     <p class="packs" style="margin-top:18px;">¿Te preguntas cómo se compara el estudio? <a href="why-studio.html">Mira qué lo hace diferente</a>.</p>
   </section>
 
-  <section class="band" id="faq">
-    <span class="tag" style="display:block; text-align:center;">Buenas preguntas</span>
+  <section id="faq">
+    <span class="eyebrow">Buenas preguntas</span>
     <h2>Preguntas <span>frecuentes</span></h2>
     <div class="faq-list">
       <details class="faq-item">
@@ -513,16 +553,14 @@
     </div>
   </section>
 
-  <div class="flourish" aria-hidden="true"><i></i></div>
-
   <div class="final">
-    <span class="tag">Empieza hoy</span>
+    <img class="icon" src="../assets/app-icon-web.png" alt="Icono de la app Script Novel Studio" />
+    <span class="eyebrow">Empieza hoy</span>
     <h2>Tu próximo capítulo <span>te espera</span></h2>
-    <p>Script Novel Studio cambia las reglas del juego. Desde la primera palabra en la página hasta un manuscrito terminado, puede escribir literalmente tu libro completo, no solo un capítulo o un esquema: es tu consultor, editor, corrector, entrenador de gramática y más, todo en un solo estudio. Seas un escritor experimentado o nunca hayas escrito nada fuera de un trabajo de la escuela, Script Novel Studio es tuyo: para tenerlo, para guardarlo y, por supuesto, ¡para teclear!</p>
+    <p class="pitch">Script Novel Studio cambia las reglas del juego. Desde la primera palabra en la página hasta un manuscrito terminado, puede escribir literalmente tu libro completo, no solo un capítulo o un esquema: es tu consultor, editor, corrector, entrenador de gramática y más, todo en un solo estudio. Seas un escritor experimentado o nunca hayas escrito nada fuera de un trabajo de la escuela, Script Novel Studio es tuyo: para tenerlo, para guardarlo y, por supuesto, ¡para teclear!</p>
     <a class="btn btn-gold" href="#pricing">Ver planes y precios</a>
-    <p style="margin-top:20px; font-size:15px;">¿Ya escribes con nosotros? <a href="../account/">Inicia sesión en tu cuenta</a>.</p>
+    <p class="signin-line">¿Ya escribes con nosotros? <a href="../account/">Inicia sesión en tu cuenta</a>.</p>
   </div>
-
   <footer class="site">
     <div class="foot-grid">
       <div class="foot-brand">
@@ -974,10 +1012,10 @@
   #ssp-send { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; border: none; border-radius: 999px; padding: 9px 16px; font-weight: 700; cursor: pointer; font-size: .92rem; }
   #ssp-send:disabled { opacity: .55; cursor: wait; }
 </style>
-<button id="ssp-btn" type="button" aria-label="Abrir el chat de soporte">?</button>
-<div id="ssp-panel" hidden role="dialog" aria-label="Soporte del estudio">
-  <div class="ssp-head"><span>Soporte del estudio</span><button id="ssp-close" type="button" aria-label="Cerrar el chat de soporte">&times;</button></div>
-  <p class="ssp-sub">Respuestas de nuestras guías públicas. Para todo lo demás, escribe a support@scriptnovelpublishing.com.</p>
+<button id="ssp-btn" type="button" aria-label="Abrir chat de soporte">?</button>
+<div id="ssp-panel" hidden role="dialog" aria-label="Soporte del Studio">
+  <div class="ssp-head"><span>Studio Support</span><button id="ssp-close" type="button" aria-label="Cerrar chat de soporte">&times;</button></div>
+  <p class="ssp-sub">Respuestas de nuestras guías públicas. Para cualquier otra cosa, escribe a support@scriptnovelpublishing.com.</p>
   <div id="ssp-msgs"></div>
   <form id="ssp-form">
     <input id="ssp-input" type="text" maxlength="2000" placeholder="Pregunta sobre planes, créditos, exportaciones..." aria-label="Pregunta de soporte" autocomplete="off">
