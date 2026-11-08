@@ -54,6 +54,7 @@
   .brand img { height: 88px; width: auto; display: block; transition: height .28s ease; }
   .brand span { font-family: 'Montserrat', 'Segoe UI', sans-serif; font-weight: 600; font-size: 11.5px; letter-spacing: .24em; text-transform: uppercase; color: #d9ab2d; white-space: nowrap; margin-left: 33px; }
   nav.site { display:flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
+  .site-nav-row { display: contents; }
   nav.site a { color: #c3cad4; text-decoration: none; font-size: 14px; position: relative; }
   nav.site a:hover { color: var(--gold-hi); }
   nav.site a:not(.signin):not(.cta-btn)::after { content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 100%; border-radius: 2px; background: linear-gradient(90deg, #f6dc9a, #d4a857); transform: scaleX(0); transform-origin: left center; transition: transform .22s ease; }
@@ -287,7 +288,8 @@
   /* ---------- Responsive ---------- */
   @media (max-width: 900px) { #pricing .grid { grid-template-columns: repeat(2, 1fr); } .packs-grid { grid-template-columns: repeat(3, 1fr); } .steps { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 880px) {
-    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 4px; padding: 9px 20px; background: rgba(24,29,38,.6); border: 1px solid rgba(110,121,135,.35); border-radius: 999px; scroll-padding-inline: 20px; }
+    nav.site { display: block; overflow-x: auto; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 4px; padding: 9px 20px; background: rgba(24,29,38,.6); border: 1px solid rgba(110,121,135,.35); border-radius: 999px; scroll-padding-inline: 20px; }
+    .site-nav-row { display: flex; align-items: center; flex-wrap: nowrap; gap: 4px 22px; width: max-content; margin-inline: auto; }
     nav.site::-webkit-scrollbar { display: none; }
     nav.site a, .lang-toggle { white-space: nowrap; }
   }
@@ -296,7 +298,6 @@
     header.site { justify-content: center; text-align: center; top: 8px; }
     header.site.compact .brand img { height: 48px; }
     .brand { align-items: center; } .brand img { height: 72px; } .brand span { margin-left: 0; }
-    nav.site { justify-content: center; }
     .hero { padding-top: 40px; } .hero h1 { font-size: 34px; } .hero p.lede { font-size: 17px; }
     h2 { font-size: 28px; }
     .feature, .feature.flip { grid-template-columns: 1fr; gap: 24px; margin-top: 52px; }
@@ -310,6 +311,31 @@
     .foot-grid { grid-template-columns: 1fr; gap: 22px; }
   }
 
+
+  /* S icon blue pulse */
+  @keyframes sns-glow-pulse {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(64,156,255,0)); }
+    50% { filter: drop-shadow(0 0 14px rgba(64,156,255,.45)); }
+  }
+  @keyframes sns-sweep {
+    0% { background-position: 130% 0; }
+    45% { background-position: -130% 0; }
+    100% { background-position: -130% 0; }
+  }
+  .brand-pulse { animation: sns-glow-pulse 4.5s ease-in-out infinite; }
+  .s-pulse { display: inline-block; position: relative; line-height: 0; animation: sns-glow-pulse 4.5s ease-in-out infinite; }
+  .s-pulse::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, transparent 32%, rgba(96,186,255,.38) 46%, rgba(190,235,255,.75) 50%, rgba(96,186,255,.38) 54%, transparent 68%);
+    background-size: 280% 100%;
+    -webkit-mask-image: url("assets/app-icon-web.png"); mask-image: url("assets/app-icon-web.png");
+    -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    animation: sns-sweep 3.8s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-pulse, .s-pulse, .s-pulse::after { animation: none; }
+  }
 </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -318,8 +344,8 @@
 <body>
 <div class="wrap">
   <header class="site">
-    <a class="brand" href="index.html"><img src="assets/logo-web.png" alt="Script Novel Studio" /><span>Your Writing Spouse</span></a>
-    <nav class="site">
+    <a class="brand" href="index.html"><img class="brand-pulse" src="assets/logo-web.png" alt="Script Novel Studio" /><span>Your Writing Spouse</span></a>
+    <nav class="site"><div class="site-nav-row">
       <a href="#features">Features</a>
       <a href="#how">How it works</a>
       <a href="#pricing">Pricing</a>
@@ -328,7 +354,7 @@
       <a class="signin" id="signin-link" href="account/">Sign in</a>
       <a class="cta-btn" href="#pricing">Get the Studio</a>
       <span class="lang-toggle"><span class="on">EN</span><span class="sep">|</span><a href="es/index.html">ES</a></span>
-    </nav>
+    </div></nav>
   </header>
   <div id="acct-backdrop" hidden></div>
   <aside id="acct-panel" aria-hidden="true" aria-label="Your account">
@@ -432,6 +458,7 @@
     <span class="eyebrow">Plans and credits</span>
     <h2>Pick your <span>creative power level</span></h2>
     <p class="sub">Every plan includes the full editor, all three formats, and the Write with AI menu. Plans differ in the AI credits they refill each month. Annual billing is two months free.</p>
+    <p class="sub">Windows only, desktop or laptop.</p>
     <div class="billing-toggle" role="group" aria-label="Billing interval">
       <button type="button" id="billing-month" class="is-active">Monthly</button>
       <button type="button" id="billing-year">Annual <span>(two months free)</span></button>
@@ -470,7 +497,7 @@
 
     <div class="card lifetime">
       <div class="lrow">
-        <img src="assets/app-icon-web.png" alt="" />
+        <span class="s-pulse"><img src="assets/app-icon-web.png" alt="" /></span>
         <div>
           <div class="tag">Lifetime license</div>
           <h3>Pay once. Own it forever.</h3>
@@ -554,11 +581,15 @@
         <summary>Does Script Novel Studio replace a professional editor?</summary>
         <p>No, and we recommend one. Studio writes with you, and its checks catch a great deal, but before you publish, have your manuscript, screenplay, or script novel edited by a professional editor.</p>
       </details>
+      <details class="faq-item">
+        <summary>What kind of computer do I need?</summary>
+        <p>Script Novel Studio is a Windows program. It runs on a Windows desktop or laptop, including a Windows tablet like a Surface. There is no Mac, iPhone, iPad, Android, or Chromebook version, and it cannot be installed on those devices.</p>
+      </details>
     </div>
   </section>
 
   <div class="final">
-    <img class="icon" src="assets/app-icon-web.png" alt="Script Novel Studio app icon" />
+    <span class="s-pulse"><img class="icon" src="assets/app-icon-web.png" alt="Script Novel Studio app icon" /></span>
     <span class="eyebrow">Begin today</span>
     <h2>Your next chapter <span>is waiting</span></h2>
     <p class="pitch">Script Novel Studio is a game changer. From the first word on the page to a finished manuscript, it can literally write your entire book, not just a chapter or an outline: it's your consultant, editor, proofreader, grammar coach, and more, all in one studio. Whether you're a seasoned writer or you've never written anything outside a school paper, Script Novel Studio is yours, to have, to hold, and of course, to type!</p>
