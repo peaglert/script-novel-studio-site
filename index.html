@@ -579,8 +579,8 @@
   // those outcomes are reported in words below (see planChangeMessage).
   var SERVICE_URL = 'https://sns-entitlement-service.onrender.com';
   var SUPPORT_EMAIL = 'support@scriptnovelpublishing.com';
-  var CLERK_KEY = 'pk_test_dG9nZXRoZXItcm9iaW4tNTE3Mi5jbGVyay5hY2NvdW50cy5kZXYk';
-  var CLERK_SRC = 'https://together-robin-5172.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
+  var CLERK_KEY = 'pk_live_Y2xlcmsuc2NyaXB0bm92ZWxzdHVkaW8uY29tJA';
+  var CLERK_SRC = 'https://clerk.scriptnovelstudio.com/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
 
   var statusEl = document.getElementById('checkout-status');
   var modal = document.getElementById('signin-modal');
@@ -817,8 +817,8 @@
   <script>
   // Account panel: avatar in the header, live plan and credits from the service.
   (function () {
-    var KEY = 'pk_test_dG9nZXRoZXItcm9iaW4tNTE3Mi5jbGVyay5hY2NvdW50cy5kZXYk';
-    var SRC = 'https://together-robin-5172.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
+    var KEY = 'pk_live_Y2xlcmsuc2NyaXB0bm92ZWxzdHVkaW8uY29tJA';
+    var SRC = 'https://clerk.scriptnovelstudio.com/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
     var SERVICE = 'https://sns-entitlement-service.onrender.com';
     var ACCOUNT = 'account/'; var PRICING = '#pricing'; var LOCALE = 'en-US';
     var L = { account: 'Your account', plan: 'Plan', creditsTitle: 'Credits available', planCredits: 'Plan credits left this period', bonusCredits: 'Pack and bonus credits (never expire)', loading: 'Loading your plan and credits...', errorText: "Couldn't reach your account just now. Check your connection and try again.", retry: 'Try again', noPlan: 'No active plan', lifetimeName: 'Lifetime', lockedNote: 'Choose a plan to unlock the studio.', seePlans: 'See plans', planCurrent: 'Your current plan', planSwitchYear: 'Switch to Annual', planSwitchMonth: 'Switch to Monthly', planScheduled: 'Scheduled for ', renews: 'Renews', accessUntil: 'Access until', switches: 'Switches to', status: { active: 'Active', trialing: 'Trial', past_due: 'Payment past due', canceled: 'Canceled', lifetime: 'Lifetime', inactive: 'No plan' } };
