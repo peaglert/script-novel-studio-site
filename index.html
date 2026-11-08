@@ -15,218 +15,247 @@
 <meta name="twitter:card" content="summary_large_image">
 <style>
   :root {
-    --navy-950:#0a0f1e; --navy-900:#0d1526; --navy-850:#111c33; --navy-800:#152238; --navy-700:#1e2f4e;
-    --line:#26355a; --line-gold:rgba(212,168,87,.35);
-    --gold:#d4a857; --gold-hi:#f2d492; --gold-deep:#a87f2d; --blue:#3a7bff;
+    --navy-950:#0a0f1e; --navy-900:#0d1526; --navy-850:#111c33; --navy-800:#152238;
+    --line:#2a3a63; --line-steel:#26355a; --line-gold:rgba(212,168,87,.45);
+    --gold:#d4a857; --gold-hi:#f2d492; --gold-deep:#a87f2d;
     --text:#f4f1e8; --muted:#a9b2c6; --muted-2:#8b96ad;
+    --steel-950:#12151a; --steel-900:#20242a; --steel-850:#232830; --steel-700:#3a4149; --steel-500:#6e7987; --steel-edge:#0c0e12;
+    --brush: repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, rgba(0,0,0,.045) 1px 2px, transparent 2px 3px);
+    --steel: linear-gradient(180deg, #2c333d, #232830 55%, #1d2129);
     --sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --serif:Georgia, "Times New Roman", serif;
+    --serif: Georgia, "Times New Roman", serif;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin:0; font-family: var(--sans); background:
-    radial-gradient(1100px 560px at 88% -8%, rgba(58,123,255,.14), transparent 60%),
-    radial-gradient(900px 620px at -10% 22%, rgba(212,168,87,.10), transparent 55%),
-    linear-gradient(180deg, var(--navy-900), var(--navy-950) 340px), var(--navy-950);
-    color: var(--text); line-height: 1.6; }
+  body { margin:0; font-family: var(--sans); color: var(--text); line-height: 1.6;
+    background:
+      radial-gradient(1100px 560px at 88% -8%, rgba(58,123,255,.14), transparent 60%),
+      radial-gradient(900px 620px at -10% 22%, rgba(212,168,87,.10), transparent 55%),
+      linear-gradient(180deg, var(--navy-900), var(--navy-950) 340px), var(--navy-950); }
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
   a { color: var(--gold); }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  section[id] { scroll-margin-top: 120px; }
 
-  /* Header */
-  header.site { display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 24px 0 10px;
-    position: sticky; top: 0; z-index: 50; background: rgba(10,15,30,.92);
-    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: padding .28s ease, box-shadow .28s ease; }
-  header.site.compact { padding: 10px 0; border-bottom: 1px solid var(--line); }
-  header.site.compact .brand img { height: 42px; }
-  header.site.compact .brand span { display: none; }
-  .brand img { transition: height .28s ease; }
-  .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
-  .brand img { height: 68px; width: auto; display: block; }
-  .brand span { font-family: 'Montserrat', 'Segoe UI', sans-serif; font-style: normal; font-weight: 600; font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase; color: #d9ab2d; white-space: nowrap; margin-left: 25px; }
-  nav.site { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
-  nav.site a { color: var(--muted); text-decoration: none; font-size: 15px; }
+  /* ---------- Header: gunmetal bar (preview treatment) + production behavior ---------- */
+  header.site { display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 22px 22px 16px; margin-top: 16px;
+    position: sticky; top: 12px; z-index: 50;
+    border: 1px solid var(--steel-950); border-bottom-color: var(--steel-edge); border-radius: 14px;
+    background:
+      linear-gradient(112deg, rgba(255,255,255,0) 24%, rgba(233,239,247,.15) 44%, rgba(255,255,255,.06) 54%, rgba(255,255,255,0) 68%),
+      var(--brush),
+      linear-gradient(180deg, #343c48 0%, #272d36 36%, #22262e 70%, #1a1e25 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -1px 0 #0c0e12, 0 18px 40px rgba(0,0,0,.35);
+    transition: padding .28s ease, box-shadow .28s ease; animation: snsHeaderIn .45s ease both; }
+  @keyframes snsHeaderIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  header.site.compact { padding: 12px 22px 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -1px 0 #0c0e12, 0 12px 32px rgba(0,0,0,.42); }
+  header.site.compact .brand img { height: 56px; }
+  .brand { display:flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; }
+  .brand img { height: 88px; width: auto; display: block; transition: height .28s ease; }
+  .brand span { font-family: 'Montserrat', 'Segoe UI', sans-serif; font-weight: 600; font-size: 11.5px; letter-spacing: .24em; text-transform: uppercase; color: #d9ab2d; white-space: nowrap; margin-left: 33px; }
+  nav.site { display:flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
+  nav.site a { color: #c3cad4; text-decoration: none; font-size: 14px; position: relative; }
   nav.site a:hover { color: var(--gold-hi); }
-  nav.site a.signin { color: var(--gold-hi); border: 1px solid var(--line-gold); border-radius: 999px; padding: 7px 18px; font-weight: 600; }
-  nav.site a.signin:hover { background: rgba(212,168,87,.12); color: var(--gold-hi); }
+  nav.site a:not(.signin):not(.cta-btn)::after { content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 100%; border-radius: 2px; background: linear-gradient(90deg, #f6dc9a, #d4a857); transform: scaleX(0); transform-origin: left center; transition: transform .22s ease; }
+  nav.site a:not(.signin):not(.cta-btn):hover::after, nav.site a.current:not(.signin):not(.cta-btn)::after { transform: scaleX(1); }
+  .lang-toggle a::after { content: none !important; }
+  nav.site a.signin { display:inline-flex; align-items:center; justify-content:center; gap: 8px; height: 40px; line-height: 1; color: #eef1f5; border: 1px solid #565f6b; border-radius: 999px; padding: 0 18px; font-size: 14px; font-weight: 600;
+    background: linear-gradient(180deg, #3b434e, #262c34); box-shadow: inset 0 1px 0 rgba(255,255,255,.13), inset 0 -1px 0 rgba(0,0,0,.4); }
+  nav.site a.signin:hover { background: linear-gradient(180deg, #47515e, #2c333d); color: #ffffff; }
+  nav.site a.cta-btn { display:inline-flex; align-items:center; justify-content:center; height: 40px; line-height: 1; background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-size: 14px; font-weight: 700; border-radius: 999px; padding: 0 18px; box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -6px 12px rgba(138,100,32,.22); }
+  nav.site a.cta-btn:hover { filter: brightness(1.07); color: #141a2e; }
+  .lang-toggle { display: inline-flex; align-items: center; gap: 7px; color: #98a2ae; font-size: 13.5px; white-space: nowrap; }
+  .lang-toggle .on { color: #f2d492; font-weight: 700; }
+  .lang-toggle .sep { opacity: .35; }
+  .lang-toggle a { color: #98a2ae; font-size: 13.5px; }
+  #signin-link .acct-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block; }
+  #signin-link .acct-initial { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
 
-  /* Buttons + tags */
-  .tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase; }
-  .btn { display: inline-block; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 13px 28px; }
-  .btn-gold { background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806;
-    box-shadow: 0 8px 26px rgba(212,168,87,.28), inset 0 1px 0 rgba(255,255,255,.5); }
-  .btn-gold:hover { filter: brightness(1.06); }
-  .btn-ghost { border: 1px solid var(--line-gold); color: var(--gold-hi); }
-  .btn-ghost:hover { background: rgba(212,168,87,.10); }
-
-  /* Hero */
-  .hero { text-align: center; padding: 54px 0 8px; }
-  .hero h1 { font-family: var(--serif); font-size: 50px; line-height: 1.14; font-weight: normal; margin: 16px 0 16px; }
-  .hero h1 span { color: var(--gold); }
-  .hero p.lede { color: var(--muted); font-size: 19.5px; max-width: 680px; margin: 0 auto; }
-  .hero .cta { margin-top: 28px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .shot-frame { margin: 46px auto 0; max-width: 1020px; border: 1px solid var(--line-gold); border-radius: 16px;
-    background: linear-gradient(180deg, var(--navy-850), var(--navy-900)); padding: 10px;
-    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 90px rgba(212,168,87,.10); }
-  .shot-frame img { display: block; width: 100%; height: auto; border-radius: 9px; }
-  .strip { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: center; margin: 30px auto 0; max-width: 900px;
-    color: var(--muted); font-size: 14.5px; }
-  .strip b { color: var(--gold-hi); font-weight: 600; }
-
-  /* Sections */
-  section.band { padding: 74px 0 6px; }
-  h2 { font-family: var(--serif); font-size: 33px; font-weight: normal; text-align: center; margin: 0 0 10px; }
+  /* ---------- Shared (preview) ---------- */
+  section { padding: 84px 0 0; }
+  .eyebrow { display:block; text-align:center; font-size: 12.5px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--gold);
+    background: linear-gradient(90deg, #8a6420, #f6dc9a 45%, #d4a857 70%, #8a6420); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  h2 { font-family: var(--serif); font-weight: normal; font-size: 34px; line-height: 1.16; text-align: center; margin: 14px auto 10px; max-width: 720px; }
   h2 span { color: var(--gold); }
-  .sub { text-align: center; color: var(--muted); margin: 0 auto 30px; max-width: 640px; font-size: 17px; }
-  .feature { display: grid; grid-template-columns: 1fr 1.25fr; gap: 52px; align-items: center; padding: 40px 0; }
-  .feature.flip { grid-template-columns: 1.25fr 1fr; }
-  .feature.flip .copy { order: 2; }
-  .feature.flip .shot-frame { order: 1; }
-  .feature .shot-frame { margin: 0; }
-  .feature h3 { font-family: var(--serif); font-size: 27px; font-weight: normal; margin: 10px 0 10px; }
-  .feature p { color: var(--muted); font-size: 16.5px; margin: 0 0 12px; }
-  .feature ul { color: var(--muted); font-size: 16px; margin: 10px 0 0; padding-left: 20px; }
-  .feature li { margin-bottom: 6px; }
-  .feature li b, .feature p b { color: var(--text); font-weight: 600; }
+  .sub { text-align:center; color: var(--muted); font-size: 16px; max-width: 640px; margin: 0 auto; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; height: 48px; line-height: 1; text-decoration:none; border-radius: 999px; padding: 0 28px; font-weight: 700; font-size: 15.5px; }
+  .btn-gold { background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806; box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -6px 12px rgba(138,100,32,.22), 0 10px 26px rgba(212,168,87,.28); }
+  .btn-gold:hover { filter: brightness(1.06); }
+  .btn-ghost { border: 1px solid var(--line-gold); color: var(--gold-hi); background: transparent; }
+  .btn-ghost:hover { background: rgba(212,168,87,.12); }
+  .shot { border: 3px solid transparent; border-radius: 16px; overflow: hidden;
+    background: linear-gradient(#1d2129, #1d2129) padding-box,
+      linear-gradient(155deg, #7d8794, #3a4149 30%, #20242a 58%, #59636f 84%, #2b3038) border-box;
+    box-shadow: 0 30px 70px rgba(0,0,0,.55), 0 0 22px rgba(110,121,135,.14); }
+  .shot img, .shot video { display:block; width: 100%; height: auto; border-radius: 13px; border: 1px solid rgba(212,168,87,.55); }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 16px; }
-  .card { background: linear-gradient(180deg, rgba(58,123,255,.06), rgba(255,255,255,.014)), var(--navy-850);
-    border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
-  .card h3 { font-family: var(--serif); margin: 0 0 7px; font-size: 20px; font-weight: normal; color: var(--text); }
-  .card p { color: var(--muted); margin: 0; font-size: 15.5px; }
+  /* ---------- Hero ---------- */
+  .hero { text-align:center; padding: 64px 0 8px; }
+  .hero h1 { font-family: var(--serif); font-weight: normal; font-size: 52px; line-height: 1.12; margin: 18px auto 18px; max-width: 860px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p.lede { color: var(--muted); font-size: 18px; max-width: 700px; margin: 0 auto; }
+  .hero .cta { margin-top: 30px; display:flex; gap: 14px; justify-content:center; flex-wrap: wrap; }
+  .hero-stage { position: relative; margin: 56px auto 0; max-width: 980px; }
+  .hero-stage::before { content:""; position:absolute; inset: -56px -44px auto; height: 76%;
+    background: radial-gradient(closest-side, rgba(212,168,87,.28), transparent 70%); filter: blur(6px); z-index: 0; }
+  .hero-stage .shot { position: relative; z-index: 1; border-radius: 20px; }
+  .hero-stage .shot img { border-radius: 17px; }
+  .facts { display:flex; justify-content:center; flex-wrap: wrap; gap: 10px 34px; margin-top: 34px; color: var(--muted-2); font-size: 14.5px; }
+  .facts b { color: var(--text); font-weight: 600; }
 
-  /* Pricing */
-  .price { font-family: var(--serif); font-size: 40px; margin: 10px 0 2px; color: var(--text); }
-  .price small { font-size: 15px; color: var(--muted); font-family: var(--sans); }
-  .credits { color: var(--gold); font-size: 15px; letter-spacing: .4px; font-weight: 600; }
-  .card.featured { border-color: var(--gold); box-shadow: 0 0 44px rgba(212,168,87,.13); }
-  .lifetime { margin-top: 18px; text-align: left; display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; align-items: center;
-    border-color: var(--line-gold); }
-  .lifetime .lrow { display: flex; gap: 20px; align-items: center; }
-  .lifetime img { width: 76px; height: 76px; }
-  .packs { text-align: center; color: var(--muted); max-width: 760px; margin-left: auto; margin-right: auto; }
-  .packs strong { color: var(--text); font-weight: 600; }
+  /* ---------- Transformation strip ---------- */
+  .steps { display:grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 44px; }
+  .step { border: 1px solid var(--steel-950); border-radius: 16px; padding: 26px 22px;
+    background: var(--brush), var(--steel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.55), 0 14px 34px rgba(0,0,0,.34); }
+  .step .num { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(246,220,154,.55); color: #221806;
+    font-family: var(--serif); font-size: 20px; font-weight: 700; display:flex; align-items:center; justify-content:center; margin-bottom: 14px;
+    background: radial-gradient(circle at 32% 28%, #f6dc9a, #d4a857 55%, #8a6420);
+    box-shadow: 0 4px 14px rgba(212,168,87,.35), inset 0 1px 2px rgba(255,255,255,.55), inset 0 -2px 4px rgba(90,62,14,.45); }
+  .step h3 { font-family: var(--serif); font-weight: normal; font-size: 21px; margin: 0 0 6px; }
+  .step p { color: var(--muted); font-size: 15px; margin: 0; }
+  .watch { margin: 44px auto 0; max-width: 900px; }
+  .watch-line { text-align:center; color: var(--muted); font-size: 16px; margin: 18px auto 0; max-width: 640px; }
 
-  /* Purchase controls */
-  .billing-toggle { display: flex; gap: 6px; justify-content: center; margin: 4px auto 30px; }
-  .billing-toggle button { font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; color: var(--muted);
-    background: var(--navy-850); border: 1px solid var(--line); border-radius: 999px; padding: 9px 22px; }
+  /* ---------- Showcase ---------- */
+  #features { background: linear-gradient(112deg, transparent 56%, rgba(246,220,154,.05) 65%, rgba(246,220,154,.018) 72%, transparent 81%); }
+  .feature { display:grid; grid-template-columns: 1fr 1.35fr; gap: 48px; align-items:center; margin-top: 76px; }
+  .feature.flip { grid-template-columns: 1.35fr 1fr; }
+  .feature .copy { text-align: left; }
+  .feature .eyebrow { text-align: left; }
+  .feature h3 { font-family: var(--serif); font-weight: normal; font-size: 29px; line-height: 1.2; margin: 12px 0 10px; }
+  .feature h3 span { color: var(--gold); }
+  .feature p { color: var(--muted); font-size: 16px; margin: 0; max-width: 420px; }
+  .feature .duo { display:grid; grid-template-columns: 1fr; gap: 18px; }
+  .feature .duo .shot.small img { max-height: 300px; object-fit: cover; object-position: top; }
+
+  /* ---------- Control Center band ---------- */
+  .band { margin-top: 96px; border: 1px solid var(--steel-950); border-radius: 22px; padding: 52px 40px; text-align:center;
+    background:
+      radial-gradient(700px 300px at 50% -10%, rgba(168,182,200,.15), transparent 65%),
+      var(--brush),
+      linear-gradient(180deg, #2c333d, #232830 55%, #1c2028);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.55), 0 24px 60px rgba(0,0,0,.42); }
+  .band h2 { margin-top: 10px; }
+  .chips { display:flex; justify-content:center; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .chips span { border: 1px solid transparent; color: var(--gold-hi); border-radius: 999px; padding: 8px 20px; font-size: 15px; font-weight: 600; letter-spacing: .04em;
+    background: linear-gradient(rgba(212,168,87,.07), rgba(212,168,87,.07)) padding-box,
+      linear-gradient(150deg, rgba(138,100,32,.9), rgba(246,220,154,.75) 35%, rgba(212,168,87,.9) 65%, rgba(138,100,32,.9)) border-box; }
+
+  /* ---------- Pricing (production markup, preview system) ---------- */
+  .billing-toggle { display:flex; gap: 6px; justify-content:center; margin: 26px auto 34px; }
+  .billing-toggle button { display:inline-flex; align-items:center; justify-content:center; height: 40px; line-height: 1; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; color: var(--muted);
+    background: var(--navy-850); border: 1px solid var(--line); border-radius: 999px; padding: 0 22px; }
   .billing-toggle button.is-active { color: #221806; border-color: transparent;
     background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); }
   .billing-toggle button span { font-weight: 400; font-size: 13.5px; }
-  button.buy { font: inherit; cursor: pointer; border: 0; width: 100%; margin-top: 18px; text-align: center; }
+  #pricing .grid { display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .card { border: 1px solid var(--steel-950); border-radius: 18px; padding: 28px 24px; position: relative;
+    background: var(--brush), var(--steel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.09), inset 0 -1px 0 rgba(0,0,0,.5), 0 16px 38px rgba(0,0,0,.3); }
+  .card:not(.featured)::before { content:""; position:absolute; top:0; left:20px; right:20px; height:1px;
+    background: linear-gradient(90deg, transparent, #8a6420, #f6dc9a, #d4a857, #8a6420, transparent); }
+  .card.featured { border: 2px solid transparent;
+    background: var(--brush) padding-box,
+      linear-gradient(180deg, #2c333d, #232830 55%, #1d2129) padding-box,
+      linear-gradient(150deg, #8a6420, #f6dc9a 30%, #d4a857 60%, #8a6420) border-box;
+    box-shadow: 0 0 44px rgba(212,168,87,.16), inset 0 1px 0 rgba(255,255,255,.10), inset 0 0 24px rgba(212,168,87,.05); }
+  .card h3 { font-family: var(--serif); font-weight: normal; font-size: 24px; margin: 2px 0 0; color: var(--text); }
+  .card p { color: var(--muted); font-size: 15px; margin: 10px 0 0; }
+  .card .tag { position:absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg, #f0d48a, #d4a857); color: #221806;
+    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 999px; padding: 4px 14px; white-space: nowrap; }
+  .price { font-family: var(--serif); font-size: 42px; margin: 10px 0 2px; color: var(--text); }
+  .price small { font-size: 15px; color: var(--muted); font-family: var(--sans); }
+  .credits { color: var(--gold); font-size: 15px; font-weight: 600; margin: 4px 0 0; }
+  button.buy { font: inherit; cursor: pointer; }
+  #pricing button.buy { display:flex; align-items:center; justify-content:center; width: 100%; height: 48px; line-height: 1; text-align:center; margin-top: 20px;
+    border: 1px solid var(--line-gold); color: var(--gold-hi); background: transparent; border-radius: 999px; padding: 0 28px; font-size: 15.5px; font-weight: 700;
+    box-shadow: none; }
+  #pricing button.buy:hover { background: rgba(212,168,87,.12); filter: none; }
+  #pricing .card.featured button.buy { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #221806; border: 0;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -6px 12px rgba(138,100,32,.22); }
+  #pricing .card.featured button.buy:hover { filter: brightness(1.06); }
   button.buy[disabled] { opacity: .65; cursor: wait; }
+  .buy.is-current { opacity: .55; cursor: default; }
+  .lifetime { margin-top: 20px; text-align: left; display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; align-items: center;
+    border: 1px solid var(--line-gold); border-radius: 18px; padding: 28px 30px;
+    background: radial-gradient(600px 240px at 12% 0%, rgba(212,168,87,.14), transparent 60%), var(--brush), var(--steel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.09), inset 0 -1px 0 rgba(0,0,0,.5), 0 16px 38px rgba(0,0,0,.3); }
+  .lifetime::before { content: none; }
+  .lifetime .lrow { display: flex; gap: 20px; align-items: center; }
+  .lifetime img { width: 76px; height: 76px; }
+  .lifetime .tag { display:block; position: static; transform: none; background: none; padding: 0; border-radius: 0; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+  .lifetime h3 { font-family: var(--serif); font-weight: normal; font-size: 25px; margin: 0 0 4px; }
+  .lifetime .price { font-size: 38px; margin: 0; white-space: nowrap; }
+  .lifetime .price small { display: inline; }
   .lbuy { text-align: right; }
   .lbuy .buy { width: auto; margin-top: 12px; }
-  .packs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 22px; }
-  .pack { text-align: center; padding: 20px 16px; }
+  #pricing .lifetime button.buy { width: auto; background: linear-gradient(180deg, #f0d48a, #d4a857 55%, #bd913c); color: #221806; border: 0;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -6px 12px rgba(138,100,32,.22); padding: 0 28px; }
+  .packs { text-align: center; color: var(--muted); max-width: 760px; margin-left: auto; margin-right: auto; font-size: 15.5px; }
+  .packs strong { color: var(--text); font-weight: 600; }
+  .packs-grid { display:grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 22px; }
+  .packs-grid .card { padding: 20px 16px; text-align: center; }
   .pack .pname { font-family: var(--serif); font-size: 19px; color: var(--text); }
   .pack .psub { color: var(--muted-2); font-size: 13.5px; }
-  .pack .pprice { font-family: var(--serif); font-size: 28px; margin: 6px 0 0; color: var(--text); }
-  .pack .buy { margin-top: 14px; padding: 11px 18px; font-size: 15px; }
+  .pack .pprice { font-family: var(--serif); font-size: 28px; margin: 6px 0 0; color: var(--gold-hi); }
+  #pricing .pack button.buy { margin-top: 14px; }
   .checkout-status { text-align: center; color: var(--gold-hi); min-height: 1.5em; margin: 14px auto 0; max-width: 640px; font-size: 15.5px; }
   .checkout-status:empty { margin: 0; min-height: 0; }
   .checkout-status.error { color: #f0a3a3; }
   .card .checkout-status, .pack .checkout-status { font-size: 14.5px; }
+  #pricing .strip { display:flex; justify-content:center; flex-wrap: wrap; gap: 8px 30px; margin-top: 34px; color: var(--muted-2); font-size: 14.5px; }
+  #pricing .strip b { color: var(--text); font-weight: 600; }
+
+  /* ---------- FAQ (production markup, new system) ---------- */
+  .faq-list { max-width: 820px; margin: 34px auto 0; display: grid; gap: 12px; }
+  .faq-item { border: 1px solid var(--steel-950); border-radius: 14px; padding: 4px 24px;
+    background: var(--brush), var(--steel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), inset 0 -1px 0 rgba(0,0,0,.5); }
+  .faq-item summary { font-family: var(--serif); font-size: 19px; color: var(--text); cursor: pointer; padding: 16px 0; }
+  .faq-item summary:hover { color: var(--gold-hi); }
+  .faq-item p { color: var(--muted); margin: 0 0 18px; font-size: 16px; }
+
+  /* ---------- Final CTA (preview plaque + production pitch) ---------- */
+  .final { text-align:center; position: relative; overflow: hidden; border: 2px solid transparent; border-radius: 22px; padding: 64px 40px 54px; margin-top: 96px;
+    background: radial-gradient(700px 320px at 50% -12%, rgba(212,168,87,.15), transparent 65%) padding-box,
+      linear-gradient(180deg, #101a33, #0b1122) padding-box,
+      linear-gradient(150deg, #8a6420, #f6dc9a 30%, #d4a857 60%, #8a6420) border-box;
+    box-shadow: 0 24px 60px rgba(0,0,0,.4), inset 0 0 30px rgba(212,168,87,.05); }
+  .final::before { content:""; position:absolute; inset: 0; pointer-events: none;
+    background: url("assets/app-icon-web.png") no-repeat right -70px bottom -70px / 400px auto; opacity: .07; }
+  .final > * { position: relative; }
+  .final img.icon { width: 92px; height: 92px; margin-bottom: 8px; }
+  .final .pitch { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 760px; margin: 14px auto 30px; }
+  .final .signin-line { margin-top: 20px; font-size: 15px; color: var(--muted); }
+
+  /* ---------- Footer (production markup, new system) ---------- */
+  footer.site { margin-top: 60px; padding: 40px 0 46px; color: var(--muted); font-size: 14.5px; border-top: 1px solid rgba(244,241,232,.07); }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 30px; margin-bottom: 26px; }
+  .foot-grid h4 { font-family: var(--serif); font-weight: normal; color: var(--text); font-size: 16.5px; margin: 0 0 10px; }
+  .foot-grid a { color: var(--muted); text-decoration: none; display: block; margin-bottom: 7px; }
+  .foot-grid a:hover { color: var(--gold-hi); }
+  .foot-grid p { margin: 0 0 8px; }
+  .foot-brand img { height: 56px; width: auto; }
+  .footer-tagline { color: var(--gold); font-style: italic; font-family: var(--serif); }
+  .foot-base { border-top: 1px solid rgba(244,241,232,.07); padding-top: 18px; color: var(--muted-2); font-size: 13.5px; }
+  footer.site a.mail { color: var(--gold); display: inline; }
+
+  /* ---------- Sign-in modal (production) ---------- */
   .signin-overlay { position: fixed; inset: 0; background: rgba(4,7,15,.8); z-index: 60;
     display: flex; align-items: flex-start; justify-content: center; padding: 6vh 18px 30px; overflow-y: auto; }
   .signin-overlay[hidden] { display: none; }
   .signin-box { position: relative; width: 100%; max-width: 460px; }
   .signin-note { text-align: center; color: var(--muted); margin: 0 0 14px; font-size: 15.5px; }
   .signin-close { position: absolute; top: -16px; right: -8px; z-index: 2; width: 38px; height: 38px; border-radius: 999px;
-    border: 1px solid var(--line-gold); background: var(--navy-800); color: var(--gold-hi); font-size: 19px; cursor: pointer; line-height: 1; }
+    border: 1px solid var(--line-gold); background: #152238; color: var(--gold-hi); font-size: 19px; cursor: pointer; line-height: 1; }
 
-  /* Focus (keyboard) */
-  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-
-  /* Gold flourish divider */
-  .flourish { display: flex; align-items: center; gap: 14px; max-width: 760px; margin: 54px auto 0; opacity: .55; }
-  .flourish::before, .flourish::after { content: ""; flex: 1; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--line-gold)); }
-  .flourish::after { background: linear-gradient(90deg, var(--line-gold), transparent); }
-  .flourish i { width: 9px; height: 9px; flex: none; background: var(--gold); transform: rotate(45deg); }
-
-  /* How it works */
-  .steps { border-top: 2px solid var(--line-gold); padding-top: 28px; margin-top: 26px; }
-  .step .num { font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--gold); display: block; margin-bottom: 12px; }
-
-  /* FAQ */
-  .faq-list { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
-  .faq-item { background: var(--navy-850); border: 1px solid var(--line); border-radius: 14px; padding: 4px 24px; }
-  .faq-item summary { font-family: var(--serif); font-size: 19px; color: var(--text); cursor: pointer; padding: 16px 0; }
-  .faq-item summary:hover { color: var(--gold-hi); }
-  .faq-item p { color: var(--muted); margin: 0 0 18px; font-size: 16px; }
-
-  /* Final CTA + footer */
-  .final { text-align: center; margin-top: 84px; border: 1px solid var(--line-gold); border-radius: 18px; padding: 46px 30px;
-    background: radial-gradient(600px 260px at 50% -30%, rgba(212,168,87,.16), transparent 65%), var(--navy-850); }
-  .final h2 { margin-bottom: 8px; }
-  .final p { color: var(--muted); margin: 0 auto 24px; max-width: 560px; font-size: 17px; }
-  footer.site { border-top: 1px solid var(--line); margin-top: 64px; padding: 36px 0 42px; color: var(--muted); font-size: 14.5px; }
-  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 30px; margin-bottom: 26px; }
-  .foot-grid h4 { font-family: var(--serif); font-weight: normal; color: var(--text); font-size: 16.5px; margin: 0 0 10px; }
-  .foot-grid a { color: var(--muted); text-decoration: none; display: block; margin-bottom: 7px; }
-  .foot-grid a:hover { color: var(--gold-hi); }
-  .foot-grid p { margin: 0 0 8px; }
-  .foot-brand img { height: 40px; width: auto; }
-  .footer-tagline { color: var(--gold); font-style: italic; font-family: var(--serif); }
-  .foot-base { border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted-2); font-size: 13.5px; }
-  footer.site a.mail { color: var(--gold); display: inline; }
-
-  @media (max-width: 880px) {
-    .brand img { height: 56px; }
-    .hero { padding-top: 36px; }
-    .hero h1 { font-size: 35px; }
-    .hero p.lede { font-size: 17.5px; }
-    section.band { padding-top: 52px; }
-    h2 { font-size: 27px; }
-    .feature, .feature.flip { grid-template-columns: 1fr; gap: 24px; padding: 26px 0; }
-    .feature.flip .copy { order: 1; } .feature.flip .shot-frame { order: 2; }
-    .foot-grid { grid-template-columns: 1fr; gap: 22px; }
-    header.site { justify-content: center; text-align: center; }
-    header.site.compact .brand img { height: 42px; }
-    .brand { align-items: center; } .brand span { margin-left: 0; }
-    nav.site { justify-content: center; }
-    .lifetime .lrow { flex-direction: column; text-align: center; }
-    .lifetime { justify-content: center; text-align: center; }
-    .lbuy { text-align: center; }
-  }
-
-  /* Header polish (Nov 7, 2026): CTA, underline hovers, scroll shadow, language toggle, Clerk-aware sign-in */
-  header.site { animation: snsHeaderIn .45s ease both; }
-  @keyframes snsHeaderIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-  header.site.compact { box-shadow: 0 12px 32px rgba(0,0,0,.38); }
-  nav.site a { position: relative; }
-  nav.site a:not(.signin):not(.cta-btn)::after { content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 100%; border-radius: 2px; background: linear-gradient(90deg, #f6dc9a, #d4a857); transform: scaleX(0); transform-origin: left center; transition: transform .22s ease; }
-  nav.site a:not(.signin):not(.cta-btn):hover::after, nav.site a.current:not(.signin):not(.cta-btn)::after { transform: scaleX(1); }
-  .lang-toggle a::after { content: none !important; }
-  nav.site a.signin { color: #f0d48a; border: 1px solid rgba(212,168,87,.45); border-radius: 999px; padding: 7px 18px; font-weight: 600; text-decoration: none; }
-  nav.site a.signin:hover { background: rgba(212,168,87,.12); color: #f0d48a; }
-  nav.site a.cta-btn { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; border-radius: 999px; padding: 8px 18px; text-decoration: none; transition: filter .18s ease; }
-  nav.site a.cta-btn:hover { filter: brightness(1.07); color: #141a2e; }
-  .lang-toggle { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; white-space: nowrap; }
-  .lang-toggle .on { color: #f0d48a; font-weight: 700; }
-  .lang-toggle .sep { opacity: .35; }
-  .lang-toggle a { font-size: 13.5px; }
-  @media (max-width: 880px) {
-    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 8px; padding: 9px 20px; background: rgba(16,24,48,.55); border: 1px solid rgba(212,168,87,.22); border-radius: 999px; scroll-padding-inline: 20px; }
-    nav.site::-webkit-scrollbar { display: none; }
-    nav.site a, .lang-toggle { white-space: nowrap; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    header.site { animation: none; }
-    nav.site a::after { transition: none; }
-  }
-
-  /* Account panel (Nov 7, 2026): avatar pill + slide-in profile with live plan and credits */
-  #signin-link { display: inline-flex; align-items: center; gap: 8px; }
-  #signin-link .acct-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block; }
-  #signin-link .acct-initial { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
+  /* ---------- Account panel (production, verbatim values) ---------- */
   #acct-backdrop { position: fixed; inset: 0; background: rgba(4,7,15,.55); z-index: 190; opacity: 0; transition: opacity .25s ease; }
   #acct-backdrop.open { opacity: 1; }
   #acct-panel { position: fixed; top: 0; right: 0; height: 100dvh; width: min(344px, 90vw); background: #0d1526; border-left: 1px solid rgba(212,168,87,.3); z-index: 200; transform: translateX(102%); transition: transform .3s ease; padding: 20px 20px 24px; overflow-y: auto; box-shadow: -18px 0 44px rgba(0,0,0,.45); color: #e8ecf4; }
   #acct-panel.open { transform: none; }
   #acct-panel [hidden], #acct-backdrop[hidden] { display: none !important; }
-  .buy.is-current { opacity: .55; cursor: default; }
   .acct-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .acct-head span { font-family: var(--serif, Georgia, serif); font-size: 1.15rem; color: #f0d48a; }
   #acct-close { background: none; border: 1px solid rgba(212,168,87,.4); color: #f0d48a; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; line-height: 1; cursor: pointer; }
@@ -253,7 +282,34 @@
   button.acct-btn:hover { background: rgba(212,168,87,.12); }
   .acct-plans { background: linear-gradient(180deg, #f0d48a, #d4a857); color: #141a2e; border: none; }
   .acct-plans:hover { filter: brightness(1.07); color: #141a2e; }
-  @media (prefers-reduced-motion: reduce) { #acct-panel, #acct-backdrop { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { #acct-panel, #acct-backdrop { transition: none; } header.site { animation: none; } nav.site a::after { transition: none; } }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) { #pricing .grid { grid-template-columns: repeat(2, 1fr); } .packs-grid { grid-template-columns: repeat(3, 1fr); } .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 880px) {
+    nav.site { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; max-width: calc(100% - 20px); margin: 2px auto 4px; padding: 9px 20px; background: rgba(24,29,38,.6); border: 1px solid rgba(110,121,135,.35); border-radius: 999px; scroll-padding-inline: 20px; }
+    nav.site::-webkit-scrollbar { display: none; }
+    nav.site a, .lang-toggle { white-space: nowrap; }
+  }
+  @media (max-width: 720px) {
+    section { padding-top: 60px; }
+    header.site { justify-content: center; text-align: center; top: 8px; }
+    header.site.compact .brand img { height: 48px; }
+    .brand { align-items: center; } .brand img { height: 72px; } .brand span { margin-left: 0; }
+    nav.site { justify-content: center; }
+    .hero { padding-top: 40px; } .hero h1 { font-size: 34px; } .hero p.lede { font-size: 17px; }
+    h2 { font-size: 28px; }
+    .feature, .feature.flip { grid-template-columns: 1fr; gap: 24px; margin-top: 52px; }
+    .feature .copy, .feature .eyebrow { text-align: center; } .feature p { margin: 0 auto; }
+    #pricing .grid { grid-template-columns: 1fr; } .packs-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: 1fr; }
+    .band { padding: 38px 22px; }
+    .final { padding: 48px 22px 42px; }
+    .lifetime { justify-content: center; text-align: center; } .lifetime .lrow { flex-direction: column; text-align: center; }
+    .lbuy { text-align: center; }
+    .foot-grid { grid-template-columns: 1fr; gap: 22px; }
+  }
+
 </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -290,17 +346,18 @@
     </div>
   </aside>
 
-
   <section class="hero">
-    <span class="tag">A writing studio by Script Novel Publishing</span>
-    <h1>One studio for <span>novels, script novels,<br>and screenplays</span></h1>
-    <p class="lede">The game changer: Script Novel Studio can write your entire book, from the first word on the page to a finished manuscript. Plan with a synopsis and outline your AI actually reads, draft chapter by chapter in a format-aware editor, and review every word before it enters your manuscript.</p>
+    <span class="eyebrow">A writing studio by Script Novel Publishing</span>
+    <h1>One studio for <span>novels, script novels, and screenplays</span></h1>
+    <p class="lede">The game changer: Script Novel Studio can write your entire book, from the first word on the page to a finished manuscript.</p>
     <div class="cta">
       <a class="btn btn-gold" href="#pricing">See plans and pricing</a>
       <a id="signin-hero" class="btn btn-ghost" href="account/">Sign in</a>
     </div>
-    <div class="shot-frame"><img src="assets/shot-editor.jpg" alt="The Script Novel Studio editor, a manuscript chapter open on the page" /></div>
-    <div class="strip">
+    <div class="hero-stage">
+      <div class="shot"><img src="assets/shot-editor.jpg" alt="The Script Novel Studio editor, a manuscript chapter open on the page" /></div>
+    </div>
+    <div class="facts">
       <span><b>Windows</b> desktop app</span>
       <span>Projects live <b>on your computer</b></span>
       <span>Interface in <b>English &amp; Spanish</b></span>
@@ -308,88 +365,71 @@
     </div>
   </section>
 
-  <div class="flourish" aria-hidden="true"><i></i></div>
-
-  <section class="band" id="features">
-    <span class="tag" style="display:block; text-align:center;">Write with AI</span>
-    <h2>Ask for the task, <span>not the agent</span></h2>
-    <p class="sub">No agent names to decode. One gold button in the editor opens a menu in plain author language, and before anything runs, the studio tells you what it will read and where the result will land.</p>
-    <div class="feature">
-      <div class="copy">
-        <h3>The Write with AI menu</h3>
-        <p>Seven choices, written the way authors talk about their work:</p>
-        <ul>
-          <li><b>Write my first paragraph</b>, built from your synopsis</li>
-          <li><b>Continue writing</b> from your cursor, or <b>Improve my writing</b></li>
-          <li><b>Get feedback on my story</b>: plot, pacing, and continuity reports</li>
-          <li><b>Ask a question</b> about your book or the craft</li>
-          <li><b>Write this chapter</b>, or <b>Write entire book</b> with the credit estimate shown first</li>
-        </ul>
-      </div>
-      <div class="shot-frame"><img src="assets/shot-write-menu.jpg" alt="The Write with AI menu open in the editor, listing the seven writing tasks" /></div>
-    </div>
-
-    <div class="feature flip">
-      <div class="copy">
-        <h3>A synopsis and outline your agents actually read</h3>
-        <p>Your synopsis lives in the open, in the Outline tab, where you can see it and keep it current. When a chapter is empty, the agents work from your <b>outline idea first, then your outline, then your synopsis</b>, and every result names the basis it used. No more answers about the wrong story.</p>
-        <p>Build the outline from your idea with one click, expand it into a beat for every chapter, and set a <b>target word count</b> so chapter drafts are written toward the length of the book you mean to finish.</p>
-      </div>
-      <div class="shot-frame"><img src="assets/shot-outline.jpg" alt="The Outline tab with a synopsis, an idea, and a chapter-by-chapter story outline" /></div>
-    </div>
-
-    <div class="feature">
-      <div class="copy">
-        <h3>Chapter by chapter, and nothing lands unreviewed</h3>
-        <p>Ask for a chapter and the draft goes to a <b>review queue</b>, not into your manuscript. Read it there, accept it, send it back with a note to revise, or discard it. Accepting is the only way a draft becomes part of your book.</p>
-        <p>The queue keeps your drafts when you close the app, and a whole-book run writes every empty chapter in order, skips the ones you have already written, and can be stopped after any chapter.</p>
-      </div>
-      <div class="shot-frame"><img src="assets/shot-queue.jpg" alt="The Outline tab's review queue, a drafted chapter waiting to be accepted, revised, or discarded" /></div>
-    </div>
-
-    <div class="feature flip">
-      <div class="copy">
-        <h3>See the printed book before you print it</h3>
-        <p>Choose a publishing target and the studio applies that platform's rules for you: <b>Amazon KDP Print</b> gutter widths by page count, <b>KDP Kindle</b>, and <b>IngramSpark</b> inside-margin minimums, with a warning past KDP's 828-page cap. Every adjustment is reported, never silent.</p>
-        <p>The print preview lays out real pages at your trim size with your title page, copyright page, and dedication up front, running heads, and page numbers that start on chapter one.</p>
-      </div>
-      <div class="shot-frame"><img src="assets/shot-print.jpg" alt="Print preview showing Chapter One laid out as a printed book page" /></div>
-    </div>
-  </section>
-
-  <section class="band" id="how">
-    <span class="tag" style="display:block; text-align:center;">How it works</span>
+  <section id="how">
+    <span class="eyebrow">How it works</span>
     <h2>From idea to <span>published file</span></h2>
-    <div class="grid steps">
-      <div class="card step"><span class="num">1</span><h3>Bring the idea</h3><p>Start with a synopsis, or a few honest lines about the book.</p></div>
-      <div class="card step"><span class="num">2</span><h3>Build the outline</h3><p>The studio turns your idea into a chapter-by-chapter outline with a beat for every chapter.</p></div>
-      <div class="card step"><span class="num">3</span><h3>Draft, then review</h3><p>AI drafts land in a review queue. Nothing enters your manuscript until you accept it.</p></div>
-      <div class="card step"><span class="num">4</span><h3>Publish the file</h3><p>Export print-ready PDF, EPUB, DOCX, or FDX, with KDP and IngramSpark rules applied.</p></div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Bring the idea</h3><p>Start with a synopsis, or a few honest lines about the book.</p></div>
+      <div class="step"><div class="num">2</div><h3>Build the outline</h3><p>The studio turns your idea into a chapter-by-chapter outline with a beat for every chapter.</p></div>
+      <div class="step"><div class="num">3</div><h3>Draft, then review</h3><p>AI drafts land in a review queue. Nothing enters your manuscript until you accept it.</p></div>
+      <div class="step"><div class="num">4</div><h3>Publish the file</h3><p>Export print-ready PDF, EPUB, DOCX, or FDX, with KDP and IngramSpark rules applied.</p></div>
     </div>
-    <div class="shot-frame">
-      <video controls preload="none" poster="assets/walkthrough-en.jpg" src="assets/walkthrough-en.mp4" style="display:block; width:100%; height:auto; border-radius:9px;"></video>
+    <div class="watch">
+      <div class="shot"><video controls preload="none" poster="assets/walkthrough-en.jpg" src="assets/walkthrough-en.mp4"></video></div>
+      <p class="watch-line">Watch the walkthrough: three minutes inside the studio, from the first screen to a drafted chapter.</p>
     </div>
-    <p class="sub" style="margin-top:18px;">Watch the walkthrough: three minutes inside the studio, from the first screen to a drafted chapter.</p>
   </section>
 
-  <section class="band">
-    <span class="tag" style="display:block; text-align:center;">The whole job</span>
+  <section id="features">
+    <span class="eyebrow">Inside the studio</span>
     <h2>Built for the <span>whole job</span></h2>
-    <p class="sub">From the first idea to the file you upload, the studio stays with the book.</p>
-    <div class="grid">
-      <div class="card"><h3>Three writing formats</h3><p>Traditional novels, script novels, and industry screenplays, each with the right elements, genre presets, typography, and print trim sizes.</p></div>
-      <div class="card"><h3>Professional exports</h3><p>Send your work out as a print-ready PDF, an ebook (EPUB), a Word document (DOCX), or a Final Draft file (FDX).</p></div>
-      <div class="card"><h3>Real chapters, real projects</h3><p>Organize a full manuscript chapter by chapter, reorder chapters with a click, and pick up your last book right where you left it when the studio opens.</p></div>
-      <div class="card"><h3>Revision tools that respect the work</h3><p>Highlight passages to revisit, find and replace across one chapter or the whole book, and a save status that tells you the truth about your work.</p></div>
-      <div class="card"><h3>English and Spanish</h3><p>The full interface switches between English and Spanish, and with Spanish on, the agents draft in Spanish too. Your manuscript itself is never translated or touched.</p></div>
-      <div class="card"><h3>Your work stays yours</h3><p>Projects are stored on your own computer and saved as you write. Everything you write in the studio is yours; we claim no ownership of your manuscripts or exports.</p></div>
+
+    <div class="feature">
+      <div class="copy">
+        <span class="eyebrow">Write with AI</span>
+        <h3>Ask for the task, <span>not the agent</span></h3>
+        <p>One gold button in the editor opens a menu in plain author language: a first paragraph, a chapter, or the entire book.</p>
+      </div>
+      <div class="duo">
+        <div class="shot"><img src="assets/shot-write-menu.jpg" alt="The Write with AI menu open in the editor, listing the seven writing tasks" /></div>
+      </div>
+    </div>
+
+    <div class="feature flip">
+      <div class="duo">
+        <div class="shot"><img src="assets/shot-outline.jpg" alt="The Outline tab with a synopsis, an idea, and a chapter-by-chapter story outline" /></div>
+      </div>
+      <div class="copy">
+        <span class="eyebrow">Outline</span>
+        <h3>An outline your AI <span>actually reads</span></h3>
+        <p>Your synopsis and outline guide every draft, written toward the target length of the book you mean to finish.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="copy">
+        <span class="eyebrow">Review &amp; print</span>
+        <h3>Nothing lands <span>unreviewed</span></h3>
+        <p>Drafts wait in a review queue, and the print preview shows real pages with publishing rules applied before you print.</p>
+      </div>
+      <div class="duo">
+        <div class="shot"><img src="assets/shot-queue.jpg" alt="The Outline tab's review queue, a drafted chapter waiting to be accepted, revised, or discarded" /></div>
+        <div class="shot small"><img src="assets/shot-print.jpg" alt="Print preview showing Chapter One laid out as a printed book page" /></div>
+      </div>
     </div>
   </section>
 
-  <div class="flourish" aria-hidden="true"><i></i></div>
+  <div class="band">
+    <span class="eyebrow">Book Control Center</span>
+    <h2>Six professional checks, <span>one inbox</span></h2>
+    <p class="sub">Every chapter swept for craft and consistency, each finding brought to you with a fix you approve.</p>
+    <div class="chips">
+      <span>Editorial</span><span>Grammar</span><span>Plot</span><span>Dialogue</span><span>Continuity</span><span>Pacing</span>
+    </div>
+  </div>
 
-  <section class="band" id="pricing">
-    <span class="tag" style="display:block; text-align:center;">Plans and credits</span>
+  <section id="pricing">
+    <span class="eyebrow">Plans and credits</span>
     <h2>Pick your <span>creative power level</span></h2>
     <p class="sub">Every plan includes the full editor, all three formats, and the Write with AI menu. Plans differ in the AI credits they refill each month. Annual billing is two months free.</p>
     <div class="billing-toggle" role="group" aria-label="Billing interval">
@@ -482,8 +522,8 @@
     <p class="packs" style="margin-top:18px;">Wondering how the studio compares? <a href="why-studio.html">See what sets it apart</a>.</p>
   </section>
 
-  <section class="band" id="faq">
-    <span class="tag" style="display:block; text-align:center;">Good questions</span>
+  <section id="faq">
+    <span class="eyebrow">Good questions</span>
     <h2>Frequently asked <span>questions</span></h2>
     <div class="faq-list">
       <details class="faq-item">
@@ -513,16 +553,14 @@
     </div>
   </section>
 
-  <div class="flourish" aria-hidden="true"><i></i></div>
-
   <div class="final">
-    <span class="tag">Begin today</span>
+    <img class="icon" src="assets/app-icon-web.png" alt="Script Novel Studio app icon" />
+    <span class="eyebrow">Begin today</span>
     <h2>Your next chapter <span>is waiting</span></h2>
-    <p>Script Novel Studio is a game changer. From the first word on the page to a finished manuscript, it can literally write your entire book, not just a chapter or an outline: it's your consultant, editor, proofreader, grammar coach, and more, all in one studio. Whether you're a seasoned writer or you've never written anything outside a school paper, Script Novel Studio is yours, to have, to hold, and of course, to type!</p>
+    <p class="pitch">Script Novel Studio is a game changer. From the first word on the page to a finished manuscript, it can literally write your entire book, not just a chapter or an outline: it's your consultant, editor, proofreader, grammar coach, and more, all in one studio. Whether you're a seasoned writer or you've never written anything outside a school paper, Script Novel Studio is yours, to have, to hold, and of course, to type!</p>
     <a class="btn btn-gold" href="#pricing">See plans and pricing</a>
-    <p style="margin-top:20px; font-size:15px;">Already writing with us? <a href="account/">Sign in to your account</a>.</p>
+    <p class="signin-line">Already writing with us? <a href="account/">Sign in to your account</a>.</p>
   </div>
-
   <footer class="site">
     <div class="foot-grid">
       <div class="foot-brand">
