@@ -49,7 +49,32 @@
       .cancel-q { color: var(--gold-hi); font-family: var(--serif); font-size: 1.02rem; margin: 14px 0 6px; }
       #cancel-comment { min-height: 52px; font-size: 0.88rem; margin-top: 8px; }
       #cancel-message { min-height: 1.4em; margin: 10px 0 0; }
-    </style>
+    
+  /* S icon blue pulse */
+  @keyframes sns-glow-pulse {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(64,156,255,0)); }
+    50% { filter: drop-shadow(0 0 14px rgba(64,156,255,.45)); }
+  }
+  @keyframes sns-sweep {
+    0% { background-position: 130% 0; }
+    45% { background-position: -130% 0; }
+    100% { background-position: -130% 0; }
+  }
+  .brand-pulse { animation: sns-glow-pulse 4.5s ease-in-out infinite; }
+  .s-pulse { display: inline-block; position: relative; line-height: 0; animation: sns-glow-pulse 4.5s ease-in-out infinite; }
+  .s-pulse::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, transparent 32%, rgba(96,186,255,.38) 46%, rgba(190,235,255,.75) 50%, rgba(96,186,255,.38) 54%, transparent 68%);
+    background-size: 280% 100%;
+    -webkit-mask-image: url("../assets/app-icon-web.png"); mask-image: url("../assets/app-icon-web.png");
+    -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    animation: sns-sweep 3.8s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-pulse, .s-pulse, .s-pulse::after { animation: none; }
+  }
+</style>
     <script
       async
       crossorigin="anonymous"
@@ -59,7 +84,7 @@
   </head>
   <body>
     <main>
-      <a class="logo-link" href="../index.html" aria-label="Back to the Script Novel Studio home page"><img class="logo" src="../assets/logo-web.png" alt="Script Novel Studio" /></a>
+      <a class="logo-link" href="../index.html" aria-label="Back to the Script Novel Studio home page"><img class="logo brand-pulse" src="../assets/logo-web.png" alt="Script Novel Studio" /></a>
       <h1>Sign in to Script Novel Studio</h1>
       <p class="sub">Use the same account you subscribed with. Signing in connects your plan, credits, and computers.</p>
       <p id="status">Loading secure sign-in...</p>
@@ -124,6 +149,7 @@
         <p id="download-line" class="profile-email">Checking for the latest version...</p>
         <a class="open-button" id="download-button" href="#" hidden>Download Script Novel Studio</a>
         <p id="download-note" hidden>The download link is made for your account and lasts 15 minutes. If it expires, refresh this page for a fresh one.</p>
+        <p>Windows only, desktop or laptop.</p>
       </div>
       <p class="fine">Wrong account? <button type="button" id="sign-out">Sign out</button> and sign in again.<br>Help: <a href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a></p>
       <p class="fine"><a href="../index.html">&larr; Back to the home page</a></p>
