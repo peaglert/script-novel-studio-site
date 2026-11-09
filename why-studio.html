@@ -202,18 +202,20 @@
   .acct-plans:hover { filter: brightness(1.07); color: #141a2e; }
   @media (prefers-reduced-motion: reduce) { #acct-panel, #acct-backdrop { transition: none; } }
 
-  /* S icon blue pulse */
+  /* S icon electric pulse: the electric streak flashes on a 10-second cycle (Travis spec, Nov 8) */
   @keyframes sns-glow-pulse {
-    0%, 100% { filter: drop-shadow(0 0 0 rgba(64,156,255,0)); }
-    50% { filter: drop-shadow(0 0 14px rgba(64,156,255,.45)); }
+    0%, 20%, 100% { filter: drop-shadow(0 0 0 rgba(64,156,255,0)) brightness(1) saturate(1); }
+    5% { filter: drop-shadow(0 0 16px rgba(64,156,255,.75)) brightness(1.10) saturate(1.45); }
+    9% { filter: drop-shadow(0 0 4px rgba(64,156,255,.25)) brightness(1.03) saturate(1.15); }
+    13% { filter: drop-shadow(0 0 20px rgba(64,156,255,.9)) brightness(1.14) saturate(1.6); }
   }
   @keyframes sns-sweep {
     0% { background-position: 130% 0; }
-    45% { background-position: -130% 0; }
+    18% { background-position: -130% 0; }
     100% { background-position: -130% 0; }
   }
-  .brand-pulse { animation: sns-glow-pulse 4.5s ease-in-out infinite; }
-  .s-pulse { display: inline-block; position: relative; line-height: 0; animation: sns-glow-pulse 4.5s ease-in-out infinite; }
+  .brand-pulse { animation: sns-glow-pulse 10s ease-in-out infinite; }
+  .s-pulse { display: inline-block; position: relative; line-height: 0; animation: sns-glow-pulse 10s ease-in-out infinite; }
   .s-pulse::after {
     content: ""; position: absolute; inset: 0; pointer-events: none;
     background: linear-gradient(115deg, transparent 32%, rgba(96,186,255,.38) 46%, rgba(190,235,255,.75) 50%, rgba(96,186,255,.38) 54%, transparent 68%);
@@ -221,7 +223,7 @@
     -webkit-mask-image: url("assets/app-icon-web.png"); mask-image: url("assets/app-icon-web.png");
     -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
     -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-    animation: sns-sweep 3.8s ease-in-out infinite;
+    animation: sns-sweep 10s ease-in-out infinite;
   }
   @media (prefers-reduced-motion: reduce) {
     .brand-pulse, .s-pulse, .s-pulse::after { animation: none; }
