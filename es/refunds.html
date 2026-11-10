@@ -313,5 +313,8 @@ src="https://www.facebook.com/tr?id=393141217896169&ev=PageView&noscript=1"
     var s = document.createElement('script'); s.async = true; s.crossOrigin = 'anonymous'; s.setAttribute('data-clerk-publishable-key', KEY); s.src = SRC; s.onload = ready; document.head.appendChild(s);
   })();
   </script>
+<script>
+(function(){try{var r=new URLSearchParams(location.search).get('ref');if(r){r=r.replace(/[^A-Za-z0-9_-]/g,'').slice(0,40);if(r){var d=new Date();d.setTime(d.getTime()+90*24*60*60*1000);document.cookie='sns_ref='+r+';expires='+d.toUTCString()+';path=/;SameSite=Lax';try{localStorage.setItem('sns_ref',r);}catch(e){}}}}catch(e){}})();
+</script>
 </body>
 </html>
