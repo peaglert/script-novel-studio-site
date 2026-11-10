@@ -867,12 +867,28 @@ src="https://www.facebook.com/tr?id=393141217896169&ev=PageView&noscript=1"
   modal.addEventListener('click', function (event) { if (event.target === modal) cancelSignIn(); });
 
   // ---- Entry point ----
+    // Affiliate attribution: the code the capture snippet stored from a
+  // partner link (?ref=) rides into checkout creation, where the
+  // service stamps it on the sale. Storage that is unavailable or
+  // empty simply sends no ref and the purchase proceeds as before.
+  function storedRef() {
+    var value = null;
+    try { value = window.localStorage.getItem('sns_ref'); } catch (e) { value = null; }
+    if (!value) {
+      var match = document.cookie.match(/(?:^|;\s*)sns_ref=([^;]*)/);
+      if (match) { try { value = decodeURIComponent(match[1]); } catch (e) { value = null; } }
+    }
+    value = String(value || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40);
+    return value || null;
+  }
   function startPurchase(button) {
     var payload = {
       purchaseType: button.getAttribute('data-purchase-type'),
       itemId: button.getAttribute('data-item-id')
     };
     if (payload.purchaseType === 'subscription') payload.interval = interval;
+    var ref = storedRef();
+    if (ref) payload.ref = ref;
     clearMessage();
     setBusy(button, true);
     loadClerk().then(function () {
