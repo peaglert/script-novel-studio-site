@@ -1,8 +1,8 @@
-version: 1.10.13
+version: 1.10.15
 files:
-  - url: https://pub-a34f10b3830c4679a452ead21465bb86.r2.dev/Script%20Novel%20Studio%20Setup%201.10.13.exe
-    sha512: SE24WFpUf5/OF979n8r+dGr/KjnnRtWCUOaRjTCsKrRLvT0N2cPIC31uETWB1TUrtrUUpMqcpCQkXf8x3RGvWw==
-    size: 128353624
-path: https://pub-a34f10b3830c4679a452ead21465bb86.r2.dev/Script%20Novel%20Studio%20Setup%201.10.13.exe
-sha512: SE24WFpUf5/OF979n8r+dGr/KjnnRtWCUOaRjTCsKrRLvT0N2cPIC31uETWB1TUrtrUUpMqcpCQkXf8x3RGvWw==
-releaseDate: '2026-11-10T22:14:29.000Z'
+  - url: https://pub-a34f10b3830c4679a452ead21465bb86.r2.dev/Script%20Novel%20Studio%20Setup%201.10.15.exe
+    sha512: 3bo6MU0/1Rzlw0a3byrZ1XSS54ppSKmKyZH3ZmivFJP0zec/MbJ/NQv++/fos/fWYaM62l4yHBlgyT+OKFAiog==
+    size: 129070184
+path: https://pub-a34f10b3830c4679a452ead21465bb86.r2.dev/Script%20Novel%20Studio%20Setup%201.10.15.exe
+sha512: 3bo6MU0/1Rzlw0a3byrZ1XSS54ppSKmKyZH3ZmivFJP0zec/MbJ/NQv++/fos/fWYaM62l4yHBlgyT+OKFAiog==
+releaseDate: '2026-11-10T23:21:34.000Z'
