@@ -248,6 +248,44 @@
   .foot-base { border-top: 1px solid rgba(244,241,232,.07); padding-top: 18px; color: var(--muted-2); font-size: 13.5px; }
   footer.site a.mail { color: var(--gold); display: inline; }
 
+  /* ---------- Footer family badges ---------- */
+  /* ---------- Footer storefront windows ---------- */
+  .foot-shops { margin: 6px 0 26px; padding-top: 30px; border-top: 1px solid rgba(244,241,232,.07); }
+  .foot-shops-title { display: flex; align-items: center; gap: 18px; margin-bottom: 24px; }
+  .foot-shops-title::before { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--line-gold)); }
+  .foot-shops-title::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line-gold), transparent); }
+  .foot-shops-title span { font-size: 12px; font-weight: 700; letter-spacing: .32em; text-transform: uppercase; color: #ccd5e6; white-space: nowrap; }
+  .foot-shops-row { display: flex; gap: 28px; }
+  .shop-window { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; text-align: center; text-decoration: none; padding: 28px 22px 24px; border-radius: 14px; border: 1px solid rgba(178,190,224,.30); background: radial-gradient(120% 90% at 50% 0%, rgba(139,92,246,.16), rgba(139,92,246,0) 62%), linear-gradient(180deg, #101b36, #0a1224); box-shadow: inset 0 1px 0 rgba(242,212,146,.22), inset 0 0 46px rgba(84,110,190,.10), 0 12px 30px rgba(0,0,0,.35); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+  .shop-window:hover { transform: translateY(-3px); border-color: rgba(196,205,235,.55); box-shadow: inset 0 1px 0 rgba(242,212,146,.35), inset 0 0 60px rgba(139,92,246,.16), 0 16px 38px rgba(0,0,0,.45); }
+  .foot-shops .badge-media { height: 158px; display: flex; align-items: center; line-height: 0; }
+  .foot-shops img { border-radius: 12px; width: auto; }
+  .foot-shops .badge-cs { height: 158px; }
+  .foot-shops .badge-ps { height: 100px; }
+  .foot-shops .badge-cap { margin-top: 16px; font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .foot-shops .badge-tag { margin-top: 8px; font-family: var(--serif); font-style: italic; font-size: 16px; line-height: 1.35; color: var(--text); }
+  /* Round 6: door cue, light sweep, sidewalk base */
+  .shop-window { position: relative; overflow: hidden; }
+  .shop-window::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(115deg, transparent 38%, rgba(190,215,255,.10) 47%, rgba(240,248,255,.20) 50%, rgba(190,215,255,.10) 53%, transparent 62%);
+    background-size: 280% 100%; background-position: 130% 0;
+    animation: shop-sweep 7s ease-in-out infinite; }
+  .foot-shops-row .shop-slot:nth-child(2) .shop-window::after { animation-delay: 3.5s; }
+  @keyframes shop-sweep { 0% { background-position: 130% 0; } 20% { background-position: -130% 0; } 100% { background-position: -130% 0; } }
+  @media (prefers-reduced-motion: reduce) { .shop-window::after { animation: none; } }
+  .foot-shops .badge-step { align-self: stretch; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(244,241,232,.12); font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+  .shop-window:hover .badge-step { color: var(--gold-hi); }
+  .shop-slot { flex: 1 1 0; display: flex; flex-direction: column; }
+  .shop-slot .shop-window { flex: 1; width: 100%; }
+  .shop-ground { display: block; height: 12px; margin: 9px 10px 0; border-radius: 50%; position: relative;
+    background: radial-gradient(50% 100% at 50% 0%, rgba(0,0,0,.55), rgba(0,0,0,0) 70%); }
+  .shop-ground::before { content: ""; position: absolute; top: 0; left: 4%; right: 4%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(196,205,235,.35), transparent); }
+  @media (max-width: 560px) { .foot-shops { padding-top: 24px; } .foot-shops-title { gap: 12px; } .foot-shops-title span { font-size: 10px; letter-spacing: .2em; } .foot-shops-row { flex-direction: column; gap: 20px; } .shop-window { padding: 24px 18px 20px; } .foot-shops .badge-media { height: 132px; } .foot-shops .badge-cs { height: 132px; } .foot-shops .badge-ps { height: 84px; } .foot-shops .badge-cap { font-size: 10px; letter-spacing: .14em; margin-top: 14px; } .foot-shops .badge-tag { font-size: 15px; } .foot-shops .badge-step { font-size: 10px; letter-spacing: .2em; margin-top: 14px; padding-top: 12px; } }
+
+  footer.site a.mail { color: var(--gold); display: inline; }
+
+
   /* ---------- Sign-in modal (production) ---------- */
   .signin-overlay { position: fixed; inset: 0; background: rgba(4,7,15,.8); z-index: 60;
     display: flex; align-items: flex-start; justify-content: center; padding: 6vh 18px 30px; overflow-y: auto; }
@@ -365,6 +403,48 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=393141217896169&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+
+<style>
+/* ---------- Footer storefront: wet-pavement ground + two awnings ---------- */
+.foot-shops.p9 { position: relative; border-top: none; margin: 30px 0 30px; padding: 42px 34px 32px; border-radius: 18px; }
+@media (max-width: 560px) { .foot-shops.p9 { padding: 34px 18px 24px; border-radius: 14px; } }
+
+.foot-shops.p9-i {
+  background:
+    repeating-linear-gradient(180deg, rgba(220,228,245,.035) 0 1px, transparent 1px 76px),
+    linear-gradient(180deg, #181b21 0%, #101318 58%, #0a0c10 100%);
+  border: 1px solid rgba(150,160,190,.28);
+  box-shadow: inset 0 1px 0 rgba(220,228,245,.14), inset 0 -30px 50px rgba(0,0,0,.35), 0 18px 44px rgba(0,0,0,.5);
+}
+.p9-i .foot-shops-title::before { background: linear-gradient(90deg, transparent, rgba(139,92,246,.55)); }
+.p9-i .foot-shops-title::after { background: linear-gradient(90deg, rgba(139,92,246,.55), transparent); }
+.p9-i .foot-shops-title span { letter-spacing: .34em; color: #dfe6f4;
+  border-bottom: 2px solid rgba(139,92,246,.65); padding-bottom: 7px; }
+.foot-shops.p9-i .badge-tag { font-family: var(--sans); font-style: italic; font-weight: 500; font-size: 15.5px; }
+.p9-i .shop-ground { height: 30px; margin: 7px 6px 0; border-radius: 0; }
+.p9-i .foot-shops-row .shop-slot:nth-child(1) .shop-ground {
+  background:
+    radial-gradient(62% 95% at 50% 0%, rgba(96,141,255,.26), rgba(96,141,255,0) 68%),
+    radial-gradient(46% 80% at 50% 0%, rgba(139,92,246,.22), rgba(139,92,246,0) 70%); }
+.p9-i .foot-shops-row .shop-slot:nth-child(2) .shop-ground {
+  background:
+    radial-gradient(62% 95% at 50% 0%, rgba(198,210,235,.24), rgba(198,210,235,0) 68%),
+    radial-gradient(46% 80% at 50% 0%, rgba(139,92,246,.20), rgba(139,92,246,0) 70%); }
+
+/* Two Awnings: each window wears a slim canopy bar in its own brand register */
+.p9-i .shop-slot { position: relative; }
+.p9-i .p9-awning { width: 100%; height: 27px; margin-bottom: -5px; position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center; border-radius: 10px 10px 4px 4px;
+  font-family: var(--sans); font-size: 10px; font-weight: 700; letter-spacing: .32em; text-transform: uppercase;
+  color: #e6ebf5; box-shadow: 0 7px 16px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.22); }
+.p9-i .p9-awning span { padding-left: .32em; }
+.p9-i .awn-cs { background: linear-gradient(180deg, #0d5578, #062a44); border: 1px solid rgba(199,205,212,.50);
+  border-bottom: 2px solid rgba(199,205,212,.70); }
+.p9-i .awn-ps { background: linear-gradient(180deg, #7434e8, #46208f); border: 1px solid rgba(199,205,212,.50);
+  border-bottom: 2px solid rgba(199,205,212,.70); }
+@media (max-width: 560px) { .p9-i .p9-awning { font-size: 9px; letter-spacing: .26em; height: 25px; } .p9-i .p9-awning span { padding-left: .26em; } }
+
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -646,6 +726,13 @@ src="https://www.facebook.com/tr?id=393141217896169&ev=PageView&noscript=1"
         <h4>Habla con una persona</h4>
         <p>Preguntas sobre el estudio, los planes o tu cuenta:</p>
         <a class="mail" href="mailto:support@scriptnovelpublishing.com">support@scriptnovelpublishing.com</a>
+      </div>
+    </div>
+    <div class="foot-shops p9 p9-i">
+      <div class="foot-shops-title"><span>Un Vistazo a Otro Escaparate</span></div>
+      <div class="foot-shops-row">
+        <div class="shop-slot"><div class="p9-awning awn-cs"><span>CoverSlay</span></div><a class="shop-window" href="https://coverslay.com" target="_blank" rel="noopener"><span class="badge-media"><img class="badge-cs" src="../assets/badge-coverslay.png" alt="CoverSlay" /></span><span class="badge-cap">Portadas de Libros</span><span class="badge-tag">Tu portada, vestida para vender.</span><span class="badge-step">Entra &rarr;</span></a><span class="shop-ground" aria-hidden="true"></span></div>
+        <div class="shop-slot"><div class="p9-awning awn-ps"><span>PosterSlay</span></div><a class="shop-window" href="https://posterslay.com" target="_blank" rel="noopener"><span class="badge-media"><img class="badge-ps" src="../assets/badge-posterslay.webp" alt="PosterSlay" /></span><span class="badge-cap">Pósters de Película</span><span class="badge-tag">Tu póster, en luces.</span><span class="badge-step">Entra &rarr;</span></a><span class="shop-ground" aria-hidden="true"></span></div>
       </div>
     </div>
     <div class="foot-links" style="margin-bottom:12px;">
